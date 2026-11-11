@@ -1,590 +1,83 @@
-
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bella's Chess Adventure — v5</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}
-button,select{font:inherit}
-button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}
-button:disabled{opacity:.4}
-button.secondary{background:#e2eee4;color:#24564b}
-.app{max-width:900px;padding:12px;margin:auto}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-h1{font-size:21px;margin:0}
-.tabs{display:flex;gap:7px}
-.tabs button{font-size:13px}
-.tabs .on{background:#104b42}
-.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}
-.hide{display:none!important}
-.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
-.toolbar{margin-bottom:8px}
-.buttons{justify-content:center;margin-top:8px}
-.toolbar label{font-size:12px;font-weight:700}
-select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}
-.play{max-width:670px;margin:auto}
-.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}
-.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}
-.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}
-.prompt p{margin:5px 0;font-size:13px}
-.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}
-.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}
-.square.dark{background:#94b395}
-.square.selected{background:#f1d46f}
-.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}
-.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}
-.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}
-.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}
-.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}
-.rank{left:3px;top:1px}
-.file{right:3px;bottom:1px}
-small,.muted{color:#687d77}
-details summary{cursor:pointer;font-weight:700}
-h2{font-size:18px;margin:8px 0}
-.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}
-.review button{font-size:12px}
-.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}
-.lesson-nav button.active{background:#17685a;color:white}
-.lesson-nav button.locked{opacity:.5}
-.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}
-.focus header,.focus .toolbar,.focus .extras{display:none!important}
-.focus .app{padding:4px}
-.focus .card{padding:6px}
-.focus .board{width:min(100%,62dvh,650px)}
-.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}
-@media(max-width:650px){
-.app{padding:8px}
-.board{width:min(100%,57dvh)}
-h1{font-size:18px}
-.piece{font-size:clamp(21px,6vw,43px)}
-.buttons button{font-size:12px;padding:8px 9px}
-}
-@media(max-height:600px) and (orientation:landscape){
-.board{width:min(100%,48dvh)}
-}
+*{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 </style>
 </head>
-<body>
-<div class="app">
-<header>
-<h1>♘ Bella's Chess Adventure</h1>
-<div class="tabs">
-<button id="btnPlay" class="on">♟ Play Chess</button>
-<button id="btnLessons" class="secondary">📚 Lessons</button>
-<button id="btnProgress" class="secondary">📈 Progress</button>
-</div>
-</header>
-
+<body><div class="app">
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v5.1</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
-<div class="toolbar play">
-<label>Opponent
-<select id="opponent">
-<option value="fox">🦊 Coach Fox</option>
-<option value="family">Play with Family</option>
-</select>
-</label>
-<label>Reminders
-<select id="coach">
-<option value="adaptive">Adaptive</option>
-<option value="every">Every move</option>
-<option value="quiet">Off</option>
-</select>
-</label>
-</div>
-
-<div class="card play">
-<div class="rowtop">
-<span id="turn">White to move</span>
-<button id="focus" class="secondary">⛶ Focus</button>
-</div>
-<div class="tip" id="tip">🦊 What is Black attacking?</div>
-<div id="decision" class="prompt hide">
-<strong>🔍 Think before you move</strong>
-<p id="question">What could Black capture next?</p>
-<div id="clue" class="hide"></div>
-<div class="buttons">
-<button id="rethink" class="secondary">↶ Rethink</button>
-<button id="hint" class="secondary">💡 Hint</button>
-<button id="confirm">✓ Play move</button>
-</div>
-</div>
-<div id="promotion" class="prompt hide"></div>
-<div id="board" class="board">Loading chessboard…</div>
-<div class="buttons">
-<button id="danger" class="secondary">💡 Find danger</button>
-<button id="undo" class="secondary">↶ Undo</button>
-<button id="newGame">↻ New game</button>
-</div>
-<div id="reviewNav" class="buttons hide">
-<button id="prev" class="secondary">← Previous</button>
-<button id="next" class="secondary">Next →</button>
-<button id="exitReview" class="secondary">Exit review</button>
-</div>
-</div>
-
-<div class="card play extras">
-<details>
-<summary>🦊 More coaching and game review</summary>
-<p class="muted">Bella's three questions: What is attacked? What is unprotected? What happens after my move?</p>
-<div id="moves"></div>
-<div class="buttons">
-<button id="save" class="secondary">Save game</button>
-<button id="finish" class="secondary">Review moves</button>
-<button id="pgn" class="secondary">Export PGN</button>
-</div>
-<div id="reviewList"></div>
-</details>
-</div>
-
-<div class="card play extras">
-<details>
-<summary>♟ Optional Stockfish analysis (OFF by default)</summary>
-<p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p>
-<select id="saved"><option value="">Current game</option></select>
-<div class="buttons">
-<button id="analyse">Analyse game</button>
-<button id="stop" class="secondary hide">Stop</button>
-</div>
-<p class="muted" id="engineStatus">Engine is OFF.</p>
-<div id="engineResults"></div>
-</details>
-</div>
+<div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Reminders <select id="coach"><option value="adaptive">Adaptive</option><option value="every">Every move</option><option value="quiet">Off</option></select></label></div>
+<div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip" id="tip">🦊 What is Black attacking?</div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="exitReview" class="secondary">Exit review</button></div></div>
+<div class="card play extras"><details><summary>🦊 More coaching and game review</summary><p class="muted">Bella's three questions: What is attacked? What is unprotected? What happens after my move?</p><div id="moves"></div><div class="buttons"><button id="save" class="secondary">Save game</button><button id="finish" class="secondary">Review moves</button><button id="pgn" class="secondary">Export PGN</button></div><div id="reviewList"></div></details></div>
+<div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><div id="engineResults"></div></details></div>
 </section>
-
-<section id="lessonsView" class="hide">
-<div class="card">
-<h2 id="lessonTitle">Lessons</h2>
-<p id="lessonText"></p>
-<div id="lessonBoard" class="board">Loading lessons…</div>
-<div id="lessonFeedback" class="feedback hide"></div>
-<div class="buttons">
-<button id="lessonHint" class="secondary">💡 Hint</button>
-<button id="lessonRetry" class="secondary">↶ Retry</button>
-<button id="lessonNext">Next →</button>
-</div>
-</div>
-<div class="card"><div id="lessonNav" class="lesson-nav"></div></div>
-</section>
-
-<section id="progressView" class="card hide">
-<h2>My Chess Progress</h2>
-<p id="progressText"></p>
-<button id="resetProgress" class="secondary">Reset lessons</button>
-</section>
-
+<section id="lessonsView" class="hide"><div class="card"><h2 id="lessonTitle">Lessons</h2><p id="lessonText"></p><div id="lessonBoard" class="board">Loading lessons…</div><div id="lessonFeedback" class="feedback hide"></div><div class="buttons"><button id="lessonHint" class="secondary">💡 Hint</button><button id="lessonRetry" class="secondary">↶ Retry</button><button id="lessonNext">Next →</button></div></div><div class="card"><div id="lessonNav" class="lesson-nav"></div></div></section>
+<section id="progressView" class="card hide"><h2>My Chess Progress</h2><p id="progressText"></p><button id="resetProgress" class="secondary">Reset lessons</button></section>
 <div id="error" class="error">If the chessboard does not appear, the HTML may have been copied incompletely. Check that the last line is &lt;/html&gt;.</div>
 </div>
-
 <script>
 'use strict';
 const $=id=>document.getElementById(id), show=(id,on=true)=>$(id).classList.toggle('hide',!on);
 const G={K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙',k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'\u265F\uFE0E','.' :''}, D={n:[-33,-31,-18,-14,14,18,31,33],b:[-17,-15,15,17],r:[-16,-1,1,16],k:[-17,-16,-15,-1,1,15,16,17]}, F='abcdefgh', INITIAL='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 const ok=i=>i>=0&&i<128&&!(i&136), color=p=>p==='.'?0:p===p.toUpperCase()?1:-1, sq=i=>F[i&7]+(8-(i>>4)), ix=x=>(8-Number(x[1]))*16+F.indexOf(x[0]), code=m=>sq(m[0])+sq(m[1])+(m[2]||'');
-
-function parse(f){
-let x=f.split(' '),b=Array(128).fill('.');
-x[0].split('/').forEach((r,y)=>{
-let c=0;
-for(let p of r){
-if(/[1-8]/.test(p))c+=+p;
-else b[y*16+c++]=p;
-}});
-let t=x[2]||'-';
-return{
-b,t:x[1]==='b'?-1:1,
-c:(t.includes('K')?1:0)|(t.includes('Q')?2:0)|(t.includes('k')?4:0)|(t.includes('q')?8:0),
-ep:x[3]&&x[3]!=='-'?ix(x[3]):-1,
-h:+(x[4]||0),f:+(x[5]||1)
-};
-}
-function fen(s){
-let a=[];
-for(let r=0;r<8;r++){
-let line='',n=0;
-for(let c=0;c<8;c++){
-let p=s.b[r*16+c];
-if(p==='.'){n++;continue;}
-if(n)line+=n;
-line+=p;n=0;
-}
-if(n)line+=n;
-a.push(line);
-}
-let rights=(s.c&1?'K':'')+(s.c&2?'Q':'')+(s.c&4?'k':'')+(s.c&8?'q':'');
-return a.join('/')+' '+(s.t===1?'w':'b')+' '+(rights||'-')+' '+(s.ep<0?'-':sq(s.ep))+' '+s.h+' '+s.f;
-}
-function attack(s,to,by){
-for(let i=0;i<128;i++){
-if(!ok(i)||color(s.b[i])!==by)continue;
-let p=s.b[i].toLowerCase();
-if(p==='p'){
-if(to===i-16*by-1||to===i-16*by+1)return true;
-continue;
-}
-for(let d of D[p]||D.k)
-for(let z=i+d;ok(z);z+=d){
-if(z===to)return true;
-if(s.b[z]!=='.'||p==='n'||p==='k')break;
-}
-}
-return false;
-}
+function parse(f){let x=f.split(' '),b=Array(128).fill('.');x[0].split('/').forEach((r,y)=>{let c=0;for(let p of r){if(/[1-8]/.test(p))c+=+p;else b[y*16+c++]=p;}});let t=x[2]||'-';return{b,t:x[1]==='b'?-1:1,c:(t.includes('K')?1:0)|(t.includes('Q')?2:0)|(t.includes('k')?4:0)|(t.includes('q')?8:0),ep:x[3]&&x[3]!=='-'?ix(x[3]):-1,h:+(x[4]||0),f:+(x[5]||1)};}
+function fen(s){let a=[];for(let r=0;r<8;r++){let line='',n=0;for(let c=0;c<8;c++){let p=s.b[r*16+c];if(p==='.'){n++;continue;}if(n)line+=n;line+=p;n=0;}if(n)line+=n;a.push(line);}let rights=(s.c&1?'K':'')+(s.c&2?'Q':'')+(s.c&4?'k':'')+(s.c&8?'q':'');return a.join('/')+' '+(s.t===1?'w':'b')+' '+(rights||'-')+' '+(s.ep<0?'-':sq(s.ep))+' '+s.h+' '+s.f;}
+function attack(s,to,by){for(let i=0;i<128;i++){if(!ok(i)||color(s.b[i])!==by)continue;let p=s.b[i].toLowerCase();if(p==='p'){if(to===i-16*by-1||to===i-16*by+1)return true;continue;}for(let d of D[p]||D.k)for(let z=i+d;ok(z);z+=d){if(z===to)return true;if(s.b[z]!=='.'||p==='n'||p==='k')break;}}return false;}
 const check=(s,c=s.t)=>attack(s,s.b.indexOf(c===1?'K':'k'),-c);
-
-function apply(s,m){
-let [a,z,promo,flag]=m,b=s.b.slice(),p=b[a],taken=b[z],c=s.c;
-b[a]='.';
-b[z]=promo?(s.t===1?promo.toUpperCase():promo):p;
-if(flag==='ep')b[z+16*s.t]='.';
-if(flag==='castle'){
-let rf=z>a?a+3:a-4,rt=z>a?a+1:a-1;
-b[rt]=b[rf];b[rf]='.';
-}
-if(p==='K')c&=~3;
-if(p==='k')c&=~12;
-let rb={119:1,112:2,7:4,0:8};
-if(p.toLowerCase()==='r')c&=~(rb[a]||0);
-if(taken.toLowerCase()==='r')c&=~(rb[z]||0);
-return{
-b,t:-s.t,c,
-ep:p.toLowerCase()==='p'&&Math.abs(z-a)===32?(z+a)/2:-1,
-h:p.toLowerCase()==='p'||taken!=='.'||flag==='ep'?0:s.h+1,
-f:s.f+(s.t===-1?1:0)
-};
-}
-function moves(s){
-let out=[];
-for(let a=0;a<128;a++){
-if(!ok(a)||color(s.b[a])!==s.t)continue;
-let p=s.b[a].toLowerCase(),add=(z,flag='')=>{
-if(s.b[z].toLowerCase()==='k')return;
-if(p==='p'&&(z>>4===0||z>>4===7))
-for(let q of 'qrbn')out.push([a,z,q,flag]);
-else out.push([a,z,'',flag]);
-};
-if(p==='p'){
-let z=a-16*s.t;
-if(ok(z)&&s.b[z]==='.'){
-add(z);
-let z2=z-16*s.t;
-if((a>>4)===(s.t===1?6:1)&&s.b[z2]==='.')add(z2);
-}
-for(let d of [-1,1]){
-let v=z+d;
-if(!ok(v))continue;
-if(color(s.b[v])===-s.t)add(v);
-else if(v===s.ep&&s.b[v]==='.'&&s.b[v+16*s.t]===(s.t===1?'p':'P'))add(v,'ep');
-}
-}else{
-for(let d of D[p]||D.k)
-for(let z=a+d;ok(z);z+=d){
-if(color(s.b[z])===s.t)break;
-add(z);
-if(s.b[z]!=='.'||p==='n'||p==='k')break;
-}
-let home=s.t===1?116:4,rook=s.t===1?'R':'r',bits=s.t===1?[1,2]:[4,8];
-if(p==='k'&&a===home&&!check(s)){
-if((s.c&bits[0])&&s.b[a+3]===rook&&s.b[a+1]==='.'&&s.b[a+2]==='.'&&!attack(s,a+1,-s.t)&&!attack(s,a+2,-s.t))add(a+2,'castle');
-if((s.c&bits[1])&&s.b[a-4]===rook&&s.b[a-1]==='.'&&s.b[a-2]==='.'&&s.b[a-3]==='.'&&!attack(s,a-1,-s.t)&&!attack(s,a-2,-s.t))add(a-2,'castle');
-}
-}
-}
-return out.filter(m=>!check(apply(s,m),s.t));
-}
-function san(s,m){
-let [a,z,promo,flag]=m,p=s.b[a].toUpperCase(),capture=s.b[z]!=='.'||flag==='ep';
-let name=flag==='castle'?(z>a?'O-O':'O-O-O'):(p==='P'?(capture?sq(a)[0]:''):p)+(capture?'x':'')+sq(z)+(promo?'='+promo.toUpperCase():'');
-let t=apply(s,m);
-return name+(check(t)?moves(t).length?'+':'#':'');
-}
-function ended(h){
-let s=h.at(-1),m=moves(s);
-if(!m.length)return check(s)?'Checkmate!':'Draw — stalemate.';
-if(s.h>=150)return'Draw — 75-move rule.';
-let ps=[];
-for(let i=0;i<128;i++)
-if(ok(i)&&s.b[i]!=='.'&&s.b[i].toLowerCase()!=='k')
-ps.push([s.b[i].toLowerCase(),((i>>4)+(i&7))%2]);
-if(!ps.length||ps.length===1&&'bn'.includes(ps[0][0])||ps.length&&ps.every(x=>x[0]==='b')&&new Set(ps.map(x=>x[1])).size===1)
-return'Draw — insufficient material.';
-let k=z=>z.b.join('')+z.t+z.c+z.ep;
-if(h.filter(z=>k(z)===k(s)).length>=5)return'Draw — fivefold repetition.';
-return'';
-}
-function board(el,s,selected=-1,targets=[],action){
-el.innerHTML='';
-for(let r=0;r<8;r++)for(let c=0;c<8;c++){
-let i=r*16+c,p=s.b[i],b=document.createElement('button');
-b.type='button';
-b.className='square'+((r+c)%2?' dark':'')+(selected===i?' selected':'')+(targets.includes(i)?' legal':'')+(p!=='.'?' occupied':'');
-b.setAttribute('aria-label',sq(i)+' '+p);
-if(p!=='.'){
-let t=document.createElement('span');
-t.className='piece '+(color(p)===1?'white':'black');
-t.textContent=G[p];b.appendChild(t);
-}
-if(c===0){
-let t=document.createElement('span');
-t.className='coord rank';t.textContent=8-r;b.appendChild(t);
-}
-if(r===7){
-let t=document.createElement('span');
-t.className='coord file';t.textContent=F[c];b.appendChild(t);
-}
-b.onclick=()=>action&&action(i);
-el.appendChild(b);
-}
-}
-const START=parse(INITIAL),VALUES={p:1,n:3,b:3,r:5,q:9,k:100};
-let game={h:[START],uci:[],chosen:-1,pending:null,promotion:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'},timer,records=[];
-
+function apply(s,m){let [a,z,promo,flag]=m,b=s.b.slice(),p=b[a],taken=b[z],c=s.c;b[a]='.';b[z]=promo?(s.t===1?promo.toUpperCase():promo):p;if(flag==='ep')b[z+16*s.t]='.';if(flag==='castle'){let rf=z>a?a+3:a-4,rt=z>a?a+1:a-1;b[rt]=b[rf];b[rf]='.';}if(p==='K')c&=~3;if(p==='k')c&=~12;let rb={119:1,112:2,7:4,0:8};if(p.toLowerCase()==='r')c&=~(rb[a]||0);if(taken.toLowerCase()==='r')c&=~(rb[z]||0);return{b,t:-s.t,c,ep:p.toLowerCase()==='p'&&Math.abs(z-a)===32?(z+a)/2:-1,h:p.toLowerCase()==='p'||taken!=='.'||flag==='ep'?0:s.h+1,f:s.f+(s.t===-1?1:0)};}
+function moves(s){let out=[];for(let a=0;a<128;a++){if(!ok(a)||color(s.b[a])!==s.t)continue;let p=s.b[a].toLowerCase(),add=(z,flag='')=>{if(s.b[z].toLowerCase()==='k')return;if(p==='p'&&(z>>4===0||z>>4===7))for(let q of 'qrbn')out.push([a,z,q,flag]);else out.push([a,z,'',flag]);};if(p==='p'){let z=a-16*s.t;if(ok(z)&&s.b[z]==='.'){add(z);let z2=z-16*s.t;if((a>>4)===(s.t===1?6:1)&&s.b[z2]==='.')add(z2);}for(let d of [-1,1]){let v=z+d;if(!ok(v))continue;if(color(s.b[v])===-s.t)add(v);else if(v===s.ep&&s.b[v]==='.'&&s.b[v+16*s.t]===(s.t===1?'p':'P'))add(v,'ep');}}else{for(let d of D[p]||D.k)for(let z=a+d;ok(z);z+=d){if(color(s.b[z])===s.t)break;add(z);if(s.b[z]!=='.'||p==='n'||p==='k')break;}let home=s.t===1?116:4,rook=s.t===1?'R':'r',bits=s.t===1?[1,2]:[4,8];if(p==='k'&&a===home&&!check(s)){if((s.c&bits[0])&&s.b[a+3]===rook&&s.b[a+1]==='.'&&s.b[a+2]==='.'&&!attack(s,a+1,-s.t)&&!attack(s,a+2,-s.t))add(a+2,'castle');if((s.c&bits[1])&&s.b[a-4]===rook&&s.b[a-1]==='.'&&s.b[a-2]==='.'&&s.b[a-3]==='.'&&!attack(s,a-1,-s.t)&&!attack(s,a-2,-s.t))add(a-2,'castle');}}}return out.filter(m=>!check(apply(s,m),s.t));}
+function san(s,m){let [a,z,promo,flag]=m,p=s.b[a].toUpperCase(),capture=s.b[z]!=='.'||flag==='ep',name=flag==='castle'?(z>a?'O-O':'O-O-O'):(p==='P'?(capture?sq(a)[0]:''):p)+(capture?'x':'')+sq(z)+(promo?'='+promo.toUpperCase():'');let t=apply(s,m);return name+(check(t)?moves(t).length?'+':'#':'');}
+function ended(h){let s=h.at(-1),m=moves(s);if(!m.length)return check(s)?'Checkmate!':'Draw — stalemate.';if(s.h>=150)return'Draw — 75-move rule.';let ps=[];for(let i=0;i<128;i++)if(ok(i)&&s.b[i]!=='.'&&s.b[i].toLowerCase()!=='k')ps.push([s.b[i].toLowerCase(),((i>>4)+(i&7))%2]);if(!ps.length||ps.length===1&&'bn'.includes(ps[0][0])||ps.length&&ps.every(x=>x[0]==='b')&&new Set(ps.map(x=>x[1])).size===1)return'Draw — insufficient material.';let k=z=>z.b.join('')+z.t+z.c+z.ep;if(h.filter(z=>k(z)===k(s)).length>=5)return'Draw — fivefold repetition.';return'';}
+function board(el,s,selected=-1,targets=[],action){el.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){let i=r*16+c,p=s.b[i],b=document.createElement('button');b.type='button';b.className='square'+((r+c)%2?' dark':'')+(selected===i?' selected':'')+(targets.includes(i)?' legal':'')+(p!=='.'?' occupied':'');b.setAttribute('aria-label',sq(i)+' '+p);if(p!=='.'){let t=document.createElement('span');t.className='piece '+(color(p)===1?'white':'black');t.textContent=G[p];b.appendChild(t);}if(c===0){let t=document.createElement('span');t.className='coord rank';t.textContent=8-r;b.appendChild(t);}if(r===7){let t=document.createElement('span');t.className='coord file';t.textContent=F[c];b.appendChild(t);}b.onclick=()=>action&&action(i);el.appendChild(b);}}
+const START=parse(INITIAL),VALUES={p:1,n:3,b:3,r:5,q:9,k:100};let game={h:[START],uci:[],chosen:-1,pending:null,promotion:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'},timer,records=[];
 function readRecords(){
-try{
-records=JSON.parse(localStorage.getItem('bella-chess-saved-games-v1')||'[]');
-if(!Array.isArray(records))records=[];
-}catch{records=[];}
-renderRecords();
+  // Older versions stored 'played' and 'fens' but no 'uci' array.
+  // Do not discard or overwrite the child's saved games.
+  try {
+    const raw=JSON.parse(localStorage.getItem('bella-chess-saved-games-v1')||'[]');
+    records=Array.isArray(raw)?raw.filter(x=>x&&Array.isArray(x.fens)&&x.fens.length>1).slice(0,20):[];
+  } catch(e) { records=[]; }
+  renderRecords();
 }
-function saveRecords(){
-try{localStorage.setItem('bella-chess-saved-games-v1',JSON.stringify(records.slice(0,20)));}catch{}
-}
-function saveGame(){
-if(game.h.length<2)return;
-let fens=game.h.map(fen),k=fens.join('|');
-if(!records.some(x=>x.fens.join('|')===k))
-records.unshift({fens,uci:[...game.uci],date:new Date().toISOString(),opponent:$('opponent').value,id:Date.now()});
-records=records.slice(0,20);
-saveRecords();renderRecords();
-}
+function saveRecords(){try{localStorage.setItem('bella-chess-saved-games-v1',JSON.stringify(records.slice(0,20)));}catch{}}
+function saveGame(){if(game.h.length<2)return;let fens=game.h.map(fen),k=fens.join('|');if(!records.some(x=>x.fens.join('|')===k))records.unshift({fens,uci:[...game.uci],date:new Date().toISOString(),opponent:$('opponent').value,id:Date.now()});records=records.slice(0,20);saveRecords();renderRecords();}
 function renderRecords(){
-let old=$('saved').value;
-$('saved').innerHTML='<option value="">Current game</option>'+records.map(x=>'<option value="'+x.id+'">'+new Date(x.date).toLocaleString('en-AU')+' ('+x.uci.length+' plies)</option>').join('');
-$('saved').value=records.some(x=>String(x.id)===old)?old:'';
+  const select=$('saved'),old=select.value;
+  select.innerHTML='';
+  const current=document.createElement('option');
+  current.value='';current.textContent='Current game';select.appendChild(current);
+  records.forEach((x,i)=>{
+    const opt=document.createElement('option');
+    opt.value=String(x.id??('legacy-'+i));
+    const rawDate=x.date||x.played||x.createdAt;
+    const dt=rawDate?new Date(rawDate):null;
+    const label=dt&&!Number.isNaN(dt.getTime())?dt.toLocaleString('en-AU'):'Saved game '+(i+1);
+    const plies=Math.max(0,x.fens.length-1); // derive from actual saved positions
+    opt.textContent=label+' ('+plies+' half-moves)';
+    select.appendChild(opt);
+  });
+  select.value=Array.from(select.options).some(o=>o.value===old)?old:'';
 }
-function risk(s){
-let arr=[];
-for(let i=0;i<128;i++)
-if(ok(i)&&color(s.b[i])===1&&s.b[i]!=='K'&&attack(s,i,-1)&&!attack(s,i,1))
-arr.push({square:sq(i),piece:s.b[i],value:VALUES[s.b[i].toLowerCase()]});
-return arr.sort((a,b)=>b.value-a.value)[0]||null;
-}
-function render(){
-let s=game.h.at(-1),e=ended(game.h),review=game.review>=0;
-let position=review?game.h[game.review]:s;
-let options=!review&&game.chosen>=0?moves(s).filter(x=>x[0]===game.chosen).map(x=>x[1]):[];
-board($('board'),position,review?-1:game.chosen,options,click);
-$('turn').textContent=review?'Review · position '+game.review+' of '+(game.h.length-1):e||(s.t===1?'White to move':$('opponent').value==='family'?'Black to move':'Coach Fox thinking');
-$('tip').textContent=review?'🔍 Look for what Bella could improve.':e||game.tip;
-show('decision',!!game.pending&&!review);
-show('reviewNav',review);
-$('prev').disabled=!review||game.review===0;
-$('next').disabled=!review||game.review===game.h.length-1;
-$('undo').disabled=game.h.length===1||game.thinking;
-$('moves').textContent=game.uci.map((x,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+x).join(' · ');
-}
-function click(i){
-if(game.thinking||game.pending||game.review>=0||ended(game.h))return;
-let s=game.h.at(-1);
-if(s.t===-1&&$('opponent').value!=='family')return;
-if(color(s.b[i])===s.t){
-game.chosen=game.chosen===i?-1:i;render();return;
-}
-let opts=moves(s).filter(m=>m[0]===game.chosen&&m[1]===i);
-if(!opts.length){game.chosen=-1;render();return;}
-if(opts.length>1){
-let el=$('promotion');
-el.innerHTML='<strong>Promote to:</strong> ';
-for(let m of opts){
-let b=document.createElement('button');
-b.textContent=G[s.t===1?m[2].toUpperCase():m[2]];
-b.onclick=()=>{show('promotion',false);offer(m);};
-el.appendChild(b);
-}
-show('promotion');return;
-}
-offer(opts[0]);
-}
-function offer(m){
-let s=game.h.at(-1);game.chosen=-1;
-if(s.t===-1){commit(m);return;}
-let r=risk(apply(s,m)),danger=r&&r.square===sq(m[1]),type=$('coach').value;
-let pause=type==='every'||type==='adaptive'&&(danger||game.uci.length<4||game.uci.length%6===0);
-if(pause){
-game.pending={m,r};
-game.tip=danger?'🦊 Check your chosen square before you move.':'🦊 Think: what can Black do next?';
-$('question').textContent=danger?'Could Black capture your piece?':'Is every piece safe after your move?';
-show('clue',false);render();
-}else commit(m);
-}
-function commit(m){
-let s=game.h.at(-1);
-game.uci.push(code(m));
-game.h.push(apply(s,m));
-game.pending=null;
-game.tip='🦊 What is your opponent attacking?';
-render();
-if(ended(game.h)){saveGame();return;}
-if(s.t===1&&$('opponent').value==='fox'){
-game.thinking=true;render();timer=setTimeout(fox,250);
-}
-}
-function fox(){
-if(!game.thinking)return;
-let s=game.h.at(-1),opts=moves(s);
-if(!opts.length){game.thinking=false;render();return;}
-let ranks=opts.map(m=>{
-let next=apply(s,m),capt=s.b[m[1]],p=s.b[m[0]];
-return{
-m,v:(capt==='.'?0:VALUES[capt.toLowerCase()]*2)-(attack(next,m[1],1)?VALUES[p.toLowerCase()]:0)+Math.random()*4
-};
-}).sort((a,b)=>b.v-a.v);
-game.thinking=false;
-commit(ranks[Math.floor(Math.random()*Math.min(4,ranks.length))].m);
-}
-function reset(){
-clearTimeout(timer);
-game={h:[START],uci:[],chosen:-1,pending:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'};
-render();
-}
-$('rethink').onclick=()=>{
-game.pending=null;game.tip='Good thinking! Try another move.';render();
-};
-$('hint').onclick=()=>{
-let r=game.pending?.r;
-$('clue').textContent=r?'💡 Check your '+r.piece+' on '+r.square+'.':'💡 Look for checks and captures.';
-show('clue');
-};
-$('confirm').onclick=()=>{
-if(game.pending)commit(game.pending.m);
-};
-$('danger').onclick=()=>{
-let r=risk(game.h.at(-1));
-game.tip=r?'💡 Your '+r.piece+' on '+r.square+' may be captured.':'💡 No obvious hanging piece. Check the landing square.';
-render();
-};
-$('undo').onclick=()=>{
-clearTimeout(timer);game.thinking=false;game.pending=null;game.review=-1;
-let n=$('opponent').value==='fox'&&game.h.length>2?2:1;
-game.h.splice(-n);game.uci.splice(-n);game.chosen=-1;render();
-};
-$('newGame').onclick=()=>{
-if(game.h.length>1)saveGame();reset();
-};
-$('opponent').onchange=()=>{
-if(game.h.length>1)saveGame();reset();
-};
-$('coach').onchange=()=>{
-if($('coach').value==='quiet'&&game.pending){
-let m=game.pending.m;commit(m);
-}
-};
-$('focus').onclick=()=>{
-let f=document.body.classList.toggle('focus');
-$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';
-window.scrollTo(0,0);
-};
-$('save').onclick=saveGame;
-$('finish').onclick=()=>{
-saveGame();game.review=0;render();$('board').scrollIntoView({block:'center'});
-};
-$('prev').onclick=()=>{
-game.review=Math.max(0,game.review-1);render();
-};
-$('next').onclick=()=>{
-game.review=Math.min(game.h.length-1,game.review+1);render();
-};
-$('exitReview').onclick=()=>{
-game.review=-1;render();
-};
-
-$('pgn').onclick=()=>{
-let seq=game.h,txt='[Event "Bella Chess Adventure"]\n[White "Bella"]\n[Black "Coach Fox or Family"]\n\n',out=[];
-for(let i=0;i<game.uci.length;i++){
-let s=seq[i],m=moves(s).find(x=>code(x)===game.uci[i]);
-if(m)out.push((i%2===0?Math.floor(i/2)+1+'. ':'')+san(s,m));
-}
-txt+=out.join(' ')+' *';
-let a=document.createElement('a'),url=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));
-a.href=url;a.download='Bella_chess.pgn';a.click();
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-};
-
-// Optional Stockfish review
+function risk(s){let arr=[];for(let i=0;i<128;i++)if(ok(i)&&color(s.b[i])===1&&s.b[i]!=='K'&&attack(s,i,-1)&&!attack(s,i,1))arr.push({square:sq(i),piece:s.b[i],value:VALUES[s.b[i].toLowerCase()]});return arr.sort((a,b)=>b.value-a.value)[0]||null;}
+function render(){let s=game.h.at(-1),e=ended(game.h),review=game.review>=0,position=review?game.h[game.review]:s,options=!review&&game.chosen>=0?moves(s).filter(x=>x[0]===game.chosen).map(x=>x[1]):[];board($('board'),position,review?-1:game.chosen,options,click);$('turn').textContent=review?'Review · position '+game.review+' of '+(game.h.length-1):e||(s.t===1?'White to move':$('opponent').value==='family'?'Black to move':'Coach Fox thinking');$('tip').textContent=review?'🔍 Look for what Bella could improve.':e||game.tip;show('decision',!!game.pending&&!review);show('reviewNav',review);$('prev').disabled=!review||game.review===0;$('next').disabled=!review||game.review===game.h.length-1;$('undo').disabled=game.h.length===1||game.thinking;$('moves').textContent=game.uci.map((x,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+x).join(' · ');}
+function click(i){if(game.thinking||game.pending||game.review>=0||ended(game.h))return;let s=game.h.at(-1);if(s.t===-1&&$('opponent').value!=='family')return;if(color(s.b[i])===s.t){game.chosen=game.chosen===i?-1:i;render();return;}let opts=moves(s).filter(m=>m[0]===game.chosen&&m[1]===i);if(!opts.length){game.chosen=-1;render();return;}if(opts.length>1){let el=$('promotion');el.innerHTML='<strong>Promote to:</strong> ';for(let m of opts){let b=document.createElement('button');b.textContent=G[s.t===1?m[2].toUpperCase():m[2]];b.onclick=()=>{show('promotion',false);offer(m);};el.appendChild(b);}show('promotion');return;}offer(opts[0]);}
+function offer(m){let s=game.h.at(-1);game.chosen=-1;if(s.t===-1){commit(m);return;}let r=risk(apply(s,m)),danger=r&&r.square===sq(m[1]),type=$('coach').value;let pause=type==='every'||type==='adaptive'&&(danger||game.uci.length<4||game.uci.length%6===0);if(pause){game.pending={m,r};game.tip=danger?'🦊 Check your chosen square before you move.':'🦊 Think: what can Black do next?';$('question').textContent=danger?'Could Black capture your piece?':'Is every piece safe after your move?';show('clue',false);render();}else commit(m);}
+function commit(m){let s=game.h.at(-1);game.uci.push(code(m));game.h.push(apply(s,m));game.pending=null;game.tip='🦊 What is your opponent attacking?';render();if(ended(game.h)){saveGame();return;}if(s.t===1&&$('opponent').value==='fox'){game.thinking=true;render();timer=setTimeout(fox,250);}}
+function fox(){if(!game.thinking)return;let s=game.h.at(-1),opts=moves(s);if(!opts.length){game.thinking=false;render();return;}let ranks=opts.map(m=>{let next=apply(s,m),capt=s.b[m[1]],p=s.b[m[0]];return{m,v:(capt==='.'?0:VALUES[capt.toLowerCase()]*2)-(attack(next,m[1],1)?VALUES[p.toLowerCase()]:0)+Math.random()*4};}).sort((a,b)=>b.v-a.v);game.thinking=false;commit(ranks[Math.floor(Math.random()*Math.min(4,ranks.length))].m);}
+function reset(){clearTimeout(timer);game={h:[START],uci:[],chosen:-1,pending:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'};render();}
+$('rethink').onclick=()=>{game.pending=null;game.tip='Good thinking! Try another move.';render();};$('hint').onclick=()=>{let r=game.pending?.r;$('clue').textContent=r?'💡 Check your '+r.piece+' on '+r.square+'.':'💡 Look for checks and captures.';show('clue');};$('confirm').onclick=()=>{if(game.pending)commit(game.pending.m);};$('danger').onclick=()=>{let r=risk(game.h.at(-1));game.tip=r?'💡 Your '+r.piece+' on '+r.square+' may be captured.':'💡 No obvious hanging piece. Check the landing square.';render();};$('undo').onclick=()=>{clearTimeout(timer);game.thinking=false;game.pending=null;game.review=-1;let n=$('opponent').value==='fox'&&game.h.length>2?2:1;game.h.splice(-n);game.uci.splice(-n);game.chosen=-1;render();};$('newGame').onclick=()=>{if(game.h.length>1)saveGame();reset();};$('opponent').onchange=()=>{if(game.h.length>1)saveGame();reset();};$('coach').onchange=()=>{if($('coach').value==='quiet'&&game.pending){let m=game.pending.m;commit(m);}};
+$('focus').onclick=()=>{let f=document.body.classList.toggle('focus');$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';window.scrollTo(0,0);};$('save').onclick=saveGame;$('finish').onclick=()=>{saveGame();game.review=0;render();$('board').scrollIntoView({block:'center'});};$('prev').onclick=()=>{game.review=Math.max(0,game.review-1);render();};$('next').onclick=()=>{game.review=Math.min(game.h.length-1,game.review+1);render();};$('exitReview').onclick=()=>{game.review=-1;render();};
+$('pgn').onclick=()=>{let seq=game.h,txt='[Event "Bella Chess Adventure"]\n[White "Bella"]\n[Black "Coach Fox or Family"]\n\n',out=[];for(let i=0;i<game.uci.length;i++){let s=seq[i],m=moves(s).find(x=>code(x)===game.uci[i]);if(m)out.push((i%2===0?Math.floor(i/2)+1+'. ':'')+san(s,m));}txt+=out.join(' ')+' *';let a=document.createElement('a'),url=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.href=url;a.download='Bella_chess.pgn';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+// Stockfish is optional; it never chooses moves during the live game.
 let worker=null,working=false,stop=false;
-function evalFen(f){
-return new Promise((resolve,reject)=>{
-let last={cp:0,best:''};
-let limit=setTimeout(()=>reject(Error('Engine timed out')),12000);
-let fn=e=>{
-for(let line of String(e.data).split(/\r?\n/)){
-let a=line.match(/\bscore cp (-?\d+)/),b=line.match(/\bpv ([a-h][1-8][a-h][1-8][qrbn]?)/);
-if(a)last.cp=+a[1];
-if(b)last.best=b[1];
-if(line.startsWith('bestmove ')){
-clearTimeout(limit);
-worker.removeEventListener('message',fn);
-resolve({cp:(f.split(' ')[1]==='w'?1:-1)*last.cp,best:last.best});
-}
-}
-};
-worker.addEventListener('message',fn);
-worker.postMessage('position fen '+f);
-worker.postMessage('go movetime 160');
-});
-}
-$('analyse').onclick=async()=>{
-if(working)return;
-let chosen=records.find(x=>String(x.id)===$('saved').value),fens=(chosen?chosen.fens:game.h.map(fen)).slice(0,61);
-if(fens.length<3){$('engineStatus').textContent='Play at least two moves first.';return;}
-working=true;stop=false;$('analyse').disabled=true;show('stop');
-$('engineResults').innerHTML='';
-try{
-worker=new Worker('./engine/stockfish-19-lite-single.js');
-await new Promise((yes,no)=>{
-let wait=setTimeout(()=>no(Error('Missing Stockfish engine files')),20000);
-worker.onerror=()=>no(Error('Stockfish could not load'));
-let fn=e=>{
-let t=String(e.data);
-if(t.includes('uciok'))worker.postMessage('isready');
-if(t.includes('readyok')){
-clearTimeout(wait);worker.removeEventListener('message',fn);yes();
-}
-};
-worker.addEventListener('message',fn);worker.postMessage('uci');
-});
-let scores=[];
-for(let i=0;i<fens.length;i++){
-if(stop)throw Error('Stopped');
-$('engineStatus').textContent='Checking position '+(i+1)+' of '+fens.length;
-scores.push(await evalFen(fens[i]));
-}
-let errors=[];
-for(let i=1;i<fens.length;i+=2){
-let loss=scores[i-1].cp-scores[i].cp;
-if(loss>90)errors.push({i,loss,best:scores[i-1].best});
-}
-errors.sort((a,b)=>b.loss-a.loss);
-$('engineResults').innerHTML=errors.slice(0,3).map(e=>'<div class="review">Move '+Math.ceil(e.i/2)+': Check what Black can capture. Stockfish suggests '+e.best+' (estimated loss '+(e.loss/100).toFixed(1)+' pawns).</div>').join('')||'No large errors detected in this quick analysis.';
-$('engineStatus').textContent='Review complete. Engine is OFF.';
-}catch(e){
-$('engineStatus').textContent=e.message+'. Check that both engine files are present.';
-}finally{
-worker?.terminate();worker=null;working=false;
-$('analyse').disabled=false;show('stop',false);
-}
-};
-$('stop').onclick=()=>{
-stop=true;worker?.terminate();worker=null;
-$('engineStatus').textContent='Analysis stopped.';
-};
-
-// Lessons
+function evalFen(f){return new Promise((resolve,reject)=>{let last={cp:0,best:''};let limit=setTimeout(()=>reject(Error('Engine timed out')),12000);let fn=e=>{for(let line of String(e.data).split(/\r?\n/)){let a=line.match(/\bscore cp (-?\d+)/),b=line.match(/\bpv ([a-h][1-8][a-h][1-8][qrbn]?)/);if(a)last.cp=+a[1];if(b)last.best=b[1];if(line.startsWith('bestmove ')){clearTimeout(limit);worker.removeEventListener('message',fn);resolve({cp:(f.split(' ')[1]==='w'?1:-1)*last.cp,best:last.best});}}};worker.addEventListener('message',fn);worker.postMessage('position fen '+f);worker.postMessage('go movetime 160');});}
+$('analyse').onclick=async()=>{if(working)return;let chosen=records.find(x=>String(x.id)===$('saved').value),fens=(chosen?chosen.fens:game.h.map(fen)).slice(0,61);if(fens.length<3){$('engineStatus').textContent='Play at least two moves first.';return;}working=true;stop=false;$('analyse').disabled=true;show('stop');$('engineResults').innerHTML='';try{worker=new Worker('./engine/stockfish-19-lite-single.js');await new Promise((yes,no)=>{let wait=setTimeout(()=>no(Error('Missing Stockfish engine files')),20000);worker.onerror=()=>no(Error('Stockfish could not load'));let fn=e=>{let t=String(e.data);if(t.includes('uciok'))worker.postMessage('isready');if(t.includes('readyok')){clearTimeout(wait);worker.removeEventListener('message',fn);yes();}};worker.addEventListener('message',fn);worker.postMessage('uci');});let scores=[];for(let i=0;i<fens.length;i++){if(stop)throw Error('Stopped');$('engineStatus').textContent='Checking position '+(i+1)+' of '+fens.length;scores.push(await evalFen(fens[i]));}let errors=[];for(let i=1;i<fens.length;i+=2){let loss=scores[i-1].cp-scores[i].cp;if(loss>90)errors.push({i,loss,best:scores[i-1].best});}errors.sort((a,b)=>b.loss-a.loss);$('engineResults').innerHTML=errors.slice(0,3).map(e=>'<div class="review">Move '+Math.ceil(e.i/2)+': Check what Black can capture. Stockfish suggests '+e.best+' (estimated loss '+(e.loss/100).toFixed(1)+' pawns).</div>').join('')||'No large errors detected in this quick analysis.';$('engineStatus').textContent='Review complete. Engine is OFF.';}catch(e){$('engineStatus').textContent=e.message+'. Check that both engine files are present.';}finally{worker?.terminate();worker=null;working=false;$('analyse').disabled=false;show('stop',false);}};$('stop').onclick=()=>{stop=true;worker?.terminate();worker=null;$('engineStatus').textContent='Analysis stopped.';};
+// A short set of learning topics; puzzles are defined below.
 const TOPICS=['Is My Piece Under Attack?','Which Piece Is Safe?','Spot the Hanging Piece','Move to Safety','Protect Your Pieces','Capture the Attacker','Win a Free Piece','Fair or Unfair Trade?','Is That Capture a Trap?','Checks, Captures & Threats','Three-Question Challenge','Chess Detective Graduation'];
-
 const P=[
 [['tap','Kg1 kg8 Ne4 bb7','e4'],['tap','Kg1 kg8 Bc4 rc8','c4'],['tap','Kg1 kg8 Rd4 nf5','d4'],['tap','Kg1 kg8 Qe3 pd4','e3']],
 [['tap','Kg1 kg8 Ne4 Nc3 bb7','c3'],['tap','Kg1 kg8 Bb3 Bf3 rb8','f3'],['tap','Kg1 kg8 Rd4 Rh1 bg7','h1'],['tap','Kg1 kg8 Nc4 Nd2 pb5','d2']],
@@ -599,99 +92,24 @@ const P=[
 [['move','Kg1 kg8 Qe3 pd4 pc5','e3e2'],['move','Kg1 kg8 Re4 bb7 pe7','e4e1'],['move','Kg1 kg8 Ne4 re8 pf6','e4c3'],['move','Kg1 kg8 Bc4 pb5 pa4','c4d3']],
 [['tap','Kg1 kg8 Rc4 nb6','c4'],['move','Kg1 kg8 Bb2 re5','b2e5'],['move','Kg1 kg8 Qe3 pd4 pc5','e3e2'],['choice','Kg1 kg8 Ne4 rf6 pg7','yes']]
 ];
-
 let progress={},lesson=0,problem=0,selected=-1,feedback='';
-try{
-progress=JSON.parse(localStorage.getItem('bella-chess-stage1-progress-v1')||'{}')||{};
-}catch{progress={};}
+try{progress=JSON.parse(localStorage.getItem('bella-chess-stage1-progress-v1')||'{}')||{};}catch{progress={};}
 const solved=(i,j)=>Array.isArray(progress[i])&&progress[i].includes(j),complete=i=>P[i].every((_,j)=>solved(i,j));
-function fromPieces(s){
-let b=Array(128).fill('.');
-for(let p of s.split(' '))b[ix(p.slice(1))]=p[0];
-return{b,t:1,c:0,ep:-1,h:0,f:1};
-}
-function lessonRender(){
-let [type,pos,answer]=P[lesson][problem],s=fromPieces(pos),targets=selected>=0?moves(s).filter(m=>m[0]===selected).map(m=>m[1]):[];
-$('lessonTitle').textContent='Lesson '+(lesson+1)+'/12 — '+TOPICS[lesson];
-$('lessonText').textContent=(type==='tap'?'Tap the correct piece.':type==='escape'?'Move the attacked piece to a safe square.':type==='choice'?'Is this a good material trade?':'Find the best move.')+' Challenge '+(problem+1)+'/4.';
-board($('lessonBoard'),s,selected,targets,i=>{
-if(type==='choice')return;
-if(type==='tap'){grade(sq(i)===answer);return;}
-if(color(s.b[i])===1){selected=i;lessonRender();return;}
-let m=moves(s).find(m=>m[0]===selected&&m[1]===i);
-if(!m){selected=-1;lessonRender();return;}
-grade(type==='escape'?sq(m[0])===answer&&!attack(apply(s,m),m[1],-1):code(m)===answer);
-});
-if(type==='choice'){
-let row=document.createElement('div');
-row.className='buttons';
-for(let v of ['yes','no']){
-let b=document.createElement('button');
-b.textContent=v.toUpperCase();
-b.onclick=()=>grade(v===answer);row.appendChild(b);
-}
-$('lessonBoard').after(row);row.id='choices';
-}else $('choices')?.remove();
-show('lessonFeedback',!!feedback);
-$('lessonFeedback').textContent=feedback;
-$('lessonNext').disabled=!solved(lesson,problem);
-$('lessonNav').innerHTML=TOPICS.map((t,i)=>'<button data-i="'+i+'" class="'+(lesson===i?'active ':'')+(i>0&&!complete(i-1)?'locked':'')+'" '+(i>0&&!complete(i-1)?'disabled':'')+'>'+(i+1)+'. '+t+'</button>').join('');
-$('lessonNav').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-lesson=+b.dataset.i;problem=0;feedback='';selected=-1;lessonRender();
-});
-}
-function grade(good){
-feedback=good?'🌟 Well done! You looked for danger.':'Try again: check what each piece attacks.';
-selected=-1;
-if(good){
-if(!Array.isArray(progress[lesson]))progress[lesson]=[];
-if(!progress[lesson].includes(problem))progress[lesson].push(problem);
-try{localStorage.setItem('bella-chess-stage1-progress-v1',JSON.stringify(progress));}catch{}
-}
-lessonRender();
-}
-$('lessonHint').onclick=()=>{
-feedback='💡 Look for enemy attacks and check the destination square.';
-lessonRender();
-};
-$('lessonRetry').onclick=()=>{
-feedback='';selected=-1;lessonRender();
-};
-$('lessonNext').onclick=()=>{
-if(problem<3)problem++;
-else if(lesson<11&&complete(lesson)){lesson++;problem=0;}
-else problem=0;
-feedback='';lessonRender();
-};
-$('resetProgress').onclick=()=>{
-if(confirm('Reset lesson progress?')){
-progress={};localStorage.removeItem('bella-chess-stage1-progress-v1');lessonRender();
-}
-};
-function tab(t){
-show('playView',t==='play');
-show('lessonsView',t==='lessons');
-show('progressView',t==='progress');
-for(let [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnProgress','progress']])
-$(id).className=t===key?'on':'secondary';
-if(t==='progress')
-$('progressText').textContent=Object.values(progress).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0)+' / 48 challenges completed.';
-if(t==='play')render();
-}
-$('btnPlay').onclick=()=>tab('play');
-$('btnLessons').onclick=()=>tab('lessons');
-$('btnProgress').onclick=()=>tab('progress');
-
+function fromPieces(s){let b=Array(128).fill('.');for(let p of s.split(' '))b[ix(p.slice(1))]=p[0];return{b,t:1,c:0,ep:-1,h:0,f:1};}
+function lessonRender(){let [type,pos,answer]=P[lesson][problem],s=fromPieces(pos),targets=selected>=0?moves(s).filter(m=>m[0]===selected).map(m=>m[1]):[];$('lessonTitle').textContent='Lesson '+(lesson+1)+'/12 — '+TOPICS[lesson];$('lessonText').textContent=(type==='tap'?'Tap the correct piece.':type==='escape'?'Move the attacked piece to a safe square.':type==='choice'?'Is this a good material trade?':'Find the best move.')+' Challenge '+(problem+1)+'/4.';board($('lessonBoard'),s,selected,targets,i=>{if(type==='choice')return;if(type==='tap'){grade(sq(i)===answer);return;}if(color(s.b[i])===1){selected=i;lessonRender();return;}let m=moves(s).find(m=>m[0]===selected&&m[1]===i);if(!m){selected=-1;lessonRender();return;}grade(type==='escape'?sq(m[0])===answer&&!attack(apply(s,m),m[1],-1):code(m)===answer);});if(type==='choice'){let row=document.createElement('div');row.className='buttons';for(let v of ['yes','no']){let b=document.createElement('button');b.textContent=v.toUpperCase();b.onclick=()=>grade(v===answer);row.appendChild(b);}$('lessonBoard').after(row);row.id='choices';}else $('choices')?.remove();show('lessonFeedback',!!feedback);$('lessonFeedback').textContent=feedback;$('lessonNext').disabled=!solved(lesson,problem);$('lessonNav').innerHTML=TOPICS.map((t,i)=>'<button data-i="'+i+'" class="'+(lesson===i?'active ':'')+(i>0&&!complete(i-1)?'locked':'')+'" '+(i>0&&!complete(i-1)?'disabled':'')+'>'+(i+1)+'. '+t+'</button>').join('');$('lessonNav').querySelectorAll('button').forEach(b=>b.onclick=()=>{lesson=+b.dataset.i;problem=0;feedback='';selected=-1;lessonRender();});}
+function grade(good){feedback=good?'🌟 Well done! You looked for danger.':'Try again: check what each piece attacks.';selected=-1;if(good){if(!Array.isArray(progress[lesson]))progress[lesson]=[];if(!progress[lesson].includes(problem))progress[lesson].push(problem);try{localStorage.setItem('bella-chess-stage1-progress-v1',JSON.stringify(progress));}catch{}}lessonRender();}
+$('lessonHint').onclick=()=>{feedback='💡 Look for enemy attacks and check the destination square.';lessonRender();};$('lessonRetry').onclick=()=>{feedback='';selected=-1;lessonRender();};$('lessonNext').onclick=()=>{if(problem<3)problem++;else if(lesson<11&&complete(lesson)){lesson++;problem=0;}else problem=0;feedback='';lessonRender();};$('resetProgress').onclick=()=>{if(confirm('Reset lesson progress?')){progress={};localStorage.removeItem('bella-chess-stage1-progress-v1');lessonRender();}};
+function tab(t){show('playView',t==='play');show('lessonsView',t==='lessons');show('progressView',t==='progress');for(let [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';if(t==='progress')$('progressText').textContent=Object.values(progress).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0)+' / 48 challenges completed.';if(t==='play')render();}
+$('btnPlay').onclick=()=>tab('play');$('btnLessons').onclick=()=>tab('lessons');$('btnProgress').onclick=()=>tab('progress');
 try{
-readRecords();
-render();
-lessonRender();
-tab('play');
-$('error').classList.add('hide');
+  render(); // show the board before loading optional history
+  try{readRecords();}catch(historyError){console.warn('Could not load saved-game list',historyError);}
+  lessonRender();
+  tab('play');
+  $('error').classList.add('hide');
 }catch(e){
-$('error').textContent='Page error: '+e.message;
-console.error(e);
+  $('error').textContent='Chessboard error: '+e.message+'. Please report this message.';
+  console.error(e);
 }
 </script>
-</body>
-</html>
+</body></html>
