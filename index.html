@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v6</title>
+<title>Bella's Chess Adventure — v7</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 
@@ -15,7 +15,7 @@
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v5.1</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v7 · Backup & Restore</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Reminders <select id="coach"><option value="adaptive">Adaptive</option><option value="every">Every move</option><option value="quiet">Off</option></select></label></div>
 <div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip" id="tip">🦊 What is Black attacking?</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="exitReview" class="secondary">Exit review</button></div></div>
@@ -23,7 +23,22 @@
 <div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="replaySaved" class="secondary">▶ Replay saved game</button><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><p class="muted" style="font-size:12px">Tap a learning moment to jump to the saved position. Gold = Bella's move; blue = Stockfish idea. Compare before and after on the board above.</p><div id="engineResults"></div></details></div>
 </section>
 <section id="lessonsView" class="hide"><div class="card"><h2 id="lessonTitle">Lessons</h2><p id="lessonText"></p><div id="lessonBoard" class="board">Loading lessons…</div><div id="lessonFeedback" class="feedback hide"></div><div class="buttons"><button id="lessonHint" class="secondary">💡 Hint</button><button id="lessonRetry" class="secondary">↶ Retry</button><button id="lessonNext">Next →</button></div></div><div class="card"><div id="lessonNav" class="lesson-nav"></div></div></section>
-<section id="progressView" class="card hide"><h2>My Chess Progress</h2><p id="progressText"></p><button id="resetProgress" class="secondary">Reset lessons</button></section>
+<section id="progressView" class="card hide">
+<h2>My Chess Progress</h2>
+<p id="progressText"></p>
+<div class="card backup-card">
+  <h2>💾 Save &amp; Restore</h2>
+  <p class="muted">Save Bella's completed lessons and chess games to a backup file. You can restore it on another device.</p>
+  <div class="buttons backup-buttons">
+    <button type="button" id="backupDownload">⬇ Download backup</button>
+    <button type="button" id="backupRestore" class="secondary">⬆ Restore backup</button>
+  </div>
+  <input id="backupFile" type="file" accept=".json,application/json" hidden>
+  <p class="muted" style="font-size:12px">Restoring merges with games and progress already on this device. It does not delete existing records. Keep the downloaded JSON file somewhere safe.</p>
+  <p id="backupStatus" class="muted" role="status" aria-live="polite">No account or cloud storage required.</p>
+</div>
+<button id="resetProgress" class="secondary">Reset lessons</button>
+</section>
 <div id="error" class="error">If the chessboard does not appear, the HTML may have been copied incompletely. Check that the last line is &lt;/html&gt;.</div>
 </div>
 <script>
@@ -40,18 +55,19 @@ function moves(s){let out=[];for(let a=0;a<128;a++){if(!ok(a)||color(s.b[a])!==s
 function san(s,m){let [a,z,promo,flag]=m,p=s.b[a].toUpperCase(),capture=s.b[z]!=='.'||flag==='ep',name=flag==='castle'?(z>a?'O-O':'O-O-O'):(p==='P'?(capture?sq(a)[0]:''):p)+(capture?'x':'')+sq(z)+(promo?'='+promo.toUpperCase():'');let t=apply(s,m);return name+(check(t)?moves(t).length?'+':'#':'');}
 function ended(h){let s=h.at(-1),m=moves(s);if(!m.length)return check(s)?'Checkmate!':'Draw — stalemate.';if(s.h>=150)return'Draw — 75-move rule.';let ps=[];for(let i=0;i<128;i++)if(ok(i)&&s.b[i]!=='.'&&s.b[i].toLowerCase()!=='k')ps.push([s.b[i].toLowerCase(),((i>>4)+(i&7))%2]);if(!ps.length||ps.length===1&&'bn'.includes(ps[0][0])||ps.length&&ps.every(x=>x[0]==='b')&&new Set(ps.map(x=>x[1])).size===1)return'Draw — insufficient material.';let k=z=>z.b.join('')+z.t+z.c+z.ep;if(h.filter(z=>k(z)===k(s)).length>=5)return'Draw — fivefold repetition.';return'';}
 function board(el,s,selected=-1,targets=[],action){el.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){let i=r*16+c,p=s.b[i],b=document.createElement('button');b.type='button';b.className='square'+((r+c)%2?' dark':'')+(selected===i?' selected':'')+(targets.includes(i)?' legal':'')+(p!=='.'?' occupied':'');b.setAttribute('aria-label',sq(i)+' '+p);if(p!=='.'){let t=document.createElement('span');t.className='piece '+(color(p)===1?'white':'black');t.textContent=G[p];b.appendChild(t);}if(c===0){let t=document.createElement('span');t.className='coord rank';t.textContent=8-r;b.appendChild(t);}if(r===7){let t=document.createElement('span');t.className='coord file';t.textContent=F[c];b.appendChild(t);}b.onclick=()=>action&&action(i);el.appendChild(b);}}
+const MAX_SAVED_GAMES=100;
 const START=parse(INITIAL),VALUES={p:1,n:3,b:3,r:5,q:9,k:100};let game={h:[START],uci:[],chosen:-1,pending:null,promotion:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'},timer,records=[];
 function readRecords(){
   // Older versions stored 'played' and 'fens' but no 'uci' array.
   // Do not discard or overwrite the child's saved games.
   try {
     const raw=JSON.parse(localStorage.getItem('bella-chess-saved-games-v1')||'[]');
-    records=Array.isArray(raw)?raw.filter(x=>x&&Array.isArray(x.fens)&&x.fens.length>1).slice(0,20):[];
+    records=Array.isArray(raw)?raw.filter(x=>x&&Array.isArray(x.fens)&&x.fens.length>1).slice(0,MAX_SAVED_GAMES):[];
   } catch(e) { records=[]; }
   renderRecords();
 }
-function saveRecords(){try{localStorage.setItem('bella-chess-saved-games-v1',JSON.stringify(records.slice(0,20)));}catch{}}
-function saveGame(){if(game.h.length<2)return;let fens=game.h.map(fen),k=fens.join('|');if(!records.some(x=>x.fens.join('|')===k))records.unshift({fens,uci:[...game.uci],date:new Date().toISOString(),opponent:$('opponent').value,id:Date.now()});records=records.slice(0,20);saveRecords();renderRecords();}
+function saveRecords(){try{localStorage.setItem('bella-chess-saved-games-v1',JSON.stringify(records.slice(0,MAX_SAVED_GAMES)));}catch{}}
+function saveGame(){if(game.h.length<2)return;let fens=game.h.map(fen),k=fens.join('|');if(!records.some(x=>x.fens.join('|')===k))records.unshift({fens,uci:[...game.uci],date:new Date().toISOString(),opponent:$('opponent').value,id:Date.now()});records=records.slice(0,MAX_SAVED_GAMES);saveRecords();renderRecords();}
 function renderRecords(){
   const select=$('saved'),old=select.value;
   select.innerHTML='';
@@ -242,6 +258,139 @@ function fromPieces(s){let b=Array(128).fill('.');for(let p of s.split(' '))b[ix
 function lessonRender(){let [type,pos,answer]=P[lesson][problem],s=fromPieces(pos),targets=selected>=0?moves(s).filter(m=>m[0]===selected).map(m=>m[1]):[];$('lessonTitle').textContent='Lesson '+(lesson+1)+'/12 — '+TOPICS[lesson];$('lessonText').textContent=(type==='tap'?'Tap the correct piece.':type==='escape'?'Move the attacked piece to a safe square.':type==='choice'?'Is this a good material trade?':'Find the best move.')+' Challenge '+(problem+1)+'/4.';board($('lessonBoard'),s,selected,targets,i=>{if(type==='choice')return;if(type==='tap'){grade(sq(i)===answer);return;}if(color(s.b[i])===1){selected=i;lessonRender();return;}let m=moves(s).find(m=>m[0]===selected&&m[1]===i);if(!m){selected=-1;lessonRender();return;}grade(type==='escape'?sq(m[0])===answer&&!attack(apply(s,m),m[1],-1):code(m)===answer);});if(type==='choice'){let row=document.createElement('div');row.className='buttons';for(let v of ['yes','no']){let b=document.createElement('button');b.textContent=v.toUpperCase();b.onclick=()=>grade(v===answer);row.appendChild(b);}$('lessonBoard').after(row);row.id='choices';}else $('choices')?.remove();show('lessonFeedback',!!feedback);$('lessonFeedback').textContent=feedback;$('lessonNext').disabled=!solved(lesson,problem);$('lessonNav').innerHTML=TOPICS.map((t,i)=>'<button data-i="'+i+'" class="'+(lesson===i?'active ':'')+(i>0&&!complete(i-1)?'locked':'')+'" '+(i>0&&!complete(i-1)?'disabled':'')+'>'+(i+1)+'. '+t+'</button>').join('');$('lessonNav').querySelectorAll('button').forEach(b=>b.onclick=()=>{lesson=+b.dataset.i;problem=0;feedback='';selected=-1;lessonRender();});}
 function grade(good){feedback=good?'🌟 Well done! You looked for danger.':'Try again: check what each piece attacks.';selected=-1;if(good){if(!Array.isArray(progress[lesson]))progress[lesson]=[];if(!progress[lesson].includes(problem))progress[lesson].push(problem);try{localStorage.setItem('bella-chess-stage1-progress-v1',JSON.stringify(progress));}catch{}}lessonRender();}
 $('lessonHint').onclick=()=>{feedback='💡 Look for enemy attacks and check the destination square.';lessonRender();};$('lessonRetry').onclick=()=>{feedback='';selected=-1;lessonRender();};$('lessonNext').onclick=()=>{if(problem<3)problem++;else if(lesson<11&&complete(lesson)){lesson++;problem=0;}else problem=0;feedback='';lessonRender();};$('resetProgress').onclick=()=>{if(confirm('Reset lesson progress?')){progress={};localStorage.removeItem('bella-chess-stage1-progress-v1');lessonRender();}};
+// === Optional local backup and restore (does not use a server) ===
+const CHESS_PROGRESS_KEY='bella-chess-stage1-progress-v1';
+const CHESS_GAMES_KEY='bella-chess-saved-games-v1';
+const BACKUP_FORMAT='bella-chess-adventure-backup';
+function backupMessage(message,bad=false){
+ const el=$('backupStatus');el.textContent=message;
+ el.style.color=bad?'#a23c2b':'#246a55';
+}
+function backupProgressSanitize(value){
+ const clean={};
+ if(!value||typeof value!=='object'||Array.isArray(value))return clean;
+ for(let i=0;i<12;i++){
+  const raw=value[i];
+  if(!Array.isArray(raw))continue;
+  const items=[...new Set(raw.filter(n=>Number.isInteger(n)&&n>=0&&n<4))];
+  if(items.length)clean[i]=items.sort((a,b)=>a-b);
+ }
+ return clean;
+}
+function backupFenValid(f){
+ if(typeof f!=='string'||f.length>120)return false;
+ const tokens=f.trim().split(/\s+/);
+ if(tokens.length!==6||!['w','b'].includes(tokens[1]))return false;
+ if(!/^(-|K?Q?k?q?)$/.test(tokens[2]))return false;
+ if(!/^(-|[a-h][36])$/.test(tokens[3]))return false;
+ if(!/^\d+$/.test(tokens[4])||!/^\d+$/.test(tokens[5]))return false;
+ const rows=tokens[0].split('/');
+ if(rows.length!==8)return false;
+ for(const row of rows){
+  if(!/^[prnbqkPRNBQK1-8]+$/.test(row))return false;
+  let count=0;for(const ch of row)count+=/^[1-8]$/.test(ch)?Number(ch):1;
+  if(count!==8)return false;
+ }
+ return (tokens[0].match(/K/g)||[]).length===1&&
+        (tokens[0].match(/k/g)||[]).length===1;
+}
+function backupGameSanitize(value){
+ if(!value||typeof value!=='object'||!Array.isArray(value.fens))return null;
+ const fens=value.fens;
+ if(fens.length<2||fens.length>700||!fens.every(backupFenValid))return null;
+ const game={fens:fens.slice(),opponent:value.opponent==='family'?'family':'fox'};
+ if(Array.isArray(value.uci)){
+  game.uci=value.uci.filter(x=>typeof x==='string'&&/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(x)).slice(0,fens.length-1);
+ }
+ const stamp=value.date||value.played||value.createdAt;
+ if(typeof stamp==='string'&&!Number.isNaN(new Date(stamp).getTime()))game.date=stamp;
+ if(typeof value.id==='number'||typeof value.id==='string')game.id=value.id;
+ return game;
+}
+function downloadChessBackup(){
+ try{
+  // Include the current unfinished game without discarding it.
+  if(game.h.length>1)saveGame();
+  const file={format:BACKUP_FORMAT,version:1,exportedAt:new Date().toISOString(),
+   progress:backupProgressSanitize(progress),
+   games:records.map(backupGameSanitize).filter(Boolean)};
+  const blob=new Blob([JSON.stringify(file,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='Bella_Chess_Backup_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
+  backupMessage('Backup downloaded: '+file.games.length+' games and '+
+   Object.values(file.progress).reduce((n,a)=>n+a.length,0)+' completed exercises.');
+ }catch(e){backupMessage('Could not create backup: '+e.message,true);}
+}
+async function restoreChessBackup(file){
+ if(!file)return;
+ if(file.size>8*1024*1024){backupMessage('This backup file is too large.',true);return;}
+ try{
+  const data=JSON.parse(await file.text());
+  if(!data||data.format!==BACKUP_FORMAT||data.version!==1||
+    !Array.isArray(data.games)||!data.progress||
+    typeof data.progress!=='object'||Array.isArray(data.progress)){
+   throw new Error('Not a supported Bella Chess backup file.');
+  }
+  // Validate everything before changing localStorage or the page.
+  const incoming=data.games.map(backupGameSanitize);
+  if(incoming.some(x=>!x))throw new Error('This file contains an invalid chess game. No data was changed.');
+  const extra=backupProgressSanitize(data.progress);
+  if(!confirm('Restore '+incoming.length+' chess games and lesson progress?\nExisting records will be kept and merged.')){
+   backupMessage('Restore cancelled. Nothing changed.');return;
+  }
+  // Ensure the current game survives the merge, even if unfinished.
+  if(game.h.length>1)saveGame();
+  const mergedProgress=backupProgressSanitize(progress);
+  for(let i=0;i<12;i++){
+   const union=[...new Set([...(mergedProgress[i]||[]),...(extra[i]||[])])];
+   if(union.length)mergedProgress[i]=union.sort((a,b)=>a-b);
+  }
+  const all=[],seen=new Set();
+  for(const raw of [...records,...incoming]){
+   const item=backupGameSanitize(raw);if(!item)continue;
+   const identity=item.fens.join('|');if(seen.has(identity))continue;
+   seen.add(identity);all.push(item);
+  }
+  // Do not let legacy IDs conflict with one another after import.
+  const used=new Set();
+  for(let i=0;i<all.length;i++){
+   let id=String(all[i].id??'');
+   if(!id||used.has(id)){
+    id='import-'+Date.now().toString(36)+'-'+i;
+    all[i].id=id;
+   }
+   used.add(id);
+  }
+  // Test both writes before announcing success. If storage is full, roll back.
+  const oldProgress=localStorage.getItem(CHESS_PROGRESS_KEY);
+  const oldGames=localStorage.getItem(CHESS_GAMES_KEY);
+  try{
+   localStorage.setItem(CHESS_PROGRESS_KEY,JSON.stringify(mergedProgress));
+   localStorage.setItem(CHESS_GAMES_KEY,JSON.stringify(all.slice(0,MAX_SAVED_GAMES)));
+  }catch(e){
+   try{if(oldProgress===null)localStorage.removeItem(CHESS_PROGRESS_KEY);
+      else localStorage.setItem(CHESS_PROGRESS_KEY,oldProgress);
+      if(oldGames===null)localStorage.removeItem(CHESS_GAMES_KEY);
+      else localStorage.setItem(CHESS_GAMES_KEY,oldGames);}catch{}
+   throw Error('Storage is full or unavailable. Existing data was not intentionally replaced.');
+  }
+  progress=mergedProgress;records=all.slice(0,MAX_SAVED_GAMES);
+  renderRecords();lessonRender();tab('progress');
+  const total=Object.values(progress).reduce((n,a)=>n+a.length,0);
+  const hidden=all.length-records.length;
+  backupMessage('Restored successfully: '+records.length+' saved games, '+total+
+   ' completed exercises.'+(hidden?' The oldest '+hidden+' games exceeded the '+MAX_SAVED_GAMES+'-game limit.':''));
+ }catch(e){backupMessage('Restore failed: '+e.message,true);}
+}
+$('backupDownload').onclick=downloadChessBackup;
+$('backupRestore').onclick=()=>$('backupFile').click();
+$('backupFile').onchange=async e=>{
+ const file=e.target.files?.[0];
+ try{await restoreChessBackup(file);}finally{e.target.value='';}
+};
+
 function tab(t){show('playView',t==='play');show('lessonsView',t==='lessons');show('progressView',t==='progress');for(let [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';if(t==='progress')$('progressText').textContent=Object.values(progress).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0)+' / 48 challenges completed.';if(t==='play')render();}
 $('btnPlay').onclick=()=>tab('play');$('btnLessons').onclick=()=>tab('lessons');$('btnProgress').onclick=()=>tab('progress');
 try{
