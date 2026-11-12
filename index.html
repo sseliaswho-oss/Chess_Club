@@ -2,18 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v5</title>
+<title>Bella's Chess Adventure — v6</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
+
+.review-caption{padding:9px 11px;margin:0 0 8px;background:#f6f7fd;border:1px solid #d4dceb;border-radius:11px;font-size:13px;line-height:1.5;color:#2b445a}
+.square.played-from{box-shadow:inset 0 0 0 4px #d3a73d}
+.square.played-to{box-shadow:inset 0 0 0 4px #e9c65d}
+.square.best-from{box-shadow:inset 0 0 0 4px #377eac}
+.square.best-to{box-shadow:inset 0 0 0 4px #85bbdc}
+.review button.jump-review{margin-top:6px}
 </style>
 </head>
 <body><div class="app">
 <header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v5.1</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Reminders <select id="coach"><option value="adaptive">Adaptive</option><option value="every">Every move</option><option value="quiet">Off</option></select></label></div>
-<div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip" id="tip">🦊 What is Black attacking?</div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="exitReview" class="secondary">Exit review</button></div></div>
+<div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip" id="tip">🦊 What is Black attacking?</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="exitReview" class="secondary">Exit review</button></div></div>
 <div class="card play extras"><details><summary>🦊 More coaching and game review</summary><p class="muted">Bella's three questions: What is attacked? What is unprotected? What happens after my move?</p><div id="moves"></div><div class="buttons"><button id="save" class="secondary">Save game</button><button id="finish" class="secondary">Review moves</button><button id="pgn" class="secondary">Export PGN</button></div><div id="reviewList"></div></details></div>
-<div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><div id="engineResults"></div></details></div>
+<div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="replaySaved" class="secondary">▶ Replay saved game</button><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><p class="muted" style="font-size:12px">Tap a learning moment to jump to the saved position. Gold = Bella's move; blue = Stockfish idea. Compare before and after on the board above.</p><div id="engineResults"></div></details></div>
 </section>
 <section id="lessonsView" class="hide"><div class="card"><h2 id="lessonTitle">Lessons</h2><p id="lessonText"></p><div id="lessonBoard" class="board">Loading lessons…</div><div id="lessonFeedback" class="feedback hide"></div><div class="buttons"><button id="lessonHint" class="secondary">💡 Hint</button><button id="lessonRetry" class="secondary">↶ Retry</button><button id="lessonNext">Next →</button></div></div><div class="card"><div id="lessonNav" class="lesson-nav"></div></div></section>
 <section id="progressView" class="card hide"><h2>My Chess Progress</h2><p id="progressText"></p><button id="resetProgress" class="secondary">Reset lessons</button></section>
@@ -62,20 +69,156 @@ function renderRecords(){
   });
   select.value=Array.from(select.options).some(o=>o.value===old)?old:'';
 }
+// A saved game can be replayed without replacing the live game.
+let replayFens=[],replayBest='',replayBestAt=-1,replaySuggestion=false;
+function savedSelection(){return records.find(x=>String(x.id??('legacy-'+records.indexOf(x)))===$('saved').value);}
+function replaySource(){let chosen=savedSelection();return chosen?chosen.fens:game.h.map(fen);}
+function moveBetween(before,after){
+ try{
+  let s=parse(before),t=parse(after);
+  return moves(s).find(m=>{let n=apply(s,m);return n.b.join('')===t.b.join('')&&n.t===t.t&&n.c===t.c;})||null;
+ }catch{return null;}
+}
+function startReplay(fens,at=0,best='',bestAt=-1){
+ if(!Array.isArray(fens)||fens.length<2){$('engineStatus').textContent='No saved moves to replay yet.';return;}
+ // Validate records before rendering, without mutating localStorage.
+ try{fens.forEach(f=>parse(f));}catch(e){$('engineStatus').textContent='This saved game cannot be replayed.';return;}
+ replayFens=fens.slice();game.review=Math.min(replayFens.length-1,Math.max(0,at));
+ replayBest=best||'';replayBestAt=bestAt;replaySuggestion=false;
+ const jump=$('jumpMove');jump.replaceChildren();
+ for(let n=1;n<=Math.ceil((replayFens.length-1)/2);n++){
+  const opt=document.createElement('option');opt.value=String(Math.min(replayFens.length-1,2*(n-1)));opt.textContent='White move '+n;jump.appendChild(opt);
+ }
+ if(document.body.classList.contains('focus')){$('focus').click();}
+ render();$('board').scrollIntoView({block:'center',behavior:'smooth'});
+}
+function decorateReplaySquares(ply,bestShown=false){
+ // A highlighted square is visual help, never an editable move.
+ let before=ply%2===1?ply-1:ply;
+ if(before<0)return;
+ let move=moveBetween(replayFens[before],replayFens[before+1]);
+ if(!move)return;
+ let indices=bestShown&&replayBestAt===before+1&&replayBest?
+  [ix(replayBest.slice(0,2)),ix(replayBest.slice(2,4))]:[move[0],move[1]];
+ for(let j=0;j<2;j++){
+  let i=indices[j],el=$('board').children[(i>>4)*8+(i&7)];
+  if(el)el.classList.add((bestShown?'best-':'played-')+(j===0?'from':'to'));
+ }
+}
+function replaySummary(){
+ let p=game.review;
+ let n=p<replayFens.length-1?p+1:p;
+ let before=p%2===1?p-1:p;
+ if(before<0)return 'Starting position.';
+ let s=parse(replayFens[before]),m=moveBetween(replayFens[before],replayFens[before+1]);
+ let name=m?san(s,m):'a move';
+ let who=before%2===0?'Bella (White)':'Black';
+ let num=Math.floor(before/2)+1;
+ let rec=replayBestAt===before+1&&replayBest?moves(s).find(x=>code(x)===replayBest):null;
+ let recommended=rec?san(s,rec):null;
+ let state=replaySuggestion?'Stockfish suggestion':p===before?'BEFORE the move':'AFTER the move';
+ return `Move ${num} · ${who} · ${state}. ${who} played ${name}. `+(recommended?`Stockfish suggests ${recommended}. `:'')+'Compare the marked squares and ask: what might happen next?';
+}
 function risk(s){let arr=[];for(let i=0;i<128;i++)if(ok(i)&&color(s.b[i])===1&&s.b[i]!=='K'&&attack(s,i,-1)&&!attack(s,i,1))arr.push({square:sq(i),piece:s.b[i],value:VALUES[s.b[i].toLowerCase()]});return arr.sort((a,b)=>b.value-a.value)[0]||null;}
-function render(){let s=game.h.at(-1),e=ended(game.h),review=game.review>=0,position=review?game.h[game.review]:s,options=!review&&game.chosen>=0?moves(s).filter(x=>x[0]===game.chosen).map(x=>x[1]):[];board($('board'),position,review?-1:game.chosen,options,click);$('turn').textContent=review?'Review · position '+game.review+' of '+(game.h.length-1):e||(s.t===1?'White to move':$('opponent').value==='family'?'Black to move':'Coach Fox thinking');$('tip').textContent=review?'🔍 Look for what Bella could improve.':e||game.tip;show('decision',!!game.pending&&!review);show('reviewNav',review);$('prev').disabled=!review||game.review===0;$('next').disabled=!review||game.review===game.h.length-1;$('undo').disabled=game.h.length===1||game.thinking;$('moves').textContent=game.uci.map((x,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+x).join(' · ');}
+function render(){
+ let s=game.h.at(-1),e=ended(game.h),review=game.review>=0;
+ let position=s;
+ if(review){
+  position=parse(replayFens[game.review]||fen(s));
+  if(replaySuggestion&&replayBestAt===game.review+1&&replayBest){
+   let m=moves(position).find(x=>code(x)===replayBest);
+   if(m)position=apply(position,m);
+  }
+ }
+ let options=!review&&game.chosen>=0?moves(s).filter(x=>x[0]===game.chosen).map(x=>x[1]):[];
+ board($('board'),position,review?-1:game.chosen,options,review?null:click);
+ if(review)decorateReplaySquares(game.review,replaySuggestion);
+ $('turn').textContent=review?'Replay · '+game.review+' of '+(replayFens.length-1)+' half-moves':e||(s.t===1?'White to move':$('opponent').value==='family'?'Black to move':'Coach Fox thinking');
+ $('tip').textContent=review?'🔍 Bella, what would you do in this position?':e||game.tip;
+ show('reviewCaption',review);
+ if(review)$('reviewCaption').textContent=replaySummary();
+ show('decision',!!game.pending&&!review);show('reviewNav',review);
+ $('prev').disabled=!review||game.review===0;
+ $('next').disabled=!review||game.review>=replayFens.length-1;
+ if(review){const j=$('jumpMove');j.value=String(Math.min(replayFens.length-1,2*Math.floor(game.review/2)));}
+ $('showBella').disabled=!review||game.review%2===1||game.review>=replayFens.length-1;
+ $('showBest').disabled=!review||replayBestAt!==game.review+1||!replayBest;
+ $('undo').disabled=game.h.length===1||game.thinking||review;
+ $('moves').textContent=game.uci.map((x,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+x).join(' · ');
+}
 function click(i){if(game.thinking||game.pending||game.review>=0||ended(game.h))return;let s=game.h.at(-1);if(s.t===-1&&$('opponent').value!=='family')return;if(color(s.b[i])===s.t){game.chosen=game.chosen===i?-1:i;render();return;}let opts=moves(s).filter(m=>m[0]===game.chosen&&m[1]===i);if(!opts.length){game.chosen=-1;render();return;}if(opts.length>1){let el=$('promotion');el.innerHTML='<strong>Promote to:</strong> ';for(let m of opts){let b=document.createElement('button');b.textContent=G[s.t===1?m[2].toUpperCase():m[2]];b.onclick=()=>{show('promotion',false);offer(m);};el.appendChild(b);}show('promotion');return;}offer(opts[0]);}
 function offer(m){let s=game.h.at(-1);game.chosen=-1;if(s.t===-1){commit(m);return;}let r=risk(apply(s,m)),danger=r&&r.square===sq(m[1]),type=$('coach').value;let pause=type==='every'||type==='adaptive'&&(danger||game.uci.length<4||game.uci.length%6===0);if(pause){game.pending={m,r};game.tip=danger?'🦊 Check your chosen square before you move.':'🦊 Think: what can Black do next?';$('question').textContent=danger?'Could Black capture your piece?':'Is every piece safe after your move?';show('clue',false);render();}else commit(m);}
 function commit(m){let s=game.h.at(-1);game.uci.push(code(m));game.h.push(apply(s,m));game.pending=null;game.tip='🦊 What is your opponent attacking?';render();if(ended(game.h)){saveGame();return;}if(s.t===1&&$('opponent').value==='fox'){game.thinking=true;render();timer=setTimeout(fox,250);}}
 function fox(){if(!game.thinking)return;let s=game.h.at(-1),opts=moves(s);if(!opts.length){game.thinking=false;render();return;}let ranks=opts.map(m=>{let next=apply(s,m),capt=s.b[m[1]],p=s.b[m[0]];return{m,v:(capt==='.'?0:VALUES[capt.toLowerCase()]*2)-(attack(next,m[1],1)?VALUES[p.toLowerCase()]:0)+Math.random()*4};}).sort((a,b)=>b.v-a.v);game.thinking=false;commit(ranks[Math.floor(Math.random()*Math.min(4,ranks.length))].m);}
-function reset(){clearTimeout(timer);game={h:[START],uci:[],chosen:-1,pending:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'};render();}
+function reset(){clearTimeout(timer);replayFens=[];replaySuggestion=false;game={h:[START],uci:[],chosen:-1,pending:null,thinking:false,review:-1,tip:'🦊 What is Black threatening?'};render();}
 $('rethink').onclick=()=>{game.pending=null;game.tip='Good thinking! Try another move.';render();};$('hint').onclick=()=>{let r=game.pending?.r;$('clue').textContent=r?'💡 Check your '+r.piece+' on '+r.square+'.':'💡 Look for checks and captures.';show('clue');};$('confirm').onclick=()=>{if(game.pending)commit(game.pending.m);};$('danger').onclick=()=>{let r=risk(game.h.at(-1));game.tip=r?'💡 Your '+r.piece+' on '+r.square+' may be captured.':'💡 No obvious hanging piece. Check the landing square.';render();};$('undo').onclick=()=>{clearTimeout(timer);game.thinking=false;game.pending=null;game.review=-1;let n=$('opponent').value==='fox'&&game.h.length>2?2:1;game.h.splice(-n);game.uci.splice(-n);game.chosen=-1;render();};$('newGame').onclick=()=>{if(game.h.length>1)saveGame();reset();};$('opponent').onchange=()=>{if(game.h.length>1)saveGame();reset();};$('coach').onchange=()=>{if($('coach').value==='quiet'&&game.pending){let m=game.pending.m;commit(m);}};
-$('focus').onclick=()=>{let f=document.body.classList.toggle('focus');$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';window.scrollTo(0,0);};$('save').onclick=saveGame;$('finish').onclick=()=>{saveGame();game.review=0;render();$('board').scrollIntoView({block:'center'});};$('prev').onclick=()=>{game.review=Math.max(0,game.review-1);render();};$('next').onclick=()=>{game.review=Math.min(game.h.length-1,game.review+1);render();};$('exitReview').onclick=()=>{game.review=-1;render();};
-$('pgn').onclick=()=>{let seq=game.h,txt='[Event "Bella Chess Adventure"]\n[White "Bella"]\n[Black "Coach Fox or Family"]\n\n',out=[];for(let i=0;i<game.uci.length;i++){let s=seq[i],m=moves(s).find(x=>code(x)===game.uci[i]);if(m)out.push((i%2===0?Math.floor(i/2)+1+'. ':'')+san(s,m));}txt+=out.join(' ')+' *';let a=document.createElement('a'),url=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.href=url;a.download='Bella_chess.pgn';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+$('focus').onclick=()=>{let f=document.body.classList.toggle('focus');$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';window.scrollTo(0,0);};$('save').onclick=saveGame;$('finish').onclick=()=>{if(!$('saved').value)saveGame();startReplay(replaySource(),0);};$('prev').onclick=()=>{game.review=Math.max(0,game.review-1);replaySuggestion=false;render();};$('next').onclick=()=>{game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;render();};$('exitReview').onclick=()=>{game.review=-1;replayFens=[];replaySuggestion=false;render();};$('showBella').onclick=()=>{if(game.review>=0){game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;render();}};$('jumpMove').onchange=e=>{game.review=+e.target.value;replaySuggestion=false;replayBest='';replayBestAt=-1;render();};$('replaySaved').onclick=()=>startReplay(replaySource(),0);$('showBest').onclick=()=>{replaySuggestion=!replaySuggestion;render();};
+$('pgn').onclick=()=>{let seq=savedSelection()?savedSelection().fens.map(parse):game.h,txt='[Event "Bella Chess Adventure"]\n[White "Bella"]\n[Black "Coach Fox or Family"]\n\n',out=[];for(let i=0;i<seq.length-1;i++){let s=seq[i],m=savedSelection()?moveBetween(fen(seq[i]),fen(seq[i+1])):moves(s).find(x=>code(x)===game.uci[i]);if(m)out.push((i%2===0?Math.floor(i/2)+1+'. ':'')+san(s,m));}txt+=out.join(' ')+' *';let a=document.createElement('a'),url=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.href=url;a.download='Bella_chess.pgn';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 // Stockfish is optional; it never chooses moves during the live game.
 let worker=null,working=false,stop=false;
-function evalFen(f){return new Promise((resolve,reject)=>{let last={cp:0,best:''};let limit=setTimeout(()=>reject(Error('Engine timed out')),12000);let fn=e=>{for(let line of String(e.data).split(/\r?\n/)){let a=line.match(/\bscore cp (-?\d+)/),b=line.match(/\bpv ([a-h][1-8][a-h][1-8][qrbn]?)/);if(a)last.cp=+a[1];if(b)last.best=b[1];if(line.startsWith('bestmove ')){clearTimeout(limit);worker.removeEventListener('message',fn);resolve({cp:(f.split(' ')[1]==='w'?1:-1)*last.cp,best:last.best});}}};worker.addEventListener('message',fn);worker.postMessage('position fen '+f);worker.postMessage('go movetime 160');});}
-$('analyse').onclick=async()=>{if(working)return;let chosen=records.find(x=>String(x.id)===$('saved').value),fens=(chosen?chosen.fens:game.h.map(fen)).slice(0,61);if(fens.length<3){$('engineStatus').textContent='Play at least two moves first.';return;}working=true;stop=false;$('analyse').disabled=true;show('stop');$('engineResults').innerHTML='';try{worker=new Worker('./engine/stockfish-19-lite-single.js');await new Promise((yes,no)=>{let wait=setTimeout(()=>no(Error('Missing Stockfish engine files')),20000);worker.onerror=()=>no(Error('Stockfish could not load'));let fn=e=>{let t=String(e.data);if(t.includes('uciok'))worker.postMessage('isready');if(t.includes('readyok')){clearTimeout(wait);worker.removeEventListener('message',fn);yes();}};worker.addEventListener('message',fn);worker.postMessage('uci');});let scores=[];for(let i=0;i<fens.length;i++){if(stop)throw Error('Stopped');$('engineStatus').textContent='Checking position '+(i+1)+' of '+fens.length;scores.push(await evalFen(fens[i]));}let errors=[];for(let i=1;i<fens.length;i+=2){let loss=scores[i-1].cp-scores[i].cp;if(loss>90)errors.push({i,loss,best:scores[i-1].best});}errors.sort((a,b)=>b.loss-a.loss);$('engineResults').innerHTML=errors.slice(0,3).map(e=>'<div class="review">Move '+Math.ceil(e.i/2)+': Check what Black can capture. Stockfish suggests '+e.best+' (estimated loss '+(e.loss/100).toFixed(1)+' pawns).</div>').join('')||'No large errors detected in this quick analysis.';$('engineStatus').textContent='Review complete. Engine is OFF.';}catch(e){$('engineStatus').textContent=e.message+'. Check that both engine files are present.';}finally{worker?.terminate();worker=null;working=false;$('analyse').disabled=false;show('stop',false);}};$('stop').onclick=()=>{stop=true;worker?.terminate();worker=null;$('engineStatus').textContent='Analysis stopped.';};
+function evalFen(f){return new Promise((resolve,reject)=>{
+ let last={cp:0,best:'',mate:null},finished=false;
+ let limit=setTimeout(()=>{if(finished)return;finished=true;worker?.removeEventListener('message',fn);reject(Error('Engine timed out'));},12000);
+ let fn=e=>{for(let line of String(e.data).split(/\r?\n/)){
+  let a=line.match(/\bscore (cp|mate) (-?\d+)/),b=line.match(/\bpv ([a-h][1-8][a-h][1-8][qrbn]?)/);
+  if(a){last.cp=+a[2];last.mate=a[1]==='mate'?+a[2]:null;last.kind=a[1];}
+  if(b)last.best=b[1];
+  if(line.startsWith('bestmove ')&&!finished){
+   clearTimeout(limit);finished=true;worker?.removeEventListener('message',fn);
+   resolve({cp:(f.split(' ')[1]==='w'?1:-1)*last.cp,best:last.best,kind:last.kind,mate:last.mate});
+  }
+ }};
+ worker.addEventListener('message',fn);
+ worker.postMessage('position fen '+f);
+ worker.postMessage('go movetime 200');
+});}
+$('analyse').onclick=async()=>{
+ if(working)return;
+ let fens=replaySource().slice(0,61);
+ if(fens.length<3){$('engineStatus').textContent='Play at least two moves first.';return;}
+ working=true;stop=false;$('analyse').disabled=true;show('stop');$('engineResults').innerHTML='';
+ try{
+  worker=new Worker('./engine/stockfish-19-lite-single.js');
+  await new Promise((yes,no)=>{
+   let wait=setTimeout(()=>no(Error('Missing Stockfish engine files')),20000);
+   worker.onerror=()=>no(Error('Stockfish could not load'));
+   let fn=e=>{let t=String(e.data);if(t.includes('uciok'))worker.postMessage('isready');if(t.includes('readyok')){clearTimeout(wait);worker.removeEventListener('message',fn);yes();}};
+   worker.addEventListener('message',fn);worker.postMessage('uci');
+  });
+  let scores=[];
+  for(let i=0;i<fens.length;i++){
+   if(stop)throw Error('Stopped');
+   $('engineStatus').textContent='Checking position '+(i+1)+' of '+fens.length;
+   scores.push(await evalFen(fens[i]));
+  }
+  let errors=[];
+  for(let i=1;i<fens.length;i+=2){
+   const a=scores[i-1],b=scores[i];
+   const loss=(a.kind==='cp'&&b.kind==='cp')?a.cp-b.cp:Infinity;
+   if(loss>80){
+    let actual=moveBetween(fens[i-1],fens[i]),s=parse(fens[i-1]);
+    let best=moves(s).find(m=>code(m)===a.best);
+    errors.push({i,loss,best:a.best,actual:actual?san(s,actual):'move',suggested:best?san(s,best):'another move',forced:!Number.isFinite(loss)||Math.abs(a.cp)>1500||Math.abs(b.cp)>1500});
+   }
+  }
+  errors.sort((a,b)=>b.loss-a.loss);
+  const top=errors.slice(0,3);
+  $('engineResults').replaceChildren();
+  if(!top.length)$('engineResults').textContent='No big problems were identified by this quick analysis.';
+  top.forEach((e,j)=>{
+   const item=document.createElement('div');item.className='review';
+   const title=document.createElement('strong');title.textContent='Learning moment '+(j+1)+' · Bella move '+Math.ceil(e.i/2)+' · '+e.actual;
+   const p=document.createElement('p');p.textContent='Stockfish suggests '+e.suggested+'. First look at the board and ask Bella what Black could do next.';
+   const go=document.createElement('button');go.className='secondary jump-review';go.textContent='🔎 Show this move on the board';
+   go.onclick=()=>startReplay(fens,e.i-1,e.best,e.i);
+   item.append(title,p,go);$('engineResults').appendChild(item);
+  });
+  $('engineStatus').textContent='Review ready · Select a learning moment to see the actual position.';
+ }catch(e){$('engineStatus').textContent=e.message+'. Check both Stockfish files under engine/.';}
+ finally{worker?.terminate();worker=null;working=false;$('analyse').disabled=false;show('stop',false);}
+};
+$('stop').onclick=()=>{stop=true;worker?.terminate();worker=null;$('engineStatus').textContent='Analysis stopped.';};
+$('saved').addEventListener('change',()=>{game.review=-1;replayFens=[];replaySuggestion=false;render();});
 // A short set of learning topics; puzzles are defined below.
 const TOPICS=['Is My Piece Under Attack?','Which Piece Is Safe?','Spot the Hanging Piece','Move to Safety','Protect Your Pieces','Capture the Attacker','Win a Free Piece','Fair or Unfair Trade?','Is That Capture a Trap?','Checks, Captures & Threats','Three-Question Challenge','Chess Detective Graduation'];
 const P=[
