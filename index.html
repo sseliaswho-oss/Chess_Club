@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v9.2 · Quiet Coach</title>
+<title>Bella's Chess Adventure — v9.3 · Thinking Review</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 
@@ -53,13 +53,19 @@
   width: 100%;
   height: 100%;
 }
+
+/* v9.3: voluntary chess-thinking discussion, not an extra in-game interruption. */
+#reviewAnswer{margin:0 0 9px;padding:9px 11px;border-radius:10px;background:#eef7f0;border:1px solid #cce2d1;font-size:13px;line-height:1.5}
+#reviewCoachButton{margin:0 0 8px;font-size:12px;padding:8px 11px}
+.review-good{background:#f2faf3;border-radius:9px;padding:10px}
+.review-warn{background:#fff8ed;border-radius:9px;padding:10px}
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.2 · Quiet Coach</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.3 · Thinking Review</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label></div>
-<div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="labFromReplay" class="secondary">🎯 Try your idea</button><button id="exitReview" class="secondary">Exit review</button></div></div>
+<div class="card play"><div class="rowtop"><span id="turn">White to move</span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div class="buttons"><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="labFromReplay" class="secondary">🎯 Try your idea</button><button id="exitReview" class="secondary">Exit review</button></div></div>
 <div class="card play extras"><details><summary>🦊 More coaching and game review</summary><p class="muted">Bella's three questions: What is attacked? What is unprotected? What happens after my move?</p><div id="moves"></div><div class="buttons"><button id="save" class="secondary">Save game</button><button id="finish" class="secondary">Review moves</button><button id="pgn" class="secondary">Export PGN</button></div><div id="reviewList"></div></details></div>
 <div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="replaySaved" class="secondary">▶ Replay saved game</button><label class="review-depth" for="reviewDepth">Analysis <select id="reviewDepth" aria-label="Review analysis quality"><option value="balanced">Balanced</option><option value="careful">Careful</option></select></label><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><p class="muted" style="font-size:12px">Review moments are suggestions, not verdicts. Tap a position, calculate Black's reply, then reveal the engine idea. Checks that preserve a forced mate are celebrated, not penalised.</p><div id="engineResults"></div></details></div>
 </section>
@@ -174,7 +180,7 @@ function renderRecords(){
   if(typeof labRefreshSources==='function')labRefreshSources();
 }
 // A saved game can be replayed without replacing the live game.
-let replayFens=[],replayBest='',replayBestAt=-1,replaySuggestion=false,replayLesson=null;
+let replayFens=[],replayBest='',replayBestAt=-1,replaySuggestion=false,replayLesson=null,replayCoachShown=false;
 function savedSelection(){return records.find(x=>String(x.id??('legacy-'+records.indexOf(x)))===$('saved').value);}
 function replaySource(){let chosen=savedSelection();return chosen?chosen.fens:game.h.map(fen);}
 function moveBetween(before,after){
@@ -188,7 +194,7 @@ function startReplay(fens,at=0,best='',bestAt=-1,lesson=null){
  // Validate records before rendering, without mutating localStorage.
  try{fens.forEach(f=>parse(f));}catch(e){$('engineStatus').textContent='This saved game cannot be replayed.';return;}
  replayFens=fens.slice();game.review=Math.min(replayFens.length-1,Math.max(0,at));
- replayBest=best||'';replayBestAt=bestAt;replaySuggestion=false;replayLesson=lesson;
+ replayBest=best||'';replayBestAt=bestAt;replaySuggestion=false;replayLesson=lesson;replayCoachShown=false;
  const jump=$('jumpMove');jump.replaceChildren();
  for(let n=1;n<=Math.ceil((replayFens.length-1)/2);n++){
   const opt=document.createElement('option');opt.value=String(Math.min(replayFens.length-1,2*(n-1)));opt.textContent='White move '+n;jump.appendChild(opt);
@@ -209,27 +215,73 @@ function decorateReplaySquares(ply,bestShown=false){
   if(el)el.classList.add((bestShown?'best-':'played-')+(j===0?'from':'to'));
  }
 }
-function replaySummary(){
- let p=game.review;
- let before=p%2===1?p-1:p;
- if(before<0||before>=replayFens.length-1)return 'End of saved game. Use Previous to revisit a move.';
- let s=parse(replayFens[before]),m=moveBetween(replayFens[before],replayFens[before+1]);
- let name=m?san(s,m):'an unknown move';
- let who=before%2===0?'Bella (White)':'Black',num=Math.floor(before/2)+1;
- let matching=replayLesson&&replayLesson.i===before+1;
- if(matching){
-  let headline=`Move ${num} · Bella played ${name}. `;
-  let prompt=replayLesson.lessonPrompt;
-  if(replaySuggestion){
-   let chosen=moves(s).find(x=>code(x)===replayBest);
-   let idea=chosen?san(s,chosen):'not available';
-   return headline+`Engine alternative: ${idea}. `+(replayLesson.replyLine?`Example continuation: ${replayLesson.replyLine}. `:'')+`Compare the two plans. A different move is not necessarily a mistake.`;
-  }
-  return headline+prompt+' Think first, then tap “Stockfish idea” if you want to compare.';
- }
- return `Move ${num} · ${who} · ${p===before?'BEFORE':'AFTER'} the move. ${who} played ${name}. `+
-  (name.includes('#')?'This move is checkmate.':name.includes('+')?'This is a check. What are the legal replies?':'What did this move threaten or protect?');
+function replayMoment(){
+ const p=game.review;
+ if(p<0||!replayFens.length)return null;
+ // In a guided review, keep the focus on the white move selected by the teacher.
+ const before=replayLesson&&replayLesson.i>=1?replayLesson.i-1:(p%2===1?p-1:p);
+ if(before<0||before>=replayFens.length-1)return null;
+ const s=parse(replayFens[before]),m=moveBetween(replayFens[before],replayFens[before+1]);
+ if(!m||s.t!==1)return null;
+ const actual=code(m),agree=!!(replayBest&&replayBestAt===before+1&&actual===replayBest);
+ const black=before+2<replayFens.length?moveBetween(replayFens[before+1],replayFens[before+2]):null;
+ const reply=black?san(parse(replayFens[before+1]),black):'';
+ const next=before+3<replayFens.length?moveBetween(replayFens[before+2],replayFens[before+3]):null;
+ const nextWhite=next?san(parse(replayFens[before+2]),next):'';
+ return{before,move:m,s,actual,played:san(s,m),agree,reply,nextWhite};
 }
+function replaySummary(){
+ const p=game.review,info=replayMoment();
+ if(!info)return 'End of saved game. Use Previous to revisit a move.';
+ const n=Math.floor(info.before/2)+1,after=p>info.before;
+ if(replayLesson&&replayLesson.i===info.before+1){
+  if(info.agree){
+   return `Move ${n} · Bella played ${info.played}. ✓ Stockfish suggests the SAME move. No alternative to compare. Before looking ahead, where can Black go and how could Bella continue?`;
+  }
+  if(replaySuggestion){
+   const alt=moves(info.s).find(x=>code(x)===replayBest);
+   const name=alt?san(info.s,alt):'not verified';
+   return `Move ${n} · Bella played ${info.played}. Another engine idea: ${name}. Different does not mean wrong; first consider Black's best reply to both plans.`;
+  }
+  return `Move ${n} · Bella played ${info.played}. ${replayLesson.group==='good'?'The deeper analysis found that this check keeps a mating attack.':'This move is worth exploring, not an automatic mistake.'} Why did Bella choose it? What can Black do next?`;
+ }
+ if(p%2===0&&p>0){
+  const prior=parse(replayFens[p-1]),priorMove=moveBetween(replayFens[p-1],replayFens[p]);
+  if(priorMove&&prior.t===-1)return `Black just played ${san(prior,priorMove)}. It is White's turn. What are the possible plans?`;
+ }
+ return `Move ${n} · ${after?'AFTER':'BEFORE'} Bella's ${info.played}. ${info.played.includes('#')?'This is checkmate.':info.played.includes('+')?'This gives check. Calculate Black\u2019s legal replies.':'What does this move threaten or protect?'}`;
+}
+function reviewNextSteps(){
+ const moment=replayMoment();
+ if(!moment)return '';
+ const {reply,nextWhite,played}=moment;
+ let output='';
+ if(reply)output+=`In the saved game, Black actually played ${reply}. This was the recorded reply, not necessarily Black's strongest move.`;
+ else output+='The saved game does not include Black’s response to this move.';
+ if(nextWhite)output+=` Bella then played ${nextWhite}. ${nextWhite.endsWith('#')?'That is checkmate — the black king has no legal escape.':'What did that move achieve?'}`;
+ if(played.includes('+')){
+  const after=parse(replayFens[moment.before+1]);
+  const responses=moves(after);
+  if(check(after)&&responses.length){
+   if(responses.length===1&&reply)output+=` Black had only one legal reply to this check: ${reply}.` ;else output+=` Black had ${responses.length} legal responses to this check; the recorded reply is only one line. To prove a forced mate, check every defence.`;
+  }
+ }
+ if(replayLesson?.replyLine)output+=` Stockfish's sample continuation after Bella's move: ${replayLesson.replyLine}. This is an illustrative line, not proof that it is the only line.`;
+ return output;
+}
+function updateReviewCoach(){
+ const showCoach=game.review>=0&&!!replayMoment();
+ show('reviewCoachButton',showCoach);
+ if(!showCoach){show('reviewAnswer',false);return;}
+ const info=replayMoment();
+ $('reviewCoachButton').textContent=replayCoachShown?'Hide saved continuation':'Show what Black played';
+ show('reviewAnswer',replayCoachShown);
+ if(replayCoachShown)$('reviewAnswer').textContent=reviewNextSteps();
+ const alt=!!(replayBest&&replayBestAt===info.before+1&&!info.agree);
+ show('showBest',alt&&game.review===info.before);
+ if(alt)$('showBest').textContent=replaySuggestion?'Hide alternative':'See another idea';
+}
+
 function risk(s){let arr=[];for(let i=0;i<128;i++)if(ok(i)&&color(s.b[i])===1&&s.b[i]!=='K'&&attack(s,i,-1)&&!attack(s,i,1))arr.push({square:sq(i),piece:s.b[i],value:VALUES[s.b[i].toLowerCase()]});return arr.sort((a,b)=>b.value-a.value)[0]||null;}
 // Conservative prompt: only if Black has a LEGAL immediate capture of the
 // moved white major/minor piece, White has no immediate legal recapture,
@@ -271,13 +323,13 @@ function render(){
  $('tip').textContent=tipMessage;
  show('tip',!!tipMessage&&!game.pending);
  show('reviewCaption',review);
- if(review)$('reviewCaption').textContent=replaySummary();
+ if(review)$('reviewCaption').textContent=replaySummary();updateReviewCoach();
  show('decision',!!game.pending&&!review);show('reviewNav',review);
  $('prev').disabled=!review||game.review===0;
  $('next').disabled=!review||game.review>=replayFens.length-1;
  if(review){const j=$('jumpMove');j.value=String(Math.min(replayFens.length-1,2*Math.floor(game.review/2)));}
  $('showBella').disabled=!review||game.review%2===1||game.review>=replayFens.length-1;
- $('showBest').disabled=!review||replayBestAt!==game.review+1||!replayBest;
+ $('showBest').disabled=!review||replayBestAt!==game.review+1||!replayBest||!!replayMoment()?.agree;
  $('undo').disabled=game.h.length===1||game.thinking||review;
  $('moves').textContent=game.uci.map((x,i)=>(i%2===0?Math.floor(i/2)+1+'. ':'')+x).join(' · ');
 }
@@ -297,7 +349,7 @@ function commit(m){let s=game.h.at(-1);game.uci.push(code(m));game.h.push(apply(
 function fox(){if(!game.thinking)return;let s=game.h.at(-1),opts=moves(s);if(!opts.length){game.thinking=false;render();return;}let ranks=opts.map(m=>{let next=apply(s,m),capt=s.b[m[1]],p=s.b[m[0]];return{m,v:(capt==='.'?0:VALUES[capt.toLowerCase()]*2)-(attack(next,m[1],1)?VALUES[p.toLowerCase()]:0)+Math.random()*4};}).sort((a,b)=>b.v-a.v);game.thinking=false;commit(ranks[Math.floor(Math.random()*Math.min(4,ranks.length))].m);}
 function reset(){clearTimeout(timer);replayFens=[];replaySuggestion=false;game={h:[START],uci:[],chosen:-1,pending:null,thinking:false,review:-1,tip:''};render();}
 $('rethink').onclick=()=>{game.pending=null;game.tip='';render();};$('hint').onclick=()=>{const r=game.pending?.r;$('clue').textContent=r?'💡 Black may be able to capture your '+({N:'knight',B:'bishop',R:'rook',Q:'queen'}[r.piece]||'piece')+' on '+r.square+'. Can you find Black’s legal move?':'💡 Check what Black could do next. Some moves have several good answers.';show('clue');};$('confirm').onclick=()=>{if(game.pending)commit(game.pending.m);};$('danger').onclick=()=>{let r=risk(game.h.at(-1));game.tip=r?'💡 Look at your '+r.piece+' on '+r.square+'. Is Black really able to capture it?':'💡 No obvious loose piece found by the basic scan. Always consider checks and captures.';render();};$('undo').onclick=()=>{clearTimeout(timer);game.thinking=false;game.pending=null;game.review=-1;let n=$('opponent').value==='fox'&&game.h.length>2?2:1;game.h.splice(-n);game.uci.splice(-n);game.chosen=-1;render();};$('newGame').onclick=()=>{if(game.h.length>1)saveGame();reset();};$('opponent').onchange=()=>{if(game.h.length>1)saveGame();reset();};$('coach').onchange=()=>{if($('coach').value==='quiet'&&game.pending){let m=game.pending.m;commit(m);}};
-$('focus').onclick=()=>{let f=document.body.classList.toggle('focus');$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';window.scrollTo(0,0);};$('save').onclick=saveGame;$('finish').onclick=()=>{if(!$('saved').value)saveGame();startReplay(replaySource(),0);};$('prev').onclick=()=>{game.review=Math.max(0,game.review-1);replaySuggestion=false;render();};$('next').onclick=()=>{game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;render();};$('exitReview').onclick=()=>{game.review=-1;replayFens=[];replaySuggestion=false;replayLesson=null;render();};$('showBella').onclick=()=>{if(game.review>=0){game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;render();}};$('jumpMove').onchange=e=>{game.review=+e.target.value;replaySuggestion=false;replayBest='';replayBestAt=-1;replayLesson=null;render();};$('replaySaved').onclick=()=>startReplay(replaySource(),0);$('labFromReplay').onclick=()=>{if(game.review<0||!replayFens.length)return;let ply=game.review%2===0?game.review:game.review-1;if(ply>=replayFens.length-1)ply=Math.max(0,ply-2);tab('lab');labLoadMoment(replayFens,ply,'This replay',true);};$('showBest').onclick=()=>{replaySuggestion=!replaySuggestion;render();};
+$('focus').onclick=()=>{let f=document.body.classList.toggle('focus');$('focus').textContent=f?'✕ Exit Focus':'⛶ Focus';window.scrollTo(0,0);};$('save').onclick=saveGame;$('finish').onclick=()=>{if(!$('saved').value)saveGame();startReplay(replaySource(),0);};$('prev').onclick=()=>{game.review=Math.max(0,game.review-1);replaySuggestion=false;replayCoachShown=false;render();};$('next').onclick=()=>{game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;replayCoachShown=false;render();};$('exitReview').onclick=()=>{game.review=-1;replayFens=[];replaySuggestion=false;replayCoachShown=false;replayLesson=null;render();};$('showBella').onclick=()=>{if(game.review>=0){game.review=Math.min(replayFens.length-1,game.review+1);replaySuggestion=false;replayCoachShown=false;render();}};$('jumpMove').onchange=e=>{game.review=+e.target.value;replaySuggestion=false;replayCoachShown=false;replayBest='';replayBestAt=-1;replayLesson=null;render();};$('replaySaved').onclick=()=>startReplay(replaySource(),0);$('labFromReplay').onclick=()=>{if(game.review<0||!replayFens.length)return;let ply=game.review%2===0?game.review:game.review-1;if(ply>=replayFens.length-1)ply=Math.max(0,ply-2);tab('lab');labLoadMoment(replayFens,ply,'This replay',true);};$('showBest').onclick=()=>{replaySuggestion=!replaySuggestion;replayCoachShown=false;render();};$('reviewCoachButton').onclick=()=>{replayCoachShown=!replayCoachShown;render();};
 $('pgn').onclick=()=>{let seq=savedSelection()?savedSelection().fens.map(parse):game.h,txt='[Event "Bella Chess Adventure"]\n[White "Bella"]\n[Black "Coach Fox or Family"]\n\n',out=[];for(let i=0;i<seq.length-1;i++){let s=seq[i],m=savedSelection()?moveBetween(fen(seq[i]),fen(seq[i+1])):moves(s).find(x=>code(x)===game.uci[i]);if(m)out.push((i%2===0?Math.floor(i/2)+1+'. ':'')+san(s,m));}txt+=out.join(' ')+' *';let a=document.createElement('a'),url=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.href=url;a.download='Bella_chess.pgn';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 // v8: Stockfish is a post-game analyst, NOT Bella's playing opponent.
 // In UCI, 'score cp' and 'score mate' are different kinds of evaluation.
@@ -425,14 +477,14 @@ $('analyse').onclick=async()=>{
    scores.push(await evalFen(fens[i],firstTime));
   }
   // Candidate mistakes are provisional until rechecked. White moves have odd ply indices.
-  let possible=[],good=[];
+  let possible=[],goodCandidates=[],good=[];
   for(let i=1;i<fens.length;i+=2){
    let before=parse(fens[i-1]),m=moveBetween(fens[i-1],fens[i]);if(!m)continue;
    let actual=san(before,m),diff=reviewCandidate(scores[i-1],scores[i],fens[i-1],fens[i]);
    let rootBest=moves(before).find(x=>code(x)===scores[i-1].best);
    let best=rootBest?code(rootBest):'';
    if(diff.kind==='mate-kept'&&actual.includes('+')){
-    good.push({i,actual,best,lessonPrompt:'Both the move before and after this check show a forced mate for White. Can you find the continuation?',replyLine:pvToSanLine(fens[i],scores[i].pv)});
+    goodCandidates.push({i,actual,best});
    }
    if(['cp-drop','mate-possibly-missed','mate-reversed'].includes(diff.kind))
     possible.push({i,actual,best,firstLoss:diff.loss});
@@ -447,7 +499,7 @@ $('analyse').onclick=async()=>{
    let a=await evalFen(fens[e.i-1],secondTime),b=await evalFen(fens[e.i],secondTime);
    let after=reviewCandidate(a,b,fens[e.i-1],fens[e.i]);
    if(after.kind==='mate-kept'||after.kind==='still-winning'||after.kind==='winning-mate'){
-    if(e.actual.includes('+')&&after.kind==='mate-kept')good.push({i:e.i,actual:e.actual,best:e.best,lessonPrompt:'This checking move keeps a forced mate for White. Look for Black’s best reply.',replyLine:pvToSanLine(fens[e.i],b.pv)});
+    if(e.actual.includes('+')&&after.kind==='mate-kept')good.push({i:e.i,actual:e.actual,best:a.best,group:'good',lessonPrompt:'The deeper analysis still finds a mating attack. Can you explain your next move?',replyLine:pvToSanLine(fens[e.i],b.pv)});
     continue;
    }
    if(after.kind!=='cp-drop'&&after.kind!=='mate-reversed')continue;
@@ -458,6 +510,21 @@ $('analyse').onclick=async()=>{
    if(!best)continue;
    verified.push({...e,best:code(best),loss:after.loss,kind:after.kind,replyLine:pvToSanLine(fens[e.i],b.pv),lessonPrompt:teachingPrompt(e.actual)});
   }
+  // Positive claims are double-checked too. One shallow mating score is not a proof.
+  for(const e of goodCandidates.slice(0,3)){
+   if(stop)throw Error('Stopped');
+   if(good.some(x=>x.i===e.i))continue;
+   $('engineStatus').textContent=`Checking Bella's attacking move ${Math.ceil(e.i/2)}...`;
+   const a=await evalFen(fens[e.i-1],secondTime);
+   const b=await evalFen(fens[e.i],secondTime);
+   const verifiedMate=reviewCandidate(a,b,fens[e.i-1],fens[e.i]);
+   if(verifiedMate.kind!=='mate-kept')continue;
+   const before=parse(fens[e.i-1]);
+   const chosen=moves(before).find(x=>code(x)===a.best);
+   good.push({i:e.i,actual:e.actual,best:chosen?code(chosen):'',
+    group:'good',lessonPrompt:'This check keeps a mating attack in a second analysis. Can you calculate Black’s replies?',
+    replyLine:pvToSanLine(fens[e.i],b.pv)});
+  }
   verified.sort((a,b)=>b.loss-a.loss);
   good=good.filter((v,i,a)=>a.findIndex(x=>x.i===v.i)===i);
   const output=[...verified.slice(0,3).map(x=>({...x,group:'recheck'})),...good.slice(0,2).map(x=>({...x,group:'good'}))];
@@ -465,8 +532,8 @@ $('analyse').onclick=async()=>{
   if(!output.length)$('engineResults').textContent='Review complete. No clear mistakes were verified in this short analysis. That does not mean every move was perfect.';
   output.forEach((e,j)=>{
    let item=document.createElement('div');item.className='review '+(e.group==='good'?'review-good':'review-warn');
-   let title=document.createElement('strong');title.textContent=e.group==='good'?`✓ Bella’s forcing idea · move ${Math.ceil(e.i/2)} · ${e.actual}`:`🔎 Worth another look · move ${Math.ceil(e.i/2)} · ${e.actual}`;
-   let desc=document.createElement('p');desc.textContent=e.group==='good'?'The analysis indicates Bella preserved a forced mate. Let her explain the plan.':'A deeper second check found a meaningful difference. Let Bella try her own idea before revealing the alternative.';
+   let title=document.createElement('strong');title.textContent=e.group==='good'?(moveBetween(fens[e.i-1],fens[e.i])&&code(moveBetween(fens[e.i-1],fens[e.i]))===e.best?`✓ Bella and Stockfish agree · move ${Math.ceil(e.i/2)} · ${e.actual}`:`✓ Bella kept her attacking plan · move ${Math.ceil(e.i/2)} · ${e.actual}`):`🔎 Worth another look · move ${Math.ceil(e.i/2)} · ${e.actual}`;
+   let desc=document.createElement('p');desc.textContent=e.group==='good'?'Rechecked with more analysis. Ask Bella to predict Black’s reply, then explore what actually happened.':'The second analysis found a meaningful difference. Let Bella calculate an alternative before deciding whether her idea worked.';
    let button=document.createElement('button');button.className='secondary jump-review';button.textContent='♟ Explore this position';
    button.onclick=()=>startReplay(fens,e.i-1,e.best||'',e.i,e);
    item.append(title,desc,button);$('engineResults').appendChild(item);
@@ -484,7 +551,7 @@ $('stop').onclick=()=>{
  try{worker?.terminate();}catch(e){}worker=null;
  $('engineStatus').textContent='Analysis stopped. Saved games have not changed.';
 };
-$('saved').addEventListener('change',()=>{game.review=-1;replayFens=[];replaySuggestion=false;replayLesson=null;render();});
+$('saved').addEventListener('change',()=>{game.review=-1;replayFens=[];replaySuggestion=false;replayCoachShown=false;replayLesson=null;render();});
 // A short set of learning topics; puzzles are defined below.
 const TOPICS=['Is My Piece Under Attack?','Which Piece Is Safe?','Spot the Hanging Piece','Move to Safety','Protect Your Pieces','Capture the Attacker','Win a Free Piece','Fair or Unfair Trade?','Is That Capture a Trap?','Checks, Captures & Threats','Three-Question Challenge','Chess Detective Graduation'];
 const P=[
