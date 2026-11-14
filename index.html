@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v9.5 · Captain Mode</title>
+<title>Bella's Chess Adventure — v9.6 · Smart I'm Stuck</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 
@@ -71,13 +71,14 @@
 .piece-key-item .chess-piece-svg{display:block;width:min(46px,100%);height:46px;object-fit:contain;}
 @media(max-width:420px){.piece-key-grid{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:9px;}}
 
-/* v9.5 · Captain Mode: gradual, voluntary scaffolding for real games */
+/* v9.6 · Captain Mode and position-aware coaching */
 .captain-status{font-size:11px;background:#e8f3e6;color:#245c46;padding:5px 8px;border-radius:20px;font-weight:800}
 .captain-banner{border:1px solid #dce9c9;background:#f4fae9;padding:8px 10px;margin-bottom:7px;border-radius:10px;font-size:12px;line-height:1.45}
 .stuck-panel{background:#f7f9ff;border:1px solid #c9d8e9;padding:10px;margin:0 0 8px;border-radius:11px;font-size:13px;line-height:1.4}
 .stuck-panel p{margin:7px 0 9px}
 .stuck-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
 .stuck-head button{padding:4px 9px;font-size:12px}
+.stuck-focus{display:inline-block;background:#e7f4ed;border:1px solid #cce3d9;color:#245e50;border-radius:16px;font-weight:800;font-size:11px;padding:4px 9px;margin-top:7px}
 .stuck-options{display:flex;gap:7px;flex-wrap:wrap}
 .stuck-options button{background:#fff;color:#245d50;border:1px solid #b8d4c7;line-height:1.3;text-align:left;font-size:12px;flex:1 1 140px;white-space:normal}
 .stuck-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
@@ -91,12 +92,12 @@
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.5 · Captain Mode</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.6 · Smart Stuck</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
 <div class="card play"><div class="rowtop"><span id="turn">White to move</span><span id="captainStatus" class="captain-status hide"></span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="captainBanner" class="captain-banner hide">⭐ Bella is the captain. A move with a reason is enough — it does not have to be perfect. Ask for help whenever you want.</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="stuckPanel" class="stuck-panel hide" role="region" aria-label="Help me make a plan">
   <div class="stuck-head"><strong>🧭 Help Me Make a Plan</strong><button type="button" class="secondary" id="stuckClose" aria-label="Close help">✕</button></div>
-  <p id="stuckText"></p>
+  <div id="stuckFocus" class="stuck-focus" aria-live="polite"></div><p id="stuckText"></p>
   <div id="stuckOptions" class="stuck-options"></div>
   <div class="stuck-actions"><button id="stuckNext" class="secondary" type="button">Another clue →</button><button id="stuckParent" class="secondary" type="button">Ask Mummy</button></div>
   <p id="stuckParentText" class="muted hide"></p>
@@ -390,64 +391,166 @@ function captainShow(){
  show('stuckPanel',stuck.active&&!review);
  if(stuck.active)captainRenderStuck();
 }
-function captainReason(s,m){
- const p=s.b[m[0]].toUpperCase();
- if(m[3]==='castle')return'Keep the king safer';
+// v9.6: The voluntary coach chooses a plan by board position, not by a fixed move count.
+// These are educational heuristics, NOT an engine verdict or a claim of a forced win.
+function stuckContext(s){
+ const pieces=[];
+ for(let i=0;i<128;i++)if(ok(i)&&s.b[i]!=='.')pieces.push({p:s.b[i],i});
+ const count=(side,types)=>pieces.filter(x=>color(x.p)===side&&types.includes(x.p.toUpperCase())).length;
+ const blackPawns=pieces.filter(x=>x.p==='p').map(x=>({square:sq(x.i),rank:8-(x.i>>4),i:x.i}));
+ const urgentPawns=blackPawns.filter(x=>x.rank<=3);
+ const blackQueen=count(-1,'Q')>0,whiteQueen=count(1,'Q')>0;
+ const blackMajor=count(-1,'QR'),blackMinor=count(-1,'BN');
+ const whiteRooks=count(1,'R'),whiteMinors=count(1,'BN');
+ const whiteHomeMinors=pieces.filter(x=>color(x.p)===1&&'BN'.includes(x.p)&&((x.i>>4)===7)).length;
+ const whiteSide=count(1,'QRBN'),blackSide=count(-1,'QRBN');
+ let type='middle';
+ if(check(s))type='check';
+ else if(urgentPawns.length&&(!blackQueen||urgentPawns.some(x=>x.rank<=2)))type='pawn';
+ else if(blackQueen&&!whiteQueen)type='queen';
+ else if(blackQueen&&game.uci.length>=24&&blackSide<=3)type='queen';
+ else if(!blackMajor&&!blackMinor&&blackPawns.length===0)type='mate';
+ else if(!blackMajor&&!blackMinor&&blackPawns.length>0)type='pawn';
+ else if(whiteSide+blackSide<=5&&game.uci.length>=16)type='endgame';
+ else if(game.uci.length<16&&whiteHomeMinors>=2)type='opening';
+ return{type,blackQueen,whiteQueen,blackPawns,urgentPawns,whiteRooks,whiteMinors,whiteSide,blackSide};
+}
+function stuckTeaching(ctx,s){
+ const pawn=ctx.urgentPawns.length?ctx.urgentPawns.slice().sort((a,b)=>a.rank-b.rank)[0]:null;
+ const pawnText=pawn?' Black has a pawn on '+pawn.square+' close to promotion.':'';
+ const shared='These are questions to explore, not a promise of a best move.';
+ if(ctx.type==='check')return{
+  label:'⚠️ Get out of check',
+  first:'Your king is in check! Find a legal way to escape. Can you move the king, capture the checking piece, or block it?',
+  second:'Only moves that end the check are allowed. Which one leaves your king safest?',
+  parent:'Help Bella find two legal ways out of check if there are two. If only one exists, let her play it herself.'
+ };
+ if(ctx.type==='queen')return{
+  label:'👑 Black still has a queen',
+  first:'Black has a queen and you do not. Before thinking about checkmate, where could Black give check? Is your king protected?'+pawnText,
+  second:'Choose one small goal: keep your king safe, stop a dangerous pawn, improve a rook, or look for a safe chance to trade or win Black’s queen. You do not have to checkmate now.',
+  parent:'Ask Bella which black pawn is closest to becoming a queen. Find a safe plan together; do not tell her she must chase the black queen.'
+ };
+ if(ctx.type==='pawn')return{
+  label:'♟ Stop dangerous pawns',
+  first:'Look at the black pawns.'+pawnText+' Which pawn could become a queen soon?',
+  second:'Can you safely block, capture or stop an advancing pawn? Keep your own king safe while you do it.',
+  parent:'Point out the pawn closest to promotion, then let Bella choose how to stop it. Not every pawn can be captured immediately.'
+ };
+ if(ctx.type==='mate')return{
+  label:'🏁 Work towards checkmate',
+  first:'Black has only a king left. Which of your pieces could safely take away its escape squares?',
+  second:ctx.whiteRooks>=2?'Your two rooks can work as a team. Try to push the king towards an edge, one row at a time. Watch out for stalemate.':'Use your king and a strong piece together to limit the enemy king. Avoid stalemate.',
+  parent:'Ask which squares the black king could still escape to. Let Bella move one piece to cover an escape square.'
+ };
+ if(ctx.type==='endgame')return{
+  label:'♜ Make a small endgame plan',
+  first:'There are fewer big pieces now. Is your king safe, and is any pawn close to becoming a queen?',
+  second:'Try one useful job: activate a rook, improve your king safely, or help a pawn advance. Think about Black’s reply.',
+  parent:'Let Bella pick a pawn or rook and describe one simple goal, without asking her to find a forced checkmate.'
+ };
+ if(ctx.type==='opening')return{
+  label:'🌱 Bring pieces into the game',
+  first:'Are any pieces in danger? Which knight or bishop is still waiting on its starting square?',
+  second:'Can you develop one piece safely, help control the centre, or make your king safer by castling?',
+  parent:'Offer two sensible legal developing moves. Bella chooses and taps one.'
+ };
+ return{
+  label:'🧭 Find a useful job',
+  first:'What did Black’s last move change? Is your king safe? Can Black capture one of your pieces?',
+  second:'No clear threat? Choose one piece to make more useful, or create a threat without giving anything away.',
+  parent:'Help Bella find two legal ideas that serve different purposes. Let her explain which one she wants to try.'
+ };
+}
+function captainReason(s,m,ctx){
+ const p=s.b[m[0]].toUpperCase(),taken=s.b[m[1]],next=apply(s,m);
+ if(m[3]==='castle')return'Protect your king';
+ if(taken.toLowerCase()==='q')return'Capture the queen (check Black’s reply)';
+ if(m[2])return'Promote a pawn';
+ if(check(next,-1))return'A check — calculate the king’s replies';
+ if(ctx.type==='check')return'Escape check';
+ if(ctx.type==='queen'){
+  if(p==='R')return'Give your rook a useful job';
+  if(p==='K')return'Consider king safety';
+  if(p==='P')return'Consider stopping a pawn';
+  return'Improve a piece while watching Black’s queen';
+ }
+ if(ctx.type==='pawn')return p==='P'?'Help your pawns':'Work to control dangerous pawns';
+ if(ctx.type==='mate')return p==='R'?'Reduce the king’s escape squares':'Help your pieces work together';
+ if(ctx.type==='endgame')return p==='R'?'Activate your rook':p==='K'?'Improve your king carefully':'Improve your position';
  if(p==='N'||p==='B')return(m[0]>>4)===7?'Bring a piece into the game':'Improve this piece';
  if(p==='P')return['d','e'].includes(sq(m[0])[0])?'Help control the centre':'Give a pawn a useful job';
  if(p==='R')return'Find an active line';
  if(p==='Q')return'Use your queen carefully';
- return'A legal move to consider';
+ return'A legal idea to consider';
 }
 function captainCandidateMoves(s){
- const all=moves(s);
+ const all=moves(s),ctx=stuckContext(s);
  let ranking=all.map(m=>{
   const before=s.b[m[0]],p=before.toUpperCase(),next=apply(s,m),priorWhite=game.uci.length>=2?game.uci[game.uci.length-2]:null;
   const keepSamePiece=priorWhite&&priorWhite.slice(2,4)===sq(m[0]);
+  const captured=s.b[m[1]];
   const replies=moves(next).filter(r=>r[1]===m[1]&&next.b[m[1]]!=='.');
   const hanging=replies.some(r=>{
-   const replyState=apply(next,r);
-   const recapture=moves(replyState).some(x=>x[1]===m[1]&&replyState.b[m[1]]!=='.');
-   return !recapture && (VALUES[before.toLowerCase()]||0)>=(VALUES[s.b[m[1]].toLowerCase()]||0);
+   const replyState=apply(next,r),recapture=moves(replyState).some(x=>x[1]===m[1]&&replyState.b[m[1]]!=='.');
+   return !recapture&&(VALUES[before.toLowerCase()]||0)>=(VALUES[captured.toLowerCase()]||0);
   });
   let score=0;
   if(m[3]==='castle')score+=8;
-  if(['N','B'].includes(p)&&(m[0]>>4)===7)score+=6;
-  if(p==='P'&&['d','e'].includes(sq(m[0])[0])&&(m[0]>>4)===6)score+=4;
-  if(p==='N'&&[2,3,4,5].includes(m[1]&7))score+=2;
-  if(check(next,-1))score+=1;
-  if(keepSamePiece)score-=3;
+  if(['N','B'].includes(p)&&(m[0]>>4)===7)score+=ctx.type==='opening'?8:1;
+  if(p==='P'&&['d','e'].includes(sq(m[0])[0])&&(m[0]>>4)===6)score+=ctx.type==='opening'?5:0;
+  if(p==='N'&&[2,3,4,5].includes(m[1]&7))score+=1;
+  if(check(next,-1))score+=ctx.type==='mate'?4:2;
+  if(keepSamePiece)score-=2;
   if(p==='Q'&&game.uci.length<12)score-=3;
-  if(p==='K'&&m[3]!=='castle')score-=4;
-  if(clearImmediateRisk(s,m)||hanging)score-=25;
-  return{m,score,hanging};
+  if(p==='K'&&m[3]!=='castle')score+=ctx.type==='endgame'?2:-3;
+  if(captured!=='.')score+=2;
+  if(ctx.type==='queen'){
+   if(captured.toLowerCase()==='q')score+=12;
+   if(p==='R'||p==='B'||p==='N')score+=2;
+   if(p==='K')score-=4;
+  }
+  if(ctx.type==='pawn'){
+   if(captured==='p')score+=6;
+   if(p==='R'||p==='K')score+=2;
+  }
+  if(ctx.type==='mate'){
+   if(p==='R')score+=6;
+   if(p==='Q')score+=4;
+  }
+  if(ctx.type==='check')score+=3;
+  if(clearImmediateRisk(s,m)||hanging)score-=30;
+  return{m,score};
  }).sort((a,b)=>b.score-a.score||code(a.m).localeCompare(code(b.m)));
- if(ranking.some(x=>x.score>-18))ranking=ranking.filter(x=>x.score>-18);
+ // Do not promote a move to a 'safe' or 'best' answer merely because it is legal.
+ if(ranking.some(x=>x.score>-17))ranking=ranking.filter(x=>x.score>-17);
  const chosen=[];
  for(const x of ranking){if(!chosen.some(y=>y.m[0]===x.m[0]))chosen.push(x);if(chosen.length===2)break;}
  for(const x of ranking){if(chosen.length===2)break;if(!chosen.some(y=>code(y.m)===code(x.m)))chosen.push(x);}
  return chosen;
 }
 function captainRenderStuck(){
- const s=game.h.at(-1);
- const answers=$('stuckOptions');answers.replaceChildren();show('stuckParentText',stuck.parent);
- if(stuck.parent)$('stuckParentText').textContent='Mummy: you may point out two legal possibilities. Bella is the captain — she chooses and taps the board.';
+ const s=game.h.at(-1),ctx=stuckContext(s),guide=stuckTeaching(ctx,s);
+ const answers=$('stuckOptions');answers.replaceChildren();
+ const focus=$('stuckFocus');focus.textContent=guide.label;
+ show('stuckParentText',stuck.parent);
+ if(stuck.parent)$('stuckParentText').textContent='For grown-ups: '+guide.parent;
  $('stuckNext').textContent=stuck.stage>=3?'Start again':'Another clue →';
  let instructions='';
- if(stuck.stage===0)instructions=check(s)?'First job: your king is in check. Look for a legal move to get out of check.':'Look at the board. Is your king safe? Is one of your pieces being attacked?';
- else if(stuck.stage===1)instructions='Now find a useful job. Can a knight or bishop join the game? Can you make a piece safer or more active?';
+ if(stuck.stage===0)instructions=guide.first;
+ else if(stuck.stage===1)instructions=guide.second;
  else if(stuck.stage===2){
-  instructions='Two legal ideas to explore (not guaranteed to be the best). You can choose either, or another move.';
+  instructions='Two legal moves to explore — not necessarily the best. Choose one to investigate, or find your own.';
   const candidates=captainCandidateMoves(s);
   for(const {m} of candidates){
    const b=document.createElement('button');b.type='button';
-   b.textContent=san(s,m)+' · '+captainReason(s,m);
+   b.textContent=san(s,m)+' · '+captainReason(s,m,ctx);
    b.addEventListener('click',()=>{
     stuck.stage=3;stuck.target=m[1];game.chosen=m[0];render();
    });answers.appendChild(b);
   }
-  if(!candidates.length)instructions='No legal move is available. The game may be over.';
- }else instructions='Good. Now you decide! Tap a highlighted destination, or select any other legal move. There is no need to find a perfect move.';
+  if(!candidates.length)instructions='No legal moves remain. Check whether the game has ended.';
+ }else instructions='Bella is the captain. Tap the highlighted square, or choose any other legal move. See what happens next!';
  $('stuckText').textContent=instructions;
 }
 $('stuckOpen').onclick=()=>{
