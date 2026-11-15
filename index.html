@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v9.6 · Smart I'm Stuck</title>
+<title>Bella's Chess Adventure — v9.7 · Show Black's Last Move</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 
@@ -89,13 +89,20 @@
 .captain-milestone p{margin:4px 0}
 .captain-milestone button{font-size:12px}
 @media(max-width:650px){.captain-banner{font-size:11px}.rowtop{flex-wrap:wrap}.stuck-panel{padding:9px}.stuck-options button{font-size:11px}}
+
+/* v9.7: calm, always-visible black last move when Bella is to play. */
+.last-black-move{background:#faf4de;border:1px solid #e9d7a3;border-radius:9px;padding:7px 10px;margin:0 0 7px;font-size:12px;line-height:1.4;color:#4b422d;}
+.last-black-move strong{font-weight:800}
+.square.black-last-from{box-shadow:inset 0 0 0 3px #e0b347}
+.square.black-last-to{box-shadow:inset 0 0 0 3px #a96b22}
+@media(max-width:420px){.last-black-move{font-size:11px;padding:6px 8px}}
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.6 · Smart Stuck</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.7 · Last Move</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
-<div class="card play"><div class="rowtop"><span id="turn">White to move</span><span id="captainStatus" class="captain-status hide"></span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="captainBanner" class="captain-banner hide">⭐ Bella is the captain. A move with a reason is enough — it does not have to be perfect. Ask for help whenever you want.</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="stuckPanel" class="stuck-panel hide" role="region" aria-label="Help me make a plan">
+<div class="card play"><div class="rowtop"><span id="turn">White to move</span><span id="captainStatus" class="captain-status hide"></span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="lastBlackMove" class="last-black-move hide" aria-live="polite" aria-atomic="true"></div><div id="captainBanner" class="captain-banner hide">⭐ Bella is the captain. A move with a reason is enough — it does not have to be perfect. Ask for help whenever you want.</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="stuckPanel" class="stuck-panel hide" role="region" aria-label="Help me make a plan">
   <div class="stuck-head"><strong>🧭 Help Me Make a Plan</strong><button type="button" class="secondary" id="stuckClose" aria-label="Close help">✕</button></div>
   <div id="stuckFocus" class="stuck-focus" aria-live="polite"></div><p id="stuckText"></p>
   <div id="stuckOptions" class="stuck-options"></div>
@@ -120,7 +127,7 @@
  </div>
  <div class="card lab-stage">
   <div class="rowtop"><span id="labTurn">Choose a game to begin</span><span id="labCount" class="muted">No score · learn by trying</span><button id="labFocus" class="secondary">⛶ Focus</button></div>
-  <div id="labTip" class="tip">Make your own move first. See the original move only when you are ready to compare.</div>
+  <div id="labTip" class="tip">Make your own move first. See the original move only when you are ready to compare.</div><div id="labLastBlackMove" class="last-black-move hide" aria-live="polite" aria-atomic="true"></div>
   <div id="labPromotion" class="prompt hide"></div>
   <div id="labBoard" class="board" aria-label="Interactive practice chessboard">Choose a game above.</div>
   <div class="buttons"><button id="labQuestion" class="secondary">💭 Ask a thinking question</button><button id="labUndo" class="secondary">↶ Undo</button><button id="labRestart" class="secondary">↻ Retry</button><button id="labCompare" class="secondary">👀 Compare with my game</button></div>
@@ -190,6 +197,41 @@ function san(s,m){
 }
 function ended(h){let s=h.at(-1),m=moves(s);if(!m.length)return check(s)?'Checkmate!':'Draw — stalemate.';if(s.h>=150)return'Draw — 75-move rule.';let ps=[];for(let i=0;i<128;i++)if(ok(i)&&s.b[i]!=='.'&&s.b[i].toLowerCase()!=='k')ps.push([s.b[i].toLowerCase(),((i>>4)+(i&7))%2]);if(!ps.length||ps.length===1&&'bn'.includes(ps[0][0])||ps.length&&ps.every(x=>x[0]==='b')&&new Set(ps.map(x=>x[1])).size===1)return'Draw — insufficient material.';let k=z=>z.b.join('')+z.t+z.c+z.ep;if(h.filter(z=>k(z)===k(s)).length>=5)return'Draw — fivefold repetition.';return'';}
 function board(el,s,selected=-1,targets=[],action){el.innerHTML='';for(let r=0;r<8;r++)for(let c=0;c<8;c++){let i=r*16+c,p=s.b[i],b=document.createElement('button');b.type='button';b.className='square'+((r+c)%2?' dark':'')+(selected===i?' selected':'')+(targets.includes(i)?' legal':'')+(p!=='.'?' occupied':'');b.setAttribute('aria-label',sq(i)+' '+(p==='.'?'empty':pieceName(p)));if(p!=='.'){b.appendChild(pieceImage(p));}if(c===0){let t=document.createElement('span');t.className='coord rank';t.textContent=8-r;b.appendChild(t);}if(r===7){let t=document.createElement('span');t.className='coord file';t.textContent=F[c];b.appendChild(t);}b.onclick=()=>action&&action(i);el.appendChild(b);}}
+// v9.7: retrieve the actual *legal* move from adjacent game states, never guess from the board.
+function blackMoveInfo(before,move){
+ if(!before||before.t!==-1||!move)return null;
+ const from=sq(move[0]),to=sq(move[1]);
+ const piece=PIECE_NAMES[before.b[move[0]].toUpperCase()]||'Piece';
+ const isCapture=before.b[move[1]]!=='.'||move[3]==='ep';
+ const notation=san(before,move);
+ const sentence=move[3]==='castle'?
+   `Black castled ${move[1]>move[0]?'kingside':'queenside'} (${notation})`:
+   `Black's last move: ${piece} ${from} ${isCapture?'×':'→'} ${to} (${notation})`;
+ return{move,from:move[0],to:move[1],text:sentence};
+}
+function lastBlackInHistory(history,notations){
+ if(!Array.isArray(history)||history.length<2)return null;
+ const after=history[history.length-1],before=history[history.length-2];
+ if(before.t!==-1||after.t!==1)return null;
+ const uci=notations?.[notations.length-1];
+ let move=uci?moves(before).find(m=>code(m)===uci):null;
+ if(!move)move=moveBetween(fen(before),fen(after));
+ return blackMoveInfo(before,move);
+}
+function markLastBlackMove(boardId,info){
+ if(!info)return;
+ const cells=$(boardId).children;
+ const from=info.from,to=info.to;
+ const origin=cells[(from>>4)*8+(from&7)],destination=cells[(to>>4)*8+(to&7)];
+ if(origin)origin.classList.add('black-last-from');
+ if(destination)destination.classList.add('black-last-to');
+}
+function showBlackMoveBanner(id,info){
+ const el=$(id);
+ const message=info?.text||'';
+ if(el.textContent!==message)el.textContent=message;
+ show(id,!!info);
+}
 const MAX_SAVED_GAMES=100;
 const START=parse(INITIAL),VALUES={p:1,n:3,b:3,r:5,q:9,k:100};let game={h:[START],uci:[],chosen:-1,pending:null,promotion:null,thinking:false,review:-1,tip:''},timer,records=[];
 function readRecords(){
@@ -586,6 +628,9 @@ function render(){
  }
  let options=!review&&game.chosen>=0?moves(s).filter(x=>x[0]===game.chosen).map(x=>x[1]):[];
  board($('board'),position,review?-1:game.chosen,options,review?null:click);
+ const lastBlack=(!review&&s.t===1)?lastBlackInHistory(game.h,game.uci):null;
+ showBlackMoveBanner('lastBlackMove',lastBlack);
+ markLastBlackMove('board',lastBlack);
  if(!review&&stuck.active&&stuck.target>=0){const dest=$('board').children[(stuck.target>>4)*8+(stuck.target&7)];if(dest)dest.classList.add('captain-target');}
  if(review)decorateReplaySquares(game.review,replaySuggestion);
  $('turn').textContent=review?'Replay · '+game.review+' of '+(replayFens.length-1)+' half-moves':e||(s.t===1?'White to move':$('opponent').value==='family'?'Black to move':'Coach Fox thinking');
@@ -1053,6 +1098,7 @@ function labRender(){
  if(!lab.active){
   $('labTurn').textContent='Choose a real-game moment';$('labCount').textContent='No score · learn by trying';
   $('labBoard').textContent='Choose a game and a moment, then press Start a mini-game.';
+  showBlackMoveBanner('labLastBlackMove',null);
   $('labUndo').disabled=true;$('labRestart').disabled=true;$('labCompare').disabled=true;$('labSave').disabled=true;return;
  }
  const s=lab.h.at(-1),end=ended(lab.h),whiteTurns=lab.h.slice(1).filter((x,i)=>lab.h[i].t===1).length;
@@ -1060,6 +1106,14 @@ function labRender(){
  lab.done=view;
  const options=!view&&!lab.thinking&&lab.selected>=0?moves(s).filter(m=>m[0]===lab.selected).map(m=>m[1]):[];
  board($('labBoard'),s,lab.selected,options,view?null:labClick);
+  let labLastBlack=s.t===1?lastBlackInHistory(lab.h,lab.moves):null;
+  // The first mini-game position can begin immediately after Black's move in the real game.
+  if(!labLastBlack&&s.t===1&&lab.h.length===1&&lab.startPly>0){
+   const prior=lab.sourceFens?.[lab.startPly-1],current=lab.sourceFens?.[lab.startPly];
+   if(prior&&current){const prevState=parse(prior);labLastBlack=blackMoveInfo(prevState,moveBetween(prior,current));}
+  }
+  showBlackMoveBanner('labLastBlackMove',labLastBlack);
+  markLastBlackMove('labBoard',labLastBlack);
  $('labTurn').textContent=end|| (view?'Mini-game complete':s.t===1?'Bella (White) to move':lab.mode==='both'?'Family (Black) to move':'Coach Fox is replying…');
  $('labCount').textContent=`${Math.min(3,whiteTurns)} / 3 white turns`;
  const labMessage=end?'The game ended. What did you learn?':view?'Compare your idea with the original game when you are ready.':check(s,s.t)?'⚠️ Your king is in check. Find a legal response.':'';
