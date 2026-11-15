@@ -96,12 +96,28 @@
 .square.black-last-from{box-shadow:inset 0 0 0 3px #e0b347}
 .square.black-last-to{box-shadow:inset 0 0 0 3px #a96b22}
 @media(max-width:420px){.last-black-move{font-size:11px;padding:6px 8px}}
+
+
+/* v9.8 · Queen Adventure: distinct from ordinary training, no performance grading. */
+.qa-wrap{max-width:690px;margin:0 auto}
+.qa-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.qa-options button{background:#e9f2e5;color:#235648;border:1px solid #d6e5d8;min-height:74px;font-size:13px;text-align:left;line-height:1.35;padding:10px}
+.qa-options button.active{background:#236c5e;color:#fff}
+.qa-options .qa-small{display:block;font-size:11px;font-weight:500;margin-top:5px;opacity:.85}
+.qa-mission{background:#f5f9e9;border:1px solid #d7e5bb;border-radius:12px;padding:11px;margin-bottom:10px;line-height:1.5;font-size:13px}
+.qa-mission strong{display:block;font-size:15px;margin-bottom:4px}
+.qa-message{background:#e8f4ef;border:1px solid #c7dfd0;border-radius:10px;padding:9px 11px;font-size:13px;margin:9px 0;line-height:1.45}
+.qa-message.qa-alert{background:#fff1df;border-color:#ead2a6}
+.qa-action-note{font-size:12px;color:#5d756c;margin:10px 0;line-height:1.45}
+.qa-free-note{background:#fff9ed;border:1px solid #eadfbe;border-radius:11px;padding:10px;margin-top:10px;font-size:13px;line-height:1.5}
+#qaView .board{width:min(100%,56dvh,580px)}
+@media(max-width:600px){.qa-options{grid-template-columns:1fr}.qa-options button{min-height:0}.qa-options .qa-small{display:inline;margin-left:4px}}
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.7 · Last Move</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.8 · Queen Adventure</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnQueen" class="secondary">👑 Queen Adventure</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
-<div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
+<div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family / Free Play</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
 <div class="card play"><div class="rowtop"><span id="turn">White to move</span><span id="captainStatus" class="captain-status hide"></span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="lastBlackMove" class="last-black-move hide" aria-live="polite" aria-atomic="true"></div><div id="captainBanner" class="captain-banner hide">⭐ Bella is the captain. A move with a reason is enough — it does not have to be perfect. Ask for help whenever you want.</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="stuckPanel" class="stuck-panel hide" role="region" aria-label="Help me make a plan">
   <div class="stuck-head"><strong>🧭 Help Me Make a Plan</strong><button type="button" class="secondary" id="stuckClose" aria-label="Close help">✕</button></div>
   <div id="stuckFocus" class="stuck-focus" aria-live="polite"></div><p id="stuckText"></p>
@@ -144,12 +160,39 @@
   <p class="muted">Pick a moment from a real game. Bella plays White for up to three turns. No automatic coaching prompts interrupt a normal mini-game; use the question button when you want help. Coach Fox can make basic practice replies, or a parent can play Black. After trying, compare with the original game. A different move is not automatically wrong. This is a practice game, not an engine proof.</p>
  </div>
 </section>
+
+<section id="qaView" class="hide" aria-label="Queen Adventure training">
+ <div class="card qa-wrap">
+  <h2>👑 Queen Adventure</h2>
+  <p class="muted">A queen army can be fun! Here, Bella has to play against a real defender and finish with checkmate. These are three separate mini-challenges, not a rating test.</p>
+  <div class="qa-options" id="qaOptions">
+   <button type="button" data-qa-stage="0" class="active">1 · Queen Factory<span class="qa-small">Promote one pawn while Black moves.</span></button>
+   <button type="button" data-qa-stage="1">2 · Keep My Queen<span class="qa-small">Don't lose the queen to a defended rook.</span></button>
+   <button type="button" data-qa-stage="2">3 · Queen Army Mate<span class="qa-small">Win by checkmate, not by collecting queens.</span></button>
+  </div>
+  <p id="qaProgress" class="muted" style="font-size:12px"></p>
+  <div id="qaMission" class="qa-mission"></div>
+  <div class="rowtop"><span id="qaTurn">White to move</span><span id="qaMoves" class="muted">Bella plays White</span></div>
+  <div id="qaLastBlackMove" class="last-black-move hide" aria-live="polite"></div>
+  <div id="qaPromotion" class="prompt hide" aria-label="Choose a promotion piece"></div>
+  <div id="qaBoard" class="board" aria-label="Queen Adventure interactive chessboard"></div>
+  <div id="qaMessage" class="qa-message" aria-live="polite"></div>
+  <div class="buttons">
+   <button id="qaHint" type="button" class="secondary">💡 A little clue</button>
+   <button id="qaUndo" type="button" class="secondary">↶ Undo</button>
+   <button id="qaRetry" type="button" class="secondary">↻ Retry</button>
+   <button id="qaNext" type="button">Next challenge →</button>
+  </div>
+  <p class="qa-action-note">You choose every White move. Coach Fox makes legal Black replies and can defend or capture pieces, but it is a basic practice opponent — not Stockfish's strongest defence.</p>
+  <div class="qa-free-note"><strong>🎨 Want to make a Queen Army just for fun?</strong><p>Free Play is welcome. Control both White and Black, invent your own story, and promote as many pawns as you like. Free Play does not count as Queen Adventure practice.</p><button id="qaFree" type="button" class="secondary">🎨 Open Free Play (both sides)</button></div>
+ </div>
+</section>
 <section id="progressView" class="card hide">
 <h2>My Chess Progress</h2>
-<p id="progressText"></p><p id="labProgressText" class="muted"></p><p id="captainProgressText" class="muted"></p>
+<p id="progressText"></p><p id="labProgressText" class="muted"></p><p id="captainProgressText" class="muted"></p><p id="qaProgressText" class="muted"></p>
 <div class="card backup-card">
   <h2>💾 Save &amp; Restore</h2>
-  <p class="muted">Save Bella's lessons, games, Game Lab reflections, and Captain Mode sessions to a backup file.</p>
+  <p class="muted">Save Bella's lessons, games, Game Lab reflections, Captain Mode sessions, and Queen Adventure milestones to a backup file.</p>
   <div class="buttons backup-buttons">
     <button type="button" id="backupDownload">⬇ Download backup</button>
     <button type="button" id="backupRestore" class="secondary">⬆ Restore backup</button>
@@ -614,6 +657,133 @@ $('captainFinish').onclick=()=>{
  if(game.h.length>1)saveGame();captainSaveSession();captain.acknowledged=true;
  game.tip='⭐ Session saved. Bella made her own choices — with help whenever she wanted.';
  render();
+};
+
+// ===== v9.8 · Queen Adventure (separate legal mini-games; never graded by engine) =====
+const QUEEN_PROGRESS_KEY='bella-chess-queen-adventure-v1';
+const QUEEN_STAGES=[
+ {name:'Queen Factory',fen:'8/8/P4k2/2P4p/4K3/8/8/8 w - - 0 1',
+  intro:'Turn ONE pawn into a queen. Black gets a turn after every move, so look at both sides.',
+  notes:['Which white pawn is closest to the eighth rank?','Try a6–a7, then look for a safe way to reach a8. Black still gets a reply.','When your pawn reaches the last rank, choose Queen. Check whether she survives Black’s reply.']},
+ {name:'Protect My Queen',fen:'6k1/3p3p/2r5/2Q5/8/8/6PP/6K1 w - - 0 1',
+  intro:'Your queen on c5 is attacked by a rook on c6. The rook is protected by the pawn on d7. Keep your queen safe through Black’s next move.',
+  notes:['Which black piece attacks your queen? Can you simply capture it?','Check what the pawn on d7 can capture after Qxc6. Would that trade be good?','Choose a square away from the rook’s attack. Black gets a turn; only then is your queen truly safe.']},
+ {name:'Queen Army Checkmate',fen:'k7/2Q5/8/1Q6/8/8/8/7K w - - 0 1',
+  intro:'You already have two queens! You do NOT need any more. Work together to checkmate the king on a8. Watch out for stalemate.',
+  notes:['What squares could the black king escape to?','The queen on b5 controls the b-file. Can the queen on c7 check on b7?','Try Qb7#. It checks the king and blocks every escape square.']}
+];
+let qaAchievements=[];
+let qa={stage:0,h:[],uci:[],selected:-1,thinking:false,hints:0,done:false,outcome:'',promoted:false,token:0};
+let qaTimer=null;
+function qaSanitize(data){return Array.isArray(data)?[...new Set(data.filter(n=>Number.isInteger(n)&&n>=0&&n<3))].sort():[];}
+function qaReadProgress(){try{qaAchievements=qaSanitize(JSON.parse(localStorage.getItem(QUEEN_PROGRESS_KEY)||'[]'));}catch{qaAchievements=[];}}
+function qaWriteProgress(){try{localStorage.setItem(QUEEN_PROGRESS_KEY,JSON.stringify(qaAchievements));}catch(e){console.warn('Queen Adventure progress unavailable',e);}}
+function qaMarkDone(){
+ if(!qaAchievements.includes(qa.stage)){qaAchievements.push(qa.stage);qaAchievements.sort();qaWriteProgress();}
+ qa.done=true;qa.outcome='🎉 Mission complete! '+(qa.stage===0?'One pawn became a queen and survived Black’s reply.':qa.stage===1?'You kept your queen safe through Black’s reply.':'Checkmate! You won without having to capture every piece.');
+}
+function qaStart(stage=0){
+ clearTimeout(qaTimer);qa.token++;
+ qa.stage=stage;qa.h=[parse(QUEEN_STAGES[stage].fen)];qa.uci=[];qa.selected=-1;qa.thinking=false;
+ qa.hints=0;qa.done=false;qa.outcome='';qa.promoted=false;
+ show('qaPromotion',false);qaRender();
+}
+function qaQueenIndex(s){return s.b.indexOf('Q');}
+function qaAfterMove(previous,m){
+ const state=qa.h.at(-1),end=ended(qa.h);
+ if(previous.t===1&&qa.stage===0&&m[2]==='q')qa.promoted=true;
+ if(qa.stage===2&&end==='Checkmate!'&&state.t===-1){qaMarkDone();return;}
+ if(qa.stage===0&&qa.promoted&&state.t===1&&qaQueenIndex(state)>=0&&!end){qaMarkDone();return;}
+ if(qa.stage===1&&state.t===1&&qa.h.length>=3&&!end){
+  const queen=qaQueenIndex(state);
+  if(queen<0){qa.done=true;qa.outcome='That was a difficult trade. Black captured your queen. Retry and look for a safer square.';return;}
+  if(attack(state,queen,-1)){
+   qa.outcome='Your queen survived, but Black can still attack her. Find another safe square.';
+  }else{qaMarkDone();return;}
+ }
+ if(end){qa.done=true;qa.outcome=end==='Draw — stalemate.'?'Stalemate is a draw, not a win. Try again and give Black a legal escape until the final checkmate.':end==='Checkmate!'?'Checkmate. Look at which king was trapped and try the mission again.':end+' Retry the mission if you like.';}
+ if(qa.stage===0&&qa.promoted&&state.t===1&&qaQueenIndex(state)<0){qa.done=true;qa.outcome='Black captured the new queen. Try again and see how to protect her.';}
+}
+function qaMove(m){
+ if(qa.done||qa.thinking)return;
+ const before=qa.h.at(-1),legalMove=moves(before).find(x=>code(x)===code(m));if(!legalMove)return;
+ qa.h.push(apply(before,legalMove));qa.uci.push(code(legalMove));qa.selected=-1;
+ qa.outcome='';qaAfterMove(before,legalMove);qaRender();
+ if(qa.done)return;
+ if(before.t===1&&qa.h.at(-1).t===-1){
+  qa.thinking=true;qaRender();const token=qa.token;
+  qaTimer=setTimeout(()=>{if(token!==qa.token||!qa.thinking)return;
+    const s=qa.h.at(-1),options=moves(s);qa.thinking=false;
+    if(options.length){const chosen=qaFoxMove(s,options);qaMove(chosen);}else qaRender();
+  },300);
+ }
+}
+function qaFoxMove(s,options){
+ const whiteQueen=qaQueenIndex(s),pawnSquares=[];
+ for(let i=0;i<128;i++)if(ok(i)&&s.b[i]==='P')pawnSquares.push(i);
+ const candidates=options.map(m=>{
+  const p=s.b[m[0]],taken=s.b[m[1]],n=apply(s,m);
+  let score=(taken!=='.'?(VALUES[taken.toLowerCase()]||0)*15:0)+(m[2]?25:0);
+  if(check(n,1))score+=7;
+  if(p==='r'&&whiteQueen>=0&&attack(n,whiteQueen,-1))score+=4;
+  if(p==='k'&&qa.stage===0&&pawnSquares.length){
+   const rank=(q)=>(q>>4),file=q=>(q&7);
+   const nearest=x=>Math.min(...pawnSquares.map(y=>Math.max(Math.abs(rank(x)-rank(y)),Math.abs(file(x)-file(y)))));
+   score+=(nearest(m[0])-nearest(m[1]))*4;
+  }
+  // Defend valuable pieces, but allow a beginner-friendly variety of moves.
+  if(attack(n,m[1],1)&&!attack(n,m[1],-1))score-=(VALUES[p.toLowerCase()]||0)*9;
+  score+=Math.random()*0.6;
+  return{m,score};
+ }).sort((a,b)=>b.score-a.score);
+ return candidates[0].m;
+}
+function qaClick(i){
+ if(qa.done||qa.thinking)return;
+ const s=qa.h.at(-1);if(s.t!==1)return;
+ if(color(s.b[i])===1){qa.selected=qa.selected===i?-1:i;qaRender();return;}
+ const options=moves(s).filter(m=>m[0]===qa.selected&&m[1]===i);
+ if(!options.length){qa.selected=-1;qaRender();return;}
+ if(options.length>1){
+  const panel=$('qaPromotion');panel.replaceChildren();const head=document.createElement('strong');head.textContent='Choose your promotion piece: ';panel.appendChild(head);
+  for(const m of options){const b=document.createElement('button');b.type='button';b.className='promotion-piece-btn';b.appendChild(pieceImage(m[2].toUpperCase()));b.setAttribute('aria-label','Promote to '+PIECE_NAMES[m[2].toUpperCase()]);b.onclick=()=>{show('qaPromotion',false);qaMove(m);};panel.appendChild(b);}
+  show('qaPromotion');return;
+ }
+ qaMove(options[0]);
+}
+function qaRender(){
+ const s=qa.h.at(-1),stage=QUEEN_STAGES[qa.stage],end=ended(qa.h);
+ $('qaMission').innerHTML='<strong>Mission '+(qa.stage+1)+': '+stage.name+'</strong>'+stage.intro;
+ for(const b of document.querySelectorAll('[data-qa-stage]')){const i=Number(b.dataset.qaStage);b.classList.toggle('active',i===qa.stage);b.setAttribute('aria-pressed',String(i===qa.stage));}
+ $('qaProgress').textContent=qaAchievements.length+' of 3 adventures explored successfully. Each can be replayed at any time.';
+ $('qaTurn').textContent=qa.done?'Mission finished':end|| (qa.thinking?'Coach Fox thinking…':s.t===1?'Bella (White) to move':'Black to move');
+ $('qaMoves').textContent=qa.h.length<=1?'No hurry · think first':Math.floor(qa.uci.length/2)+' full moves played';
+ const targets=!qa.done&&!qa.thinking&&qa.selected>=0?moves(s).filter(m=>m[0]===qa.selected).map(m=>m[1]):[];
+ board($('qaBoard'),s,qa.selected,targets,qaClick);
+ const last=(!qa.done&&s.t===1)?lastBlackInHistory(qa.h,qa.uci):null;
+ showBlackMoveBanner('qaLastBlackMove',last);markLastBlackMove('qaBoard',last);
+ let msg=qa.outcome;
+ if(!msg){if(qa.thinking)msg='Black is choosing a legal reply…';else if(end)msg=end;else if(check(s))msg='⚠️ Your king is in check. Find a safe, legal response.';else if(qa.hints)msg=stage.notes[Math.min(qa.hints-1,stage.notes.length-1)];else msg='Find your own idea first. Use “A little clue” only if you are stuck.';}
+ $('qaMessage').textContent=msg;
+ $('qaMessage').classList.toggle('qa-alert',!!qa.done&&!qaAchievements.includes(qa.stage));
+ $('qaUndo').disabled=qa.h.length<=1||qa.thinking;
+ $('qaHint').disabled=qa.done||qa.thinking;
+ $('qaNext').disabled=qa.stage===2;
+ $('qaNext').textContent=qa.stage===2?'Last mission':qa.done?'Next adventure →':'Try next adventure →';
+}
+for(const b of document.querySelectorAll('[data-qa-stage]'))b.onclick=()=>qaStart(Number(b.dataset.qaStage));
+$('qaHint').onclick=()=>{qa.hints=Math.min(3,qa.hints+1);qaRender();};
+$('qaRetry').onclick=()=>qaStart(qa.stage);
+$('qaNext').onclick=()=>{if(qa.stage<2)qaStart(qa.stage+1);};
+$('qaUndo').onclick=()=>{if(qa.h.length<=1||qa.thinking)return;
+ const n=qa.h.length>=3&&qa.h.at(-1).t===1?2:1;
+ qa.h.splice(-n);qa.uci.splice(-n);qa.selected=-1;qa.done=false;qa.promoted=qa.h.some((s,i)=>i>0&&qa.h[i-1].t===1&&qa.uci[i-1]?.endsWith('q'));
+ qa.outcome='Try a different idea. What will Black do next?';qaRender();
+};
+$('qaFree').onclick=()=>{
+ $('practiceMode').value='normal';$('coach').value='quiet';
+ $('opponent').value='family';$('opponent').dispatchEvent(new Event('change'));
+ tab('play');game.tip='🎨 Free Play: you control both teams. Enjoy creating a Queen Army! This is playtime, not a graded lesson.';render();
 };
 
 function render(){
@@ -1261,7 +1431,7 @@ function downloadChessBackup(){
   if(game.h.length>1)saveGame();
   const file={format:BACKUP_FORMAT,version:1,exportedAt:new Date().toISOString(),
    progress:backupProgressSanitize(progress),
-   games:records.map(backupGameSanitize).filter(Boolean),labHistory:labHistory.slice(0,50),captainHistory:captainHistory.slice(-100)};
+   games:records.map(backupGameSanitize).filter(Boolean),labHistory:labHistory.slice(0,50),captainHistory:captainHistory.slice(-100),queenAdventure:qaAchievements.slice()};
   const blob=new Blob([JSON.stringify(file,null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='Bella_Chess_Backup_'+new Date().toISOString().slice(0,10)+'.json';
@@ -1285,6 +1455,7 @@ async function restoreChessBackup(file){
   const incoming=data.games.map(backupGameSanitize);
   if(incoming.some(x=>!x))throw new Error('This file contains an invalid chess game. No data was changed.');
   const extra=backupProgressSanitize(data.progress);
+  const importedQueen=qaSanitize(data.queenAdventure);
   const importedLab=Array.isArray(data.labHistory)?data.labHistory.map(labSanitize).filter(Boolean):[];
   const importedCaptain=Array.isArray(data.captainHistory)?data.captainHistory.map(captainSanitize):[];
   if(importedCaptain.some(x=>!x))throw new Error('This backup has invalid Captain Mode records. No data was changed.');
@@ -1335,6 +1506,7 @@ async function restoreChessBackup(file){
     const seen=new Set();captainHistory=[...captainHistory,...importedCaptain].filter(x=>{const k=x.id||x.date;if(seen.has(k))return false;seen.add(k);return true;}).slice(-100);
     captainWriteHistory();
   }
+  if(importedQueen.length){qaAchievements=qaSanitize([...qaAchievements,...importedQueen]);qaWriteProgress();qaRender();}
   renderRecords();lessonRender();tab('progress');
   const total=Object.values(progress).reduce((n,a)=>n+a.length,0);
   const hidden=all.length-records.length;
@@ -1350,18 +1522,20 @@ $('backupFile').onchange=async e=>{
 };
 
 function tab(t){
- show('playView',t==='play');show('lessonsView',t==='lessons');show('labView',t==='lab');show('progressView',t==='progress');
- for(const [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnLab','lab'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';
+ show('playView',t==='play');show('lessonsView',t==='lessons');show('labView',t==='lab');show('qaView',t==='queen');show('progressView',t==='progress');
+ for(const [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnLab','lab'],['btnQueen','queen'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';
  if(t!=='lab'&&document.body.classList.contains('lab-focus')){$('labFocus').click();}
  if(t==='progress'){
   $('progressText').textContent=Object.values(progress).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0)+' / 48 foundation challenges completed.';
   $('labProgressText').textContent=labHistory.length+' mini-games practised and reflected on (self-reported, not a chess rating).';
+  $('qaProgressText').textContent=qaAchievements.length+' of 3 Queen Adventure missions completed (for fun, not a rating).';
   $('captainProgressText').textContent=captainHistory.length+' Captain sessions saved · '+captainHistory.reduce((n,x)=>n+x.total,0)+' decisions chosen by Bella (some with help). This is practice, not a chess rating.';
  }
  if(t==='lab'){labRefreshSources();labRender();}
+ if(t==='queen')qaRender();
  if(t==='play')render();
 }
-$('btnPlay').onclick=()=>tab('play');$('btnLessons').onclick=()=>tab('lessons');$('btnLab').onclick=()=>tab('lab');$('btnProgress').onclick=()=>tab('progress');
+$('btnPlay').onclick=()=>tab('play');$('btnLessons').onclick=()=>tab('lessons');$('btnLab').onclick=()=>tab('lab');$('btnQueen').onclick=()=>tab('queen');$('btnProgress').onclick=()=>tab('progress');
 try{
   const guide=document.getElementById('pieceKey');
   if(guide){for(const piece of 'KQRBNP'){
@@ -1371,6 +1545,7 @@ try{
     cell.appendChild(name);guide.appendChild(cell);
   }}
   captainReadHistory();
+  qaReadProgress();qaStart(0);
   render(); // show the board before loading optional history
   try{readRecords();}catch(historyError){console.warn('Could not load saved-game list',historyError);}
   lessonRender();
