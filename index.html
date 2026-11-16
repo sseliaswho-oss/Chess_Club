@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella's Chess Adventure — v9.7 · Show Black's Last Move</title>
+<title>Bella's Chess Adventure — Level 2 · Make a Plan</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f7ef;color:#20443c;font:15px system-ui,-apple-system,sans-serif}button,select{font:inherit}button{border:0;border-radius:11px;padding:9px 12px;background:#17685a;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.4}button.secondary{background:#e2eee4;color:#24564b}.app{max-width:900px;padding:12px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}h1{font-size:21px;margin:0}.tabs{display:flex;gap:7px}.tabs button{font-size:13px}.tabs .on{background:#104b42}.card{background:#fff;border:1px solid #d9e7db;border-radius:17px;padding:12px;margin-bottom:10px}.hide{display:none!important}.toolbar,.buttons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.toolbar{margin-bottom:8px}.buttons{justify-content:center;margin-top:8px}.toolbar label{font-size:12px;font-weight:700}select{border:1px solid #d3e1d6;border-radius:8px;padding:7px;background:white;color:#244a41}.play{max-width:670px;margin:auto}.rowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-bottom:6px}.tip{background:#e7f5e9;border:1px solid #c4ddcb;padding:8px 10px;font-size:13px;border-radius:10px;line-height:1.4;margin-bottom:7px}.prompt{background:#fff3d7;border:1px solid #e5d093;padding:9px;border-radius:10px;margin-bottom:7px}.prompt p{margin:5px 0;font-size:13px}.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,59dvh,600px);aspect-ratio:1;margin:auto;border:3px solid #dce8de;border-radius:7px;overflow:hidden}.square{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;background:#f1e6cf;color:#172d2a;min-width:0}.square.dark{background:#94b395}.square.selected{background:#f1d46f}.square.legal:after{content:"";position:absolute;z-index:2;width:24%;height:24%;border-radius:50%;background:#1d6c6070}.square.occupied.legal:after{width:83%;height:83%;background:transparent;border:3px solid #176c60}.piece{font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-size:clamp(25px,5.9vw,52px);line-height:1;pointer-events:none}.piece.white{color:#fffdf5;text-shadow:-1px -1px #23433e,1px -1px #23433e,-1px 1px #23433e,1px 1px #23433e}.coord{position:absolute;font-size:9px;color:#254b45;opacity:.8;pointer-events:none}.rank{left:3px;top:1px}.file{right:3px;bottom:1px}small,.muted{color:#687d77}details summary{cursor:pointer;font-weight:700}h2{font-size:18px;margin:8px 0}.review{border-top:1px solid #dfebe2;padding:9px 0;font-size:13px}.review button{font-size:12px}.lesson-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.lesson-nav button{text-align:left;font-size:12px;background:#e5f1e8;color:#275249}.lesson-nav button.active{background:#17685a;color:white}.lesson-nav button.locked{opacity:.5}.feedback{font-size:13px;background:#e7f5e9;padding:9px;border-radius:9px;margin:7px 0}.focus header,.focus .toolbar,.focus .extras{display:none!important}.focus .app{padding:4px}.focus .card{padding:6px}.focus .board{width:min(100%,62dvh,650px)}.error{background:#ffebdb;color:#7a2817;padding:10px;border-radius:9px}@media(max-width:650px){.app{padding:8px}.board{width:min(100%,57dvh)}h1{font-size:18px}.piece{font-size:clamp(21px,6vw,43px)}.buttons button{font-size:12px;padding:8px 9px}}@media(max-height:600px) and (orientation:landscape){.board{width:min(100%,48dvh)}}
 
@@ -112,10 +112,32 @@
 .qa-free-note{background:#fff9ed;border:1px solid #eadfbe;border-radius:11px;padding:10px;margin-top:10px;font-size:13px;line-height:1.5}
 #qaView .board{width:min(100%,56dvh,580px)}
 @media(max-width:600px){.qa-options{grid-template-columns:1fr}.qa-options button{min-height:0}.qa-options .qa-small{display:inline;margin-left:4px}}
+
+/* v10 · Level 2: accessible tap-based chess reasoning, consistent with existing board. */
+#level2View{max-width:720px;margin:0 auto}.l2-intro{background:#f8fbf4}
+.l2-kicker{letter-spacing:.085em;font-size:11px;font-weight:850;color:#4d7b64;margin-bottom:6px}
+.l2-intro h2{font-size:22px;margin:0 0 7px;color:#164c43}.l2-intro p{line-height:1.5;font-size:13px;margin:6px 0}
+.l2-weekcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:12px 0}
+.l2-weekcards button{background:#e6f0e8;color:#255448;border:1px solid #bfd7c9;padding:10px 7px;line-height:1.35;text-align:left;border-radius:12px;font-size:12px;min-height:76px}
+.l2-weekcards button.active{background:#1b6959;color:#fff}.l2-weekcards .l2-weeknum{display:block;font-size:11px;opacity:.7;margin-bottom:4px}
+.l2-meta{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;font-size:12px;font-weight:800;color:#537a69}
+.l2-classroom h2{font-size:20px;margin:8px 0 5px}.l2-story{font-size:13px;line-height:1.5;margin:0 0 9px}
+.l2-dots{display:flex;gap:6px;margin:12px 0}.l2-dot{height:6px;flex:1;background:#d7e7dc;border-radius:10px}.l2-dot.current{background:#3e8f78}.l2-dot.passed{background:#a6d1ab}
+.l2-task{background:#f2f8f3;border-left:4px solid #63a78a;padding:11px;border-radius:9px;line-height:1.45;font-weight:750;font-size:14px;margin-bottom:10px}
+#level2View .board{width:min(100%,48dvh,460px);border-radius:12px}.l2-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.l2-options button{background:#fbfdfb;color:#214f44;text-align:left;border:1.5px solid #b9d2c3;line-height:1.4;font-size:13px;min-height:59px}
+.l2-options button:disabled{opacity:.55}.l2-options button.selected{background:#e1f2e6;border-color:#3c8b6c}
+.l2-feedback{margin-top:11px;padding:11px;border-radius:10px;line-height:1.5;font-size:13px;background:#edf7ee;border:1px solid #b6dec3}.l2-feedback.try{background:#fff7e9;border-color:#efd6aa}
+.l2-tools{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:12px 0 0}.l2-tools button{font-size:12px}
+.l2-reflection{margin-top:12px;border:1px dashed #95bea0;background:#f5faf0;border-radius:10px;padding:12px;line-height:1.5;font-size:13px}
+.l2-lessonnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.l2-lessonnav button{font-size:12px;color:#285e4d;background:#e5f1e9;border:1px solid #d4e4d9;text-align:left;padding:9px;line-height:1.45}
+.l2-lessonnav button.on{background:#1b6959;color:#fff}.l2-lessonnav button.done:before{content:'✓ ';font-weight:900}
+.l2-footnote{font-size:12px!important}
+@media(max-width:560px){.l2-weekcards{grid-template-columns:repeat(2,minmax(0,1fr))}.l2-weekcards button{min-height:0}.l2-lessonnav{grid-template-columns:repeat(2,minmax(0,1fr))}.l2-options{grid-template-columns:1fr}#level2View .board{width:min(100%,48dvh,440px)}}
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v9.8 · Queen Adventure</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📚 Lessons</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnQueen" class="secondary">👑 Queen Adventure</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v10 · Level 2</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📗 Level 1</button><button id="btnLevel2" class="secondary">🧠 Level 2</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnQueen" class="secondary">👑 Queen Adventure</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family / Free Play</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
 <div class="card play"><div class="rowtop"><span id="turn">White to move</span><span id="captainStatus" class="captain-status hide"></span><button id="focus" class="secondary">⛶ Focus</button></div><div class="tip hide" id="tip" aria-live="polite"></div><div id="lastBlackMove" class="last-black-move hide" aria-live="polite" aria-atomic="true"></div><div id="captainBanner" class="captain-banner hide">⭐ Bella is the captain. A move with a reason is enough — it does not have to be perfect. Ask for help whenever you want.</div><div id="reviewCaption" class="review-caption hide" aria-live="polite"></div><button id="reviewCoachButton" class="secondary hide" type="button">Show what Black played</button><div id="reviewAnswer" class="hide" aria-live="polite"></div><div id="stuckPanel" class="stuck-panel hide" role="region" aria-label="Help me make a plan">
@@ -130,6 +152,28 @@
 <div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="replaySaved" class="secondary">▶ Replay saved game</button><label class="review-depth" for="reviewDepth">Analysis <select id="reviewDepth" aria-label="Review analysis quality"><option value="balanced">Balanced</option><option value="careful">Careful</option></select></label><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><p class="muted" style="font-size:12px">Review moments are suggestions, not verdicts. Tap a position, calculate Black's reply, then reveal the engine idea. Checks that preserve a forced mate are celebrated, not penalised.</p><div id="engineResults"></div></details></div>
 </section>
 <section id="lessonsView" class="hide"><div class="card"><h2 id="lessonTitle">Lessons</h2><p id="lessonText"></p><div id="lessonBoard" class="board">Loading lessons…</div><div id="lessonFeedback" class="feedback hide"></div><div class="buttons"><button id="lessonHint" class="secondary">💡 Hint</button><button id="lessonRetry" class="secondary">↶ Retry</button><button id="lessonNext">Next →</button></div></div><div class="card"><div id="lessonNav" class="lesson-nav"></div></div></section>
+<section id="level2View" class="hide">
+<div class="card l2-intro">
+  <div class="l2-kicker">🦊 COACH FOX'S THINKING SCHOOL · LEVEL 2</div>
+  <h2>Make a Plan, Not Just a Move!</h2>
+  <p>Welcome, Bella! You are the captain. Try a move, imagine what Black might do, and explain your plan. There is no timer — mistakes are part of learning.</p>
+  <div id="l2WeekCards" class="l2-weekcards"></div>
+  <p class="muted l2-footnote">4 weeks · 12 mini-lessons · 36 thinking steps. A useful plan is not always the one and only good chess move.</p>
+</div>
+<div class="card l2-classroom">
+  <div class="l2-meta"><span id="l2WeekLabel">Week 1</span><span id="l2Score">0 / 12 missions</span></div>
+  <h2 id="l2Title">Make a plan</h2>
+  <p id="l2Story" class="l2-story"></p>
+  <div id="l2StepDots" class="l2-dots" aria-label="Three steps in this mission"></div>
+  <div id="l2Task" class="l2-task" aria-live="polite"></div>
+  <div class="l2-stage-board"><div id="l2Board" class="board" aria-label="Level 2 chess position"></div></div>
+  <div id="l2Options" class="l2-options" aria-label="Choose an answer"></div>
+  <div id="l2Feedback" class="l2-feedback hide" role="status"></div>
+  <div class="l2-tools"><button id="l2Hint" class="secondary" type="button">💡 A small clue</button><button id="l2Reset" class="secondary" type="button">↶ Try this again</button><button id="l2Next" type="button" disabled>Next step →</button></div>
+  <div id="l2Reflection" class="l2-reflection hide"><strong>🎤 Say it aloud:</strong> <span id="l2ReflectText"></span></div>
+</div>
+<div class="card l2-footer"><h2>🗺️ Pick a lesson</h2><div id="l2LessonNav" class="l2-lessonnav"></div><p class="muted">Your Level 1 lessons and saved games stay just as they were. Level 2 keeps separate progress on this device.</p></div>
+</section>
 <section id="labView" class="hide">
  <div class="card lab-header">
   <div class="lab-heading"><div><h2>🎯 My Game Lab</h2><p class="muted">Real positions from Bella's games — think, try, and reflect. No hidden single “correct” move.</p></div><span class="lab-tag">3-turn challenge</span></div>
@@ -189,10 +233,10 @@
 </section>
 <section id="progressView" class="card hide">
 <h2>My Chess Progress</h2>
-<p id="progressText"></p><p id="labProgressText" class="muted"></p><p id="captainProgressText" class="muted"></p><p id="qaProgressText" class="muted"></p>
+<p id="progressText"></p><p id="labProgressText" class="muted"></p><p id="captainProgressText" class="muted"></p><p id="qaProgressText" class="muted"></p><p id="l2ProgressText" class="muted"></p>
 <div class="card backup-card">
   <h2>💾 Save &amp; Restore</h2>
-  <p class="muted">Save Bella's lessons, games, Game Lab reflections, Captain Mode sessions, and Queen Adventure milestones to a backup file.</p>
+  <p class="muted">Save Bella's lessons, games, Game Lab reflections, Captain Mode sessions, Queen Adventure milestones, and Level 2 progress to a backup file.</p>
   <div class="buttons backup-buttons">
     <button type="button" id="backupDownload">⬇ Download backup</button>
     <button type="button" id="backupRestore" class="secondary">⬆ Restore backup</button>
@@ -567,7 +611,7 @@ function captainReason(s,m,ctx){
  if(p==='P')return['d','e'].includes(sq(m[0])[0])?'Help control the centre':'Give a pawn a useful job';
  if(p==='R')return'Find an active line';
  if(p==='Q')return'Use your queen carefully';
- return'A legal idea to consider';
+ return'A legal idea to explore (check safety)';
 }
 function captainCandidateMoves(s){
  const all=moves(s),ctx=stuckContext(s);
@@ -578,7 +622,10 @@ function captainCandidateMoves(s){
   const replies=moves(next).filter(r=>r[1]===m[1]&&next.b[m[1]]!=='.');
   const hanging=replies.some(r=>{
    const replyState=apply(next,r),recapture=moves(replyState).some(x=>x[1]===m[1]&&replyState.b[m[1]]!=='.');
-   return !recapture&&(VALUES[before.toLowerCase()]||0)>=(VALUES[captured.toLowerCase()]||0);
+   const ownValue=VALUES[before.toLowerCase()]||0, wonNow=VALUES[captured.toLowerCase()]||0;
+   // Even with a recapture, losing a knight for a pawn is a poor exchange.
+   const recaptureValue=recapture?(VALUES[next.b[r[0]].toLowerCase()]||0):0;
+   return ownValue>wonNow+recaptureValue+0.5;
   });
   let score=0;
   if(m[3]==='castle')score+=8;
@@ -604,7 +651,7 @@ function captainCandidateMoves(s){
    if(p==='Q')score+=4;
   }
   if(ctx.type==='check')score+=3;
-  if(clearImmediateRisk(s,m)||hanging)score-=30;
+  if(clearImmediateRisk(s,m)||hanging)score-=40;
   return{m,score};
  }).sort((a,b)=>b.score-a.score||code(a.m).localeCompare(code(b.m)));
  // Do not promote a move to a 'safe' or 'best' answer merely because it is legal.
@@ -625,7 +672,7 @@ function captainRenderStuck(){
  if(stuck.stage===0)instructions=guide.first;
  else if(stuck.stage===1)instructions=guide.second;
  else if(stuck.stage===2){
-  instructions='Two legal moves to explore — not necessarily the best. Choose one to investigate, or find your own.';
+  instructions='These are legal ideas to investigate, NOT guaranteed safe or best. Ask: what can Black capture after my move?';
   const candidates=captainCandidateMoves(s);
   for(const {m} of candidates){
    const b=document.createElement('button');b.type='button';
@@ -1376,6 +1423,171 @@ $('labQuiet').onclick=()=>{
  game.tip='';render();
 };
 
+
+// === LEVEL 2: Make a Plan (12 lessons; every move and reply is checked against the actual board) ===
+const L2_KEY='bella-chess-level2-progress-v1';
+const L2_WEEKS=[
+ {name:'See the danger',tag:'Is it safe?'},
+ {name:'Give pieces a job',tag:'What does it improve?'},
+ {name:'Imagine Black replies',tag:'What happens next?'},
+ {name:'Carry out a plan',tag:'How do I follow through?'}
+];
+// pos uses the original chess app's own fromPieces() notation; 'm' strings are UCI legal moves.
+// These are illustrative training choices, not engine-verified best moves.
+const L2_DATA=[
+ {week:0,title:'The tempting knight jump',story:'A knight wants to be brave. But some beautiful squares hide a pawn trap.',
+  pos:'Kg1 Qd1 Ra1 Rf1 Bc4 Bd2 Nc3 Nf3 Pa2 Pb2 Pc2 Pd4 Pe4 Pf2 Pg2 Ph2 ke8 qd8 ra8 rh8 nb8 ng8 bc8 bg7 pa4 pb7 pc6 pd7 pe7 pf6 pg6 ph6',
+  q:'White to play. Which move gives you a useful job WITHOUT walking into a pawn trap?',
+  opts:[['c3d5','Nd5 — jump into the centre','A black pawn on c6 can take the knight on d5. The e4 pawn could recapture, but you would lose a knight for a pawn.'],['f1e1','Re1 — support the central pawn','This rook can support the e4 pawn from e1. It is a useful developing idea, not a forced best move.'],['c4b3','Bb3 — hide the bishop','Black’s pawn on a4 attacks b3. That bishop move walks into danger.']],good:'f1e1',
+  black:['a4a3','e7e6'],reply:'a4a3',replyPrompt:'Imagine Black pushes the a-pawn. Which reply is the pawn push?',
+  replyNote:'The pawn on a3 now attacks b2. Black could choose a different move, too.',
+  follow:['b2a3','b2b3'],next:'b2a3',nextNote:'The b2 pawn can capture the black pawn on a3. First see the threat, then respond.',
+  mantra:'My rook helps e4, and I still notice the other side of the board.'},
+ {week:0,title:'The bishop under attack',story:'A black pawn is attacking your bishop. Sometimes you can capture the attacker instead of running away.',
+  pos:'Kg1 Bb3 Pb2 Pd3 Pa2 ke8 pa4 pb7 pc6',q:'The bishop on b3 is attacked. Can the bishop safely capture the pawn?' ,
+  opts:[['b3c4','Bc4 — step away','This is a safe retreat, but can you also win the attacking pawn?'],['b3a4','Bxa4 — capture the attacker','The bishop moves diagonally from b3 to a4 and captures the pawn. Nothing can take it immediately.'],['b3c2','Bc2 — step back','This saves the bishop, but misses the free pawn.']],good:'b3a4',
+  black:['b7b5','e8f8'],reply:'b7b5',replyPrompt:'Black pushes a pawn to attack the bishop on a4. Which move?',replyNote:'Black’s b-pawn on b5 attacks your bishop on a4.',
+  follow:['a4b3','a4b5'],next:'a4b3',nextNote:'Bb3 keeps the bishop safe. Bxb5 looks tempting, but Black’s c6 pawn would capture your bishop.',
+  mantra:'Before moving, I look at what the opponent is attacking.'},
+ {week:0,title:'A knight needs a safe square',story:'The centre is attractive, but not every centre square is safe.',
+  pos:'Kg1 Nc3 Pa2 ke8 pc6 pd6 pe6',q:'The c3 knight can jump to several squares. Which square avoids the c6 pawn?',
+  opts:[['c3d5','Nd5 — jump forward','Black’s c6 pawn can capture the knight on d5.'],['c3e4','Ne4 — try an active square','The knight lands on e4, away from the c6 pawn’s diagonal attack.'],['c3b5','Nb5 — another jump','This is also a legal way to explore. Here we practise what happens to the knight on e4.']],good:'c3e4',
+  black:['d6d5','e6e5'],reply:'d6d5',replyPrompt:'Black pushes the d-pawn to attack your knight on e4. Which is the move?',replyNote:'The black pawn on d5 attacks e4.',
+  follow:['e4g3','e4d6'],next:'e4g3',nextNote:'Ng3 gets the knight out of attack. First spot the danger, then choose a safe route.',
+  mantra:'A central square is only useful when I can keep my piece safe.'},
+ {week:1,title:'Wake up the rook',story:'One of your rooks is still sleeping. Can it take part in the game?',
+  pos:'Kg1 Ra1 Rf1 Bc4 Pe4 ke8 ra8 pb7',q:'Which move puts the a1 rook onto a useful central file?',
+  opts:[['a1d1','Rd1 — use the d-file','The d-file is open here, so the rook can work along it.'],['a1a2','Ra2 — lift the rook','Legal, but this lesson explores the central open file.'],['f1e1','Re1 — support e4','Also a reasonable idea! For this lesson, find a job for the rook on a1.']],good:'a1d1',
+  black:['b7b5','a8a7'],reply:'b7b5',replyPrompt:'Black tries to chase the bishop with a pawn. Which is that pawn push?',replyNote:'The b5 pawn attacks your bishop on c4.',
+  follow:['c4b3','c4d3'],next:'c4b3',nextNote:'Bb3 moves the bishop away. Bd3 may also be possible; Bb3 is our model route.',
+  mantra:'An open file is a road my rook can use.'},
+ {week:1,title:'Pawns can gain space',story:'A pawn in the centre can claim space and challenge another pawn.',
+  pos:'Kg1 Bc1 Pe4 Pd4 ke8 pd7 pf7',q:'Which move takes more space in the centre with the e-pawn?',
+  opts:[['e4e5','e5 — move the e-pawn','The pawn moves up and attacks d6 and f6. The choice changes what Black can do.'],['d4d5','d5 — push the d-pawn','This is another space-gaining option, but today we are exploring the e-pawn.'],['c1d2','Bd2 — develop bishop','Development is useful, but it is a different plan.']],good:'e4e5',
+  black:['d7d6','f7f6'],reply:'d7d6',replyPrompt:'Which black pawn move puts a pawn on the square attacked by e5?',replyNote:'The black pawn moves to d6. Your white pawn on e5 attacks d6.',
+  follow:['e5d6','d4d5'],next:'e5d6',nextNote:'The white pawn can capture that pawn on d6. Capturing may be better than merely keeping your pawn in place.',
+  mantra:'The point of the centre is to open choices for my pieces.'},
+ {week:1,title:'Build a pawn barrier',story:'Black has an advanced pawn on a4. You can make it harder to march ahead.',
+  pos:'Kg1 Ra1 Pa2 Pb2 ke8 pa4 pb7',q:'How can you place a pawn directly in front of the black a-pawn?',
+  opts:[['a2a3','a3 — put up a barrier','Your pawn on a3 blocks the black pawn on a4.'],['b2b3','b3 — move the b-pawn','The black pawn on a4 can capture a pawn on b3. Be careful!'],['a1b1','Rb1 — improve a rook','It can be useful, but it does not stop the pawn directly.']],good:'a2a3',
+  black:['b7b5','e8f8'],reply:'b7b5',replyPrompt:'Black starts pushing a different pawn. Which move is that?',replyNote:'Black has made room for the b-pawn to push to b4 later.',
+  follow:['b2b4','a1b1'],next:'b2b4',nextNote:'b4 puts your pawn next to Black’s b5 pawn and keeps the b-file closed for now.',
+  mantra:'I can sometimes solve a problem without capturing anything.'},
+ {week:2,title:'The poisoned pawn',story:'Your knight sees a pawn it can capture. But another pawn is standing guard.',
+  pos:'Kg1 Ne4 Pd4 ke8 pf6 pg7',q:'Which move does NOT allow a quick pawn capture of your knight?',
+  opts:[['e4f6','Nxf6 — grab the pawn','Black can reply gxf6 and trade a pawn for your knight.'],['e4g5','Ng5 — attack from the side','The black pawn on f6 attacks g5. This loses the knight if Black captures.'],['e4c3','Nc3 — step away','The knight remains safe from the f6 and g7 pawns and can regroup.']],good:'e4c3',
+  black:['f6f5','g7g6'],reply:'f6f5',replyPrompt:'What if Black pushes the f-pawn? Find that move.',replyNote:'The pawn moves to f5. It can help Black gain space.',
+  follow:['c3e2','d4d5'],next:'c3e2',nextNote:'Ne2 is one way to regroup the knight with a plan to improve its route.',
+  mantra:'A free-looking pawn may be protected by another pawn.'},
+ {week:2,title:'Capture and recapture',story:'Sometimes you can give up a smaller piece to take a larger one.',
+  pos:'Kg1 Re1 Bb2 ke8 re5 pf6',q:'Black has a rook on e5. Which capture starts a useful trade?',
+  opts:[['b2e5','Bxe5 — bishop takes rook','White wins a rook for a bishop, even if the pawn recaptures. Calculate the next move too.'],['e1e5','Rxe5 — rook takes rook','This trades rooks, but our plan is to show that a bishop can win the rook instead.'],['e1e2','Re2 — avoid the rook','A quiet move, but it misses the profitable capture on e5.']],good:'b2e5',
+  black:['f6e5','e8d7'],reply:'f6e5',replyPrompt:'Black captures the bishop with a pawn. Which reply is it?',replyNote:'The black pawn from f6 captures your bishop on e5.',
+  follow:['e1e5','g1f1'],next:'e1e5',nextNote:'Rxe5 takes the pawn back. You have won the rook for a bishop.',
+  mantra:'I count what each side captures, not just the first move.'},
+ {week:2,title:'Stop a pawn before it queens',story:'A black pawn is already on a3. Your rook has an important job!',
+  pos:'Kg1 Ra1 ke8 pa3 pb7',q:'Which rook move removes the pawn before it can reach a2?',
+  opts:[['a1a3','Rxa3 — capture the pawn','Your rook can travel up the clear a-file and take the pawn.'],['a1b1','Rb1 — change files','The pawn on a3 is still very advanced.'],['g1h1','Kh1 — move king','The king is not the best tool for stopping this pawn here.']],good:'a1a3',
+  black:['b7b6','e8f8'],reply:'b7b6',replyPrompt:'Black plays b6. Which move is that?',replyNote:'Black is preparing the other pawns while your rook remains active.',
+  follow:['a3a6','a3a1'],next:'a3a6',nextNote:'Ra6 activates your rook higher up the board. The open file gives it room.',
+  mantra:'Stopping a passed pawn can be more urgent than attacking the king.'},
+ {week:3,title:'Open a line for your bishop',story:'A pawn trade can make a road for your bishop. Look beyond one move.',
+  pos:'Kg1 Bf1 Pc2 Pd4 ke8 pd5',q:'Which white pawn push challenges Black’s d5 pawn?',
+  opts:[['c2c4','c4 — challenge the centre','The c-pawn attacks d5. Black may capture it, and you can respond.'],['f1e2','Be2 — develop bishop','This is a legal developing move, but the lesson asks for a pawn challenge.'],['f1b5','Bb5 — develop bishop','A legal bishop move, but not the pawn challenge for this lesson.']],good:'c2c4',
+  black:['d5c4','e8f8'],reply:'d5c4',replyPrompt:'Black takes your c-pawn. Which move is the capture?',replyNote:'The black pawn from d5 moves diagonally to c4 and takes the white pawn.',
+  follow:['f1c4','d4d5'],next:'f1c4',nextNote:'Bxc4 recaptures the pawn and develops the bishop in one move.',
+  mantra:'I can trade a pawn to open a line for another piece.'},
+ {week:3,title:'When the plan changes',story:'Your knight has a good job. But Black can threaten it, so your plan must adapt.',
+  pos:'Kg1 Nc3 Pd4 Ra1 ke8 pc6 pd6 pa7',q:'Which knight move avoids the pawn c6 while becoming active?',
+  opts:[['c3d5','Nd5 — jump right in','The pawn on c6 can capture the knight.'],['c3e4','Ne4 — find a new square','The knight can become active on e4 and look for further squares.'],['a1b1','Rb1 — give the rook a job','This is a legal move, but our lesson is about finding a safe knight square.']],good:'c3e4',
+  black:['d6d5','a7a6'],reply:'d6d5',replyPrompt:'Now Black threatens your knight. Which move shows that threat?',replyNote:'Black has put a pawn on d5, attacking e4.',
+  follow:['e4g3','e4c5'],next:'e4g3',nextNote:'Ng3 is a safe retreat in this position. Strong players change plans when a threat appears.',
+  mantra:'My plan is flexible: I can notice danger and change course.'},
+ {week:3,title:'Chess detective graduation',story:'You are the captain! First improve your rook, then deal with Black’s centre challenge.',
+  pos:'Kg1 Ra1 Rf1 Bc4 Nc3 Pd4 Pe4 Pa2 Pb2 ke8 ra8 pc6 pf6 pa4',q:'Which move helps the rook take part while avoiding the trap on d5?',
+  opts:[['c3d5','Nd5 — dramatic knight jump','The pawn on c6 can capture that knight. Look for danger first.'],['f1e1','Re1 — help the e-pawn','The rook supports e4 and joins the central story.'],['c4b3','Bb3 — go backwards','The pawn on a4 attacks b3. This is a trap for your bishop.']],good:'f1e1',
+  black:['c6c5','a4a3'],reply:'c6c5',replyPrompt:'Black attacks your d4 pawn with a pawn on c5. Which move does that?',replyNote:'The pawn from c6 goes to c5 and attacks your pawn on d4.',
+  follow:['d4d5','c3d5'],next:'d4d5',nextNote:'d5 moves your pawn out of the attack and gains more space. It is one illustrative response.',
+  mantra:'I checked safety, gave my rook a job, and noticed what Black tried.'}
+];
+let l2={idx:0,stage:0,selected:null,feedback:'',hint:false};
+let l2Done=[];
+function l2Clean(raw){return [...new Set((Array.isArray(raw)?raw:[]).filter(n=>Number.isInteger(n)&&n>=0&&n<L2_DATA.length))].sort((a,b)=>a-b);}
+function l2Load(){try{l2Done=l2Clean(JSON.parse(localStorage.getItem(L2_KEY)||'[]'));}catch{l2Done=[];}}
+function l2Store(){try{localStorage.setItem(L2_KEY,JSON.stringify(l2Done));}catch(e){console.warn('Level 2 progress could not be saved',e);}}
+function l2Find(s,uci){return moves(s).find(m=>code(m)===uci)||null;}
+function l2WhiteStart(){return fromPieces(L2_DATA[l2.idx].pos);}
+function l2BoardState(){
+ const d=L2_DATA[l2.idx],s=l2WhiteStart();
+ if(l2.stage===0)return s;
+ const m=l2Find(s,d.good);if(!m)return s;
+ const after=apply(s,m);
+ if(l2.stage===1)return after;
+ const reply=l2Find(after,d.reply);return reply?apply(after,reply):after;
+}
+function l2Set(idx){l2.idx=Math.max(0,Math.min(L2_DATA.length-1,idx));l2.stage=0;l2.selected=null;l2.feedback='';l2.hint=false;l2Render();}
+function l2OptionData(){const d=L2_DATA[l2.idx];return l2.stage===0?d.opts.map(x=>[x[0],x[1]]):l2.stage===1?d.black.map(x=>[x,x===d.reply?'A reply to explore: '+x:'Another legal Black move: '+x]):d.follow.map(x=>[x,x===d.next?'Explore: '+x:'Alternative: '+x]);}
+function l2Render(){
+ const d=L2_DATA[l2.idx],s=l2BoardState(),week=L2_WEEKS[d.week];
+ $('l2Title').textContent=`Lesson ${l2.idx+1}/12 · ${d.title}`;
+ $('l2WeekLabel').textContent=`WEEK ${d.week+1} · ${week.name}`;
+ $('l2Score').textContent=`${l2Done.length} / 12 missions finished`;
+ $('l2Story').textContent=d.story;
+ $('l2Task').textContent=(l2.stage===0?'1 · Choose a white move. ':l2.stage===1?'2 · Imagine a Black reply. ':'3 · What can White do next? ')+(l2.stage===0?d.q:l2.stage===1?d.replyPrompt:'Now choose one useful continuation for White.');
+ $('l2StepDots').innerHTML=[0,1,2].map(n=>`<div class="l2-dot ${n===l2.stage?'current':n<l2.stage?'passed':''}"></div>`).join('');
+ const b=$('l2Board');board(b,s,-1,[],()=>{});
+ const choices=l2OptionData();$('l2Options').replaceChildren();
+ choices.forEach(([uci,desc],i)=>{
+  const move=l2Find(s,uci),el=document.createElement('button');
+  el.type='button';el.textContent=l2.stage===0?desc:((move?san(s,move):uci)+' · '+(l2.stage===1?'Explore Black’s reply':'Explore White’s continuation'));
+  el.disabled=!!l2.selected||!move;el.className=uci===l2.selected?'selected':'';
+  el.onclick=()=>l2Choose(uci);
+  $('l2Options').appendChild(el);
+ });
+ show('l2Feedback',!!l2.feedback);$('l2Feedback').className='l2-feedback'+(l2.selected&&l2.selected!==(l2.stage===0?d.good:l2.stage===1?d.reply:d.next)?' try':'')+(!l2.feedback?' hide':'');
+ $('l2Feedback').textContent=l2.feedback;
+ $('l2Next').disabled=l2.selected!==(l2.stage===0?d.good:l2.stage===1?d.reply:d.next);
+ $('l2Next').textContent=l2.stage===2?'✓ Finish mission': 'Next step →';
+ $('l2Hint').disabled=!!l2.selected;
+ $('l2Reflection').classList.toggle('hide',l2.stage!==2||l2.selected!==d.next);
+ $('l2ReflectText').textContent=d.mantra;
+ const weekcards=$('l2WeekCards');weekcards.replaceChildren();
+ L2_WEEKS.forEach((w,i)=>{const btn=document.createElement('button');btn.className=i===d.week?'active':'';
+  btn.innerHTML=`<span class="l2-weeknum">WEEK ${i+1}</span>${w.name}`;btn.onclick=()=>l2Set(i*3);weekcards.appendChild(btn);});
+ const nav=$('l2LessonNav');nav.replaceChildren();L2_DATA.forEach((item,i)=>{
+  const btn=document.createElement('button');btn.className=(i===l2.idx?'on ':'')+(l2Done.includes(i)?'done':'');btn.textContent=`${i+1}. ${item.title}`;
+  btn.onclick=()=>l2Set(i);nav.appendChild(btn);
+ });
+}
+function l2Choose(uci){
+ const d=L2_DATA[l2.idx],s=l2BoardState(),m=l2Find(s,uci);
+ if(!m){l2.feedback='That is not legal in this position. Look at the board and try another move.';l2Render();return;}
+ const goal=l2.stage===0?d.good:l2.stage===1?d.reply:d.next, correct=uci===goal;
+ const changed=apply(s,m);l2.selected=uci;
+ if(l2.stage===0){const x=d.opts.find(x=>x[0]===uci);l2.feedback=(correct?'🌟 Good thinking! ':'🔎 Let’s look again. ')+(x?.[2]||'Try another idea.')+(correct?' Say your reason aloud.':' Tap “Try this again” to explore another route.');}
+ else if(l2.stage===1)l2.feedback=correct?'🦊 Yes — '+d.replyNote+' This is a possible reply, not necessarily Black’s best reply.':'That is a legal move too. For this exercise, try to find the reply described in the question.';
+ else l2.feedback=correct?'🎉 Wonderful — '+d.nextNote+' Tell someone your plan in one sentence.':'This is another legal move. Can you find the move that matches the story for this exercise?';
+ l2Render();
+ // Show the move selected, even when it is a mistake, so the child can inspect it.
+ const target=changed.b[m[1]]!=='.'?$('l2Board').children[(m[1]>>4)*8+(m[1]&7)]:null;
+ if(target)target.classList.add('selected');
+}
+function l2Next(){
+ const d=L2_DATA[l2.idx],goal=l2.stage===0?d.good:l2.stage===1?d.reply:d.next;
+ if(l2.selected!==goal)return;
+ if(l2.stage<2){l2.stage++;l2.selected=null;l2.feedback='';l2.hint=false;l2Render();return;}
+ if(!l2Done.includes(l2.idx)){l2Done.push(l2.idx);l2Done=l2Clean(l2Done);l2Store();}
+ if(l2.idx<L2_DATA.length-1){l2Set(l2.idx+1);}else{l2.feedback='🏆 Congratulations, Bella! You have completed all 12 Level 2 missions. Keep practising your plans in real games.';l2.selected=null;l2Render();}
+}
+$('l2Next').onclick=l2Next;
+$('l2Reset').onclick=()=>{l2.selected=null;l2.feedback='';l2Render();};
+$('l2Hint').onclick=()=>{
+ const d=L2_DATA[l2.idx];
+ l2.feedback=l2.stage===0?'Look at which squares enemy pawns attack. A good plan makes a piece safer or more useful.':l2.stage===1?'Find the move that creates the threat described above. Try reading the move from the board.':'Your first move had a job. What should White do after the opponent changes the position?';
+ l2Render();
+};
+$('btnLevel2').onclick=()=>tab('level2');
+
 // === Optional local backup and restore (does not use a server) ===
 const CHESS_PROGRESS_KEY='bella-chess-stage1-progress-v1';
 const CHESS_GAMES_KEY='bella-chess-saved-games-v1';
@@ -1431,7 +1643,7 @@ function downloadChessBackup(){
   if(game.h.length>1)saveGame();
   const file={format:BACKUP_FORMAT,version:1,exportedAt:new Date().toISOString(),
    progress:backupProgressSanitize(progress),
-   games:records.map(backupGameSanitize).filter(Boolean),labHistory:labHistory.slice(0,50),captainHistory:captainHistory.slice(-100),queenAdventure:qaAchievements.slice()};
+   games:records.map(backupGameSanitize).filter(Boolean),labHistory:labHistory.slice(0,50),captainHistory:captainHistory.slice(-100),queenAdventure:qaAchievements.slice(),level2Progress:l2Done.slice()};
   const blob=new Blob([JSON.stringify(file,null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='Bella_Chess_Backup_'+new Date().toISOString().slice(0,10)+'.json';
@@ -1456,6 +1668,7 @@ async function restoreChessBackup(file){
   if(incoming.some(x=>!x))throw new Error('This file contains an invalid chess game. No data was changed.');
   const extra=backupProgressSanitize(data.progress);
   const importedQueen=qaSanitize(data.queenAdventure);
+  const importedLevel2=l2Clean(data.level2Progress);
   const importedLab=Array.isArray(data.labHistory)?data.labHistory.map(labSanitize).filter(Boolean):[];
   const importedCaptain=Array.isArray(data.captainHistory)?data.captainHistory.map(captainSanitize):[];
   if(importedCaptain.some(x=>!x))throw new Error('This backup has invalid Captain Mode records. No data was changed.');
@@ -1507,6 +1720,7 @@ async function restoreChessBackup(file){
     captainWriteHistory();
   }
   if(importedQueen.length){qaAchievements=qaSanitize([...qaAchievements,...importedQueen]);qaWriteProgress();qaRender();}
+  if(importedLevel2.length){l2Done=l2Clean([...l2Done,...importedLevel2]);l2Store();l2Render();}
   renderRecords();lessonRender();tab('progress');
   const total=Object.values(progress).reduce((n,a)=>n+a.length,0);
   const hidden=all.length-records.length;
@@ -1522,17 +1736,19 @@ $('backupFile').onchange=async e=>{
 };
 
 function tab(t){
- show('playView',t==='play');show('lessonsView',t==='lessons');show('labView',t==='lab');show('qaView',t==='queen');show('progressView',t==='progress');
- for(const [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnLab','lab'],['btnQueen','queen'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';
+ show('playView',t==='play');show('lessonsView',t==='lessons');show('level2View',t==='level2');show('labView',t==='lab');show('qaView',t==='queen');show('progressView',t==='progress');
+ for(const [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnLevel2','level2'],['btnLab','lab'],['btnQueen','queen'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';
  if(t!=='lab'&&document.body.classList.contains('lab-focus')){$('labFocus').click();}
  if(t==='progress'){
   $('progressText').textContent=Object.values(progress).reduce((n,a)=>n+(Array.isArray(a)?a.length:0),0)+' / 48 foundation challenges completed.';
   $('labProgressText').textContent=labHistory.length+' mini-games practised and reflected on (self-reported, not a chess rating).';
   $('qaProgressText').textContent=qaAchievements.length+' of 3 Queen Adventure missions completed (for fun, not a rating).';
+  $('l2ProgressText').textContent=l2Done.length+' / 12 Level 2 reasoning missions completed (36 thinking steps).';
   $('captainProgressText').textContent=captainHistory.length+' Captain sessions saved · '+captainHistory.reduce((n,x)=>n+x.total,0)+' decisions chosen by Bella (some with help). This is practice, not a chess rating.';
  }
  if(t==='lab'){labRefreshSources();labRender();}
  if(t==='queen')qaRender();
+ if(t==='level2')l2Render();
  if(t==='play')render();
 }
 $('btnPlay').onclick=()=>tab('play');$('btnLessons').onclick=()=>tab('lessons');$('btnLab').onclick=()=>tab('lab');$('btnQueen').onclick=()=>tab('queen');$('btnProgress').onclick=()=>tab('progress');
@@ -1549,6 +1765,7 @@ try{
   render(); // show the board before loading optional history
   try{readRecords();}catch(historyError){console.warn('Could not load saved-game list',historyError);}
   lessonRender();
+  l2Load();l2Render();
   try{labReadHistory();labRefreshSources();labRender();}catch(labErr){console.warn('Game Lab is unavailable:',labErr);}
   tab('play');
   $('error').classList.add('hide');
