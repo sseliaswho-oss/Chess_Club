@@ -94,3 +94,12 @@ A saved-games dropdown stores the latest 20 games locally in the device/browser.
 - Coach Fox is still the original lightweight opponent; Stockfish analyses completed games but does not play during the game.
 - A few tactics and chess-specific game situations can be misinterpreted by short evaluations; parents should discuss the idea rather than treating the engine as an infallible grader.
 - Stockfish.js GPLv3: https://github.com/nmrugg/stockfish.js/blob/master/Copying.txt . Follow its attribution and distribution terms when publishing engine files.
+
+Bella Chess Club v10 — Level 2
+
+1. Download and extract this ZIP.
+2. Replace the index.html in the ROOT of your existing Chess_Club GitHub repository.
+3. Do NOT delete the engine/ folder if you use Stockfish.
+4. This update keeps the previous Level 1, Coach Fox, My Game Lab, Queen Adventure and saved-game storage keys.
+5. To back up progress, go to Progress > Save & Restore and click Download backup before updating.
+6. New Level 2: 12 mini-lessons, 3 thinking steps each, automatic local progress, included in new backups.
