@@ -145,10 +145,24 @@
  .toolbar.play select,#foxDifficultyLabel select{min-width:0;max-width:100%;width:100%;font-size:13px;}
  .fox-level-note{font-size:11px;}
 }
+
+/* v10.2 — What If? Free continuation of a REVIEW, not a new live game. */
+.whatif-wrap{max-width:690px;margin:0 auto 10px}
+.whatif-intro{padding:11px;background:#eef6ee;border:1px solid #cfe0d3;border-radius:11px;font-size:13px;line-height:1.5;margin:8px 0 12px}
+.whatif-settings{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:10px 0}
+.whatif-settings label{font-size:12px;font-weight:800;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.whatif-settings select{max-width:240px;min-width:150px}
+.whatif-status{padding:8px 11px;border-radius:10px;background:#edf6f0;border:1px solid #cde2d5;font-size:13px;line-height:1.45;margin:8px 0}
+.whatif-status.problem{background:#fff4e8;border-color:#e8c4a1;color:#754127}
+.whatif-explain{font-size:13px;line-height:1.55;border-radius:10px;padding:10px 12px;background:#f3f2fd;border:1px solid #d6d3eb;margin-top:8px}
+#whatifView .board{width:min(100%,58dvh,590px)}
+#whatifHistory{font-size:12px;line-height:1.7;color:#48645c;overflow-wrap:anywhere}
+.whatif-bottom{margin:12px auto 0;font-size:12px;line-height:1.5;color:#657a70}
+@media(max-width:650px){.whatif-settings{align-items:stretch}.whatif-settings label{flex:1 1 100%;justify-content:space-between}.whatif-settings select{flex:1;max-width:none}#whatifView .board{width:min(100%,55dvh,590px)}}
 </style>
 </head>
 <body><div class="app">
-<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v10.1 · Fox Levels</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📗 Level 1</button><button id="btnLevel2" class="secondary">🧠 Level 2</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnQueen" class="secondary">👑 Queen Adventure</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
+<header><h1>♘ Bella's Chess Adventure <span style="font-size:11px;opacity:.6;white-space:nowrap">v10.2 · What If?</span></h1><div class="tabs"><button id="btnPlay" class="on">♟ Play Chess</button><button id="btnLessons" class="secondary">📗 Level 1</button><button id="btnLevel2" class="secondary">🧠 Level 2</button><button id="btnLab" class="secondary">🎯 My Game Lab</button><button id="btnQueen" class="secondary">👑 Queen Adventure</button><button id="btnProgress" class="secondary">📈 Progress</button></div></header>
 <section id="playView">
 <div class="toolbar play"><label>Opponent <select id="opponent"><option value="fox">🦊 Coach Fox</option><option value="family">Play with Family / Free Play</option></select></label><label id="foxDifficultyLabel">Fox Level <select id="foxDifficulty" aria-label="Coach Fox difficulty"><option value="beginner">1 · Fox Cub</option><option value="easy" selected>2 · Easy</option><option value="medium">3 · Thinker</option><option value="challenging">4 · Challenger</option></select></label><label>Coaching <select id="coach"><option value="adaptive">Important risks only</option><option value="every">Before every move</option><option value="quiet">Off · independent</option></select></label><label>Practice <select id="practiceMode"><option value="normal">Regular game</option><option value="captain">⭐ Captain Mode · 5 choices</option></select></label></div>
 <div id="foxLevelNote" class="fox-level-note play" role="status" aria-live="polite">🦊 Easy · a friendly beginner opponent. Level changes apply to the next Black move.</div>
@@ -159,7 +173,7 @@
   <div class="stuck-actions"><button id="stuckNext" class="secondary" type="button">Another clue →</button><button id="stuckParent" class="secondary" type="button">Ask Mummy</button></div>
   <p id="stuckParentText" class="muted hide"></p>
 </div>
-<div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div id="captainMilestone" class="captain-milestone hide"><strong>⭐ Five choices made!</strong><p>Great — Bella has made her own decisions. You can finish for today or keep playing.</p><div class="buttons"><button id="captainFinish" type="button">Finish for today</button><button id="captainContinue" type="button" class="secondary">Keep playing</button></div></div><div class="buttons"><button id="stuckOpen" class="secondary" type="button">🧭 I’m Stuck!</button><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="labFromReplay" class="secondary">🎯 Try your idea</button><button id="exitReview" class="secondary">Exit review</button></div></div>
+<div id="decision" class="prompt hide"><strong>🔍 Think before you move</strong><p id="question">What could Black capture next?</p><div id="clue" class="hide"></div><div class="buttons"><button id="rethink" class="secondary">↶ Rethink</button><button id="hint" class="secondary">💡 Hint</button><button id="confirm">✓ Play move</button></div></div><div id="promotion" class="prompt hide"></div><div id="board" class="board">Loading chessboard…</div><div id="captainMilestone" class="captain-milestone hide"><strong>⭐ Five choices made!</strong><p>Great — Bella has made her own decisions. You can finish for today or keep playing.</p><div class="buttons"><button id="captainFinish" type="button">Finish for today</button><button id="captainContinue" type="button" class="secondary">Keep playing</button></div></div><div class="buttons"><button id="stuckOpen" class="secondary" type="button">🧭 I’m Stuck!</button><button id="danger" class="secondary">💡 Find danger</button><button id="undo" class="secondary">↶ Undo</button><button id="newGame">↻ New game</button></div><div id="reviewNav" class="buttons hide"><label style="font-size:12px">Jump to <select id="jumpMove" aria-label="Jump to a particular white move"></select></label><button id="prev" class="secondary">← Previous</button><button id="next" class="secondary">Next →</button><button id="showBella" class="secondary">Bella's move</button><button id="showBest" class="secondary">Stockfish idea</button><button id="labFromReplay" class="secondary">🎯 Try your idea</button><button id="whatifFromReplay" type="button" class="secondary">♟ What If? Continue from here</button><button id="exitReview" class="secondary">Exit review</button></div></div>
 <div class="card play extras"><details><summary>🦊 More coaching and game review</summary><details class="piece-key"><summary>♟ Piece guide · Which piece is which?</summary><div id="pieceKey" class="piece-key-grid"></div></details><p class="muted">Bella's three questions: What is attacked? What is unprotected? What happens after my move?</p><div id="moves"></div><div class="buttons"><button id="save" class="secondary">Save game</button><button id="finish" class="secondary">Review moves</button><button id="pgn" class="secondary">Export PGN</button></div><div id="reviewList"></div></details></div>
 <div class="card play extras"><details><summary>♟ Optional Stockfish analysis (OFF by default)</summary><p class="muted">Only runs after you choose Analyse. Requires stockfish-19-lite-single.js and matching .wasm in engine/.</p><select id="saved"><option value="">Current game</option></select><div class="buttons"><button id="replaySaved" class="secondary">▶ Replay saved game</button><label class="review-depth" for="reviewDepth">Analysis <select id="reviewDepth" aria-label="Review analysis quality"><option value="balanced">Balanced</option><option value="careful">Careful</option></select></label><button id="analyse">Analyse game</button><button id="stop" class="secondary hide">Stop</button></div><p class="muted" id="engineStatus">Engine is OFF.</p><p class="muted" style="font-size:12px">Review moments are suggestions, not verdicts. Tap a position, calculate Black's reply, then reveal the engine idea. Checks that preserve a forced mate are celebrated, not penalised.</p><div id="engineResults"></div></details></div>
 </section>
@@ -185,6 +199,39 @@
   <div id="l2Reflection" class="l2-reflection hide"><strong>🎤 Say it aloud:</strong> <span id="l2ReflectText"></span></div>
 </div>
 <div class="card l2-footer"><h2>🗺️ Pick a lesson</h2><div id="l2LessonNav" class="l2-lessonnav"></div><p class="muted">Your Level 1 lessons and saved games stay just as they were. Level 2 keeps separate progress on this device.</p></div>
+</section>
+
+<section id="whatifView" class="hide" aria-label="What If chess analysis">
+  <div class="card whatif-wrap">
+    <div class="rowtop"><strong>♟ What If? — Explore the variation</strong><button id="whatifBack" type="button" class="secondary">← Back to review</button></div>
+    <div id="whatifOrigin" class="whatif-intro">Choose a position in Game Review to begin.</div>
+    <div class="whatif-settings">
+      <label for="whatifMode">Black's reply
+        <select id="whatifMode">
+          <option value="stockfish">♟ Stockfish — stronger defence</option>
+          <option value="fox">🦊 Coach Fox — adjustable</option>
+          <option value="both">👐 Play both sides</option>
+        </select>
+      </label>
+      <label id="whatifFoxLevelLabel" for="whatifFoxLevel" class="hide">Fox level
+        <select id="whatifFoxLevel">
+          <option value="beginner">1 · Fox Cub</option>
+          <option value="easy">2 · Easy</option>
+          <option value="medium">3 · Thinker</option>
+          <option value="challenging">4 · Challenger</option>
+        </select>
+      </label>
+    </div>
+    <div id="whatifStatus" class="whatif-status" role="status" aria-live="polite">Choose how Black should reply, then start the variation.</div>
+    <div class="rowtop"><span id="whatifTurn">Black to move</span><span class="muted" id="whatifPly">No moves explored</span></div>
+    <div id="whatifLastBlack" class="last-black-move hide" aria-live="polite"></div>
+    <div id="whatifPromotion" class="prompt hide"></div>
+    <div id="whatifBoard" class="board" aria-label="Interactive What If chessboard"></div>
+    <div class="buttons"><button id="whatifBegin" type="button">▶ Start this variation</button><button id="whatifWhy" type="button" class="secondary">💡 Why this move?</button><button id="whatifUndo" type="button" class="secondary">↶ Undo</button><button id="whatifRestart" type="button" class="secondary">↻ Restart variation</button></div>
+    <div id="whatifExplanation" class="whatif-explain hide"></div>
+    <details style="margin-top:12px"><summary>Moves in this variation</summary><div id="whatifHistory">Not started yet.</div></details>
+    <p class="whatif-bottom">This is an independent practice branch. It never changes Bella's original game, saved records or lesson progress. Stockfish needs the JavaScript and WASM files in <code>engine/</code>; if unavailable it will not silently switch to a weaker opponent. Coach Fox gives practice replies, not guaranteed best defence.</p>
+  </div>
 </section>
 <section id="labView" class="hide">
  <div class="card lab-header">
@@ -1886,8 +1933,197 @@ $('backupFile').onchange=async e=>{
  try{await restoreChessBackup(file);}finally{e.target.value='';}
 };
 
+
+// === v10.2: an independent analysis branch from the position shown in Game Review ===
+let whatif={active:false,started:false,h:[],uci:[],selected:-1,initial:null,originFen:'',originUci:'',originText:'',mode:'fox',thinking:false,token:0,message:'',problem:false};
+let whatifWorker=null,whatifPendingReject=null,whatifTimer=null;
+function whatifAbort(){
+ whatif.token++;clearTimeout(whatifTimer);whatifTimer=null;
+ const reject=whatifPendingReject;whatifPendingReject=null;
+ try{whatifWorker?.terminate();}catch(e){}
+ whatifWorker=null;whatif.thinking=false;
+ if(reject)reject(new Error('Cancelled'));
+}
+function whatifModeLabel(){return whatif.mode==='stockfish'?'Stockfish':whatif.mode==='fox'?'Coach Fox ('+(FOX_LEVELS[$('whatifFoxLevel').value]?.name||'Easy')+')':'Your turn as Black';}
+function whatifMessage(message,problem=false){whatif.message=message;whatif.problem=problem;whatifStatusRender();}
+function whatifStatusRender(){
+ $('whatifStatus').textContent=whatif.message||'Try your own ideas. A different move is not automatically a mistake.';
+ $('whatifStatus').classList.toggle('problem',!!whatif.problem);
+}
+function whatifTacticExplanation(){
+ if(!whatif.originFen||!whatif.originUci)return 'No engine suggestion has been selected. Choose an analysed move in Review to see what it threatens.';
+ const s=parse(whatif.originFen),m=moves(s).find(x=>code(x)===whatif.originUci);
+ if(!m)return 'The suggested move could not be verified as legal in this position; do not treat it as a reliable recommendation.';
+ const a=apply(s,m),name=san(s,m),piece=PIECE_NAMES[s.b[m[0]].toUpperCase()]||'piece';
+ let facts=[];
+ if(check(a,-s.t))facts.push(name+' gives check, so Black must respond to the check.');
+ if(s.b[m[1]]!=='.')facts.push(name+' captures a '+(PIECE_NAMES[s.b[m[1]].toUpperCase()]||'piece').toLowerCase()+'. Check for a recapture.');
+ const newTargets=[];
+ for(let i=0;i<128;i++){
+  if(!ok(i)||color(a.b[i])===s.t||a.b[i]==='.'||a.b[i].toLowerCase()==='k')continue;
+  if(attack(a,i,s.t)&&!attack(s,i,s.t))newTargets.push({name:PIECE_NAMES[a.b[i].toUpperCase()],square:sq(i),value:VALUES[a.b[i].toLowerCase()]||0});
+ }
+ newTargets.sort((x,y)=>y.value-x.value);
+ if(newTargets.length)facts.push('The move creates an attack on Black’s '+newTargets[0].name.toLowerCase()+' at '+newTargets[0].square+'.');
+ const direct=moves(a).filter(x=>x[1]===m[1]&&a.b[m[1]]!=='.');
+ if(direct.length)facts.push('Black may have a way to capture the moved '+piece.toLowerCase()+'. Examine the replies rather than assuming the move is safe.');
+ if(!facts.length)facts.push('This move changes the '+piece.toLowerCase()+'’s activity, but a simple one-move scan cannot establish why Stockfish prefers it. Explore Black’s replies.');
+ facts.push('Try Black’s strongest defence before deciding which plan works. This explanation is based on visible tactics, not a proof of Stockfish’s full reasoning.');
+ return facts.join(' ');
+}
+function whatifStartFromReview(){
+ if(game.review<0||!replayFens.length)return;
+ const shownIndex=game.review;
+ let startState=parse(replayFens[shownIndex]);
+ let originFen='',originUci='',originText='';
+ const suggested=replaySuggestion&&replayBestAt===shownIndex+1&&replayBest;
+ if(suggested){
+  const suggestion=moves(startState).find(m=>code(m)===replayBest);
+  if(suggestion){
+   originFen=fen(startState);originUci=code(suggestion);
+   originText='Starting after Stockfish suggestion '+san(startState,suggestion)+' ('+sq(suggestion[0])+' → '+sq(suggestion[1])+').';
+   startState=apply(startState,suggestion);
+  }
+ }
+ if(!originText){
+  let last=shownIndex>0?moveBetween(replayFens[shownIndex-1],replayFens[shownIndex]):null;
+  if(last){const prior=parse(replayFens[shownIndex-1]);originText='Starting from the position after '+san(prior,last)+' in Bella’s recorded game.';}
+  else originText='Starting from the saved position before a move. Choose your own continuation.';
+ }
+ whatifAbort();
+ whatif={active:true,started:false,h:[startState],uci:[],selected:-1,initial:startState,originFen,originUci,originText,mode:'fox',thinking:false,token:whatif.token,message:'Choose Black’s reply mode, then tap Start this variation. The original game will not change.',problem:false};
+ $('whatifMode').value='fox';$('whatifFoxLevel').value=foxLevel();
+ show('whatifExplanation',false);show('whatifPromotion',false);
+ tab('whatif');whatifRender();$('whatifView').scrollIntoView({block:'start',behavior:'auto'});
+}
+function whatifRender(){
+ if(!whatif.active)return;
+ const s=whatif.h.at(-1),status=ended(whatif.h),white=s.t===1;
+ const targets=whatif.selected>=0&&!whatif.thinking&&!status&&whatif.started?moves(s).filter(m=>m[0]===whatif.selected).map(m=>m[1]):[];
+ const canClick=whatif.started&&!whatif.thinking&&!status&&(white||whatif.mode==='both');
+ board($('whatifBoard'),s,whatif.selected,targets,canClick?whatifClick:null);
+ const last=white?lastBlackInHistory(whatif.h,whatif.uci):null;
+ showBlackMoveBanner('whatifLastBlack',last);markLastBlackMove('whatifBoard',last);
+ $('whatifOrigin').textContent=whatif.originText+(whatif.originUci?' Tap “Why this move?” for a brief tactical explanation.':'');
+ $('whatifTurn').textContent=status|| (whatif.thinking?whatifModeLabel()+' thinking…':white?'White to move (Bella)':whatif.mode==='both'?'Black to move (you choose)':'Black to move ('+whatifModeLabel()+')');
+ $('whatifPly').textContent=whatif.uci.length+' moves explored';
+ $('whatifBegin').classList.toggle('hide',whatif.started);
+ $('whatifUndo').disabled=whatif.h.length<2;
+ $('whatifWhy').disabled=!whatif.originUci;
+ show('whatifFoxLevelLabel',whatif.mode==='fox');
+ whatifStatusRender();
+ if(!whatif.uci.length){$('whatifHistory').textContent='No moves explored yet.';}
+ else{
+  const labels=[];
+  for(let i=0;i<whatif.uci.length;i++){
+   const prev=whatif.h[i],m=moves(prev).find(x=>code(x)===whatif.uci[i]);
+   if(m)labels.push(prev.f+(prev.t===1?'. ':'... ')+san(prev,m));
+  }
+  $('whatifHistory').textContent=labels.join('   ');
+ }
+}
+function whatifClick(i){
+ if(!whatif.active||!whatif.started||whatif.thinking)return;
+ const s=whatif.h.at(-1);if(ended(whatif.h)||(s.t===-1&&whatif.mode!=='both'))return;
+ if(color(s.b[i])===s.t){whatif.selected=whatif.selected===i?-1:i;whatifRender();return;}
+ const opts=moves(s).filter(m=>m[0]===whatif.selected&&m[1]===i);
+ if(!opts.length){whatif.selected=-1;whatifRender();return;}
+ if(opts.length>1){
+  const p=$('whatifPromotion');p.replaceChildren();p.append('Promote to: ');
+  for(const m of opts){const b=document.createElement('button');b.className='promotion-piece-btn';b.appendChild(pieceImage(s.t===1?m[2].toUpperCase():m[2]));b.setAttribute('aria-label','Promote to '+PIECE_NAMES[m[2].toUpperCase()]);b.onclick=()=>{show('whatifPromotion',false);whatifApply(m);};p.appendChild(b);}
+  show('whatifPromotion');return;
+ }
+ whatifApply(opts[0]);
+}
+function whatifApply(m){
+ const s=whatif.h.at(-1),legalMove=moves(s).find(x=>code(x)===code(m));if(!legalMove)return;
+ const shown=san(s,legalMove);
+ whatif.h.push(apply(s,legalMove));whatif.uci.push(code(legalMove));whatif.selected=-1;
+ whatifMessage((s.t===-1?'Black':'Bella')+' played '+shown+'. '+(ended(whatif.h)?'This variation is finished.':'Think about what changed before the next move.'));
+ whatifRender();
+ if(!ended(whatif.h))whatifMaybeAuto();
+}
+function whatifReplyFromWorker(s){
+ return new Promise((resolve,reject)=>{
+  let state='init',finished=false,latest='',timerId;
+  const w=new Worker('./engine/stockfish-19-lite-single.js');whatifWorker=w;
+  function cleanup(){clearTimeout(timerId);w.removeEventListener('message',receive);w.removeEventListener('error',failure);if(whatifPendingReject===abort)whatifPendingReject=null;}
+  function fail(e){if(finished)return;finished=true;cleanup();try{w.terminate();}catch(_){}if(whatifWorker===w)whatifWorker=null;reject(e);}
+  function abort(){fail(new Error('Cancelled'));}
+  whatifPendingReject=abort;
+  timerId=setTimeout(()=>fail(new Error('Stockfish did not respond. Check engine files and the browser’s WASM support.')),22000);
+  function failure(){fail(new Error('Stockfish JS/WASM files could not load from engine/.'));}
+  function receive(e){
+   if(finished)return;
+   const lines=String(e.data).split(/\r?\n/);
+   for(const raw of lines){const line=raw.trim();
+    if(line==='uciok'&&state==='init'){state='ready';w.postMessage('setoption name Threads value 1');w.postMessage('isready');continue;}
+    if(line==='readyok'&&state==='ready'){state='search';w.postMessage('position fen '+fen(s));w.postMessage('go movetime 750');continue;}
+    if(state==='search'&&line.startsWith('bestmove ')){
+     const u=(line.match(/^bestmove\s+([a-h][1-8][a-h][1-8][qrbn]?)/)||[])[1];
+     finished=true;cleanup();try{w.terminate();}catch(_){}if(whatifWorker===w)whatifWorker=null;
+     const selected=u?moves(s).find(m=>code(m)===u):null;
+     if(selected)resolve(selected);else reject(new Error('Stockfish returned a move that was not legal here. No substitute move was played.'));
+     return;
+    }
+   }
+  }
+  w.addEventListener('message',receive);w.addEventListener('error',failure);
+  w.postMessage('uci');
+ });
+}
+function whatifMaybeAuto(){
+ if(!whatif.active||!whatif.started||whatif.thinking)return;
+ const s=whatif.h.at(-1);if(s.t!==-1||ended(whatif.h)||whatif.mode==='both')return;
+ const token=++whatif.token,mode=whatif.mode;
+ whatif.thinking=true;whatifMessage(mode==='stockfish'?'Stockfish is calculating Black’s reply…':'Coach Fox is choosing Black’s reply…');whatifRender();
+ if(mode==='fox'){
+  whatifTimer=setTimeout(()=>{
+   whatifTimer=null;
+   if(token!==whatif.token||!whatif.active)return;
+   const current=whatif.h.at(-1),opts=moves(current);
+   whatif.thinking=false;
+   if(opts.length)whatifApply(foxChooseMove(current,opts,$('whatifFoxLevel').value));else whatifRender();
+  },220);
+ }else{
+  whatifReplyFromWorker(s).then(m=>{
+   if(token!==whatif.token||!whatif.active)return;
+   whatif.thinking=false;whatifApply(m);
+  }).catch(e=>{
+   if(token!==whatif.token||!whatif.active)return;
+   whatif.thinking=false;whatifMessage('Stockfish reply unavailable: '+e.message+' You can choose Coach Fox or Play both sides, or check the two engine files in engine/.',true);whatifRender();
+  });
+ }
+}
+$('whatifFromReplay').onclick=whatifStartFromReview;
+$('whatifMode').onchange=()=>{
+ whatifAbort();whatif.mode=$('whatifMode').value;whatif.problem=false;
+ whatif.message='Black’s reply mode: '+whatifModeLabel()+'.';whatifRender();
+ if(whatif.started)whatifMaybeAuto();
+};
+$('whatifFoxLevel').onchange=()=>{whatif.message='Coach Fox: '+whatifModeLabel()+'. The selected level applies to Black’s next reply.';whatifRender();};
+$('whatifBegin').onclick=()=>{whatif.started=true;whatifMessage('Variation started. '+(whatif.h.at(-1).t===-1&&whatif.mode!=='both'?'Waiting for Black’s reply…':'Choose a legal move on the board.'));whatifRender();whatifMaybeAuto();};
+$('whatifWhy').onclick=()=>{const el=$('whatifExplanation'),opening=el.classList.contains('hide');show('whatifExplanation',opening);if(opening)el.textContent=whatifTacticExplanation();};
+$('whatifUndo').onclick=()=>{
+ if(whatif.h.length<2)return;whatifAbort();
+ let n=whatif.mode!=='both'&&whatif.h.at(-1).t===1&&whatif.h.length>=3?2:1;
+ whatif.h.splice(-n);whatif.uci.splice(-n);whatif.selected=-1;show('whatifPromotion',false);
+ if(whatif.mode!=='both'&&whatif.h.at(-1).t===-1){
+  whatif.started=false;
+  whatifMessage('Black’s reply was undone. Choose a reply mode and press Start to try again.');
+ }else whatifMessage('Move undone. Explore another legal idea.');
+ whatifRender();
+};
+$('whatifRestart').onclick=()=>{
+ whatifAbort();whatif.h=[whatif.initial];whatif.uci=[];whatif.selected=-1;whatif.started=false;
+ show('whatifPromotion',false);show('whatifExplanation',false);
+ whatifMessage('Back to the starting variation. Choose Black’s reply mode and press Start.');whatifRender();
+};
+$('whatifBack').onclick=()=>{whatifAbort();whatif.active=false;tab('play');$('board').scrollIntoView({block:'center',behavior:'auto'});};
+
 function tab(t){
- show('playView',t==='play');show('lessonsView',t==='lessons');show('level2View',t==='level2');show('labView',t==='lab');show('qaView',t==='queen');show('progressView',t==='progress');
+ if(t!=='whatif'&&whatif.active){whatifAbort();whatif.active=false;}
+ show('whatifView',t==='whatif');show('playView',t==='play');show('lessonsView',t==='lessons');show('level2View',t==='level2');show('labView',t==='lab');show('qaView',t==='queen');show('progressView',t==='progress');
  for(const [id,key] of [['btnPlay','play'],['btnLessons','lessons'],['btnLevel2','level2'],['btnLab','lab'],['btnQueen','queen'],['btnProgress','progress']])$(id).className=t===key?'on':'secondary';
  if(t!=='lab'&&document.body.classList.contains('lab-focus')){$('labFocus').click();}
  if(t==='progress'){
