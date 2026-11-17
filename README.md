@@ -103,3 +103,29 @@ Bella Chess Club v10 — Level 2
 4. This update keeps the previous Level 1, Coach Fox, My Game Lab, Queen Adventure and saved-game storage keys.
 5. To back up progress, go to Progress > Save & Restore and click Download backup before updating.
 6. New Level 2: 12 mini-lessons, 3 thinking steps each, automatic local progress, included in new backups.
+
+Bella Chess Club v10.1 — Coach Fox Difficulty Levels
+
+Contents
+  index.html   — complete updated site; no extra image or script assets required for Coach Fox.
+
+Install
+  1. In the current site, Progress > Download backup (recommended).
+  2. Open https://github.com/sseliaswho-oss/Chess_Club
+  3. Replace only the repository root index.html with the index.html in this ZIP.
+  4. Commit changes; keep your existing engine/ folder for optional Stockfish review.
+  5. Open https://sseliaswho-oss.github.io/Chess_Club/?v=101
+
+Play Chess > Opponent: Coach Fox > Fox Level
+  1 Fox Cub    — exploratory, can overlook threats
+  2 Easy       — simple captures and safe moves (recommended for Bella now)
+  3 Thinker    — looks at White's next possible reply
+  4 Challenger — searches one step further with limited-depth chess calculation
+
+The difficulty choice applies to Play Chess and My Game Lab when Coach Fox plays Black.
+Queen Adventure uses its own lesson-specific responses so that missions remain approachable.
+Changing difficulty never resets a live game; takes effect on the next Black turn.
+Preference is stored on the device and included in newly downloaded backups.
+Previous backups and saved games remain readable. No Elo rating is claimed.
+All moves are generated with the existing legal chess move generator.
+Stockfish continues to be post-game review only; it is not needed to play Coach Fox.
